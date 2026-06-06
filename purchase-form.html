@@ -66,6 +66,7 @@
             </div>
             <form id="purchaseForm" action="https://purchase-mailer.edefterotomasyon.workers.dev/submit" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="source" value="purchase-form">
+                <input type="hidden" name="app" id="app_source">
 
                 <div class="form-group">
                     <label for="company">Musteri/Firma</label>
@@ -82,6 +83,9 @@
                 <div class="form-group">
                     <label for="device">Cihaz Kimligi (opsiyonel)</label>
                     <input id="device" name="Cihaz Kimligi" type="text">
+                    <div id="deviceAutoFillNote" class="note" style="margin-top:0.35rem; display:none;">
+                        Cihaz kimligi demo uygulamasindan otomatik getirildi.
+                    </div>
                     <div class="note" style="margin-top:0.35rem;">
                         Cihaz kimligini simdi girmeniz, lisansinizin daha hizli teslim edilmesini saglar.
                     </div>
@@ -104,6 +108,23 @@
         (function () {
             var form = document.getElementById('purchaseForm');
             if (!form) return;
+            var params = new URLSearchParams(window.location.search);
+            var device = document.getElementById('device');
+            if (device && params.get('device_id')) {
+                device.value = params.get('device_id') || '';
+                var autoFillNote = document.getElementById('deviceAutoFillNote');
+                if (autoFillNote) {
+                    autoFillNote.style.display = 'block';
+                }
+            }
+            var source = form.querySelector('input[name="source"]');
+            if (source && params.get('source')) {
+                source.value = params.get('source') || 'purchase-form';
+            }
+            var appSource = document.getElementById('app_source');
+            if (appSource) {
+                appSource.value = params.get('app') || '';
+            }
             form.addEventListener('submit', function () {
                 var btn = form.querySelector('button[type="submit"]');
                 if (btn) {
