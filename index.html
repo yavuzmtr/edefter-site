@@ -673,6 +673,7 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
 @media(max-width:768px){
   body{cursor:auto}
   #nav{gap:.75rem;padding:0 1rem}
+  #nav{backdrop-filter:blur(12px) saturate(140%)}
   .n-logo{gap:.75rem;min-width:0}
   .n-logo-mark{width:36px;height:36px;border-radius:12px}
   .n-logo-text{font-size:.84rem;line-height:1.15}
@@ -691,6 +692,8 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
   #aiW{right:1rem;bottom:1rem}
   .ai-panel{width:min(340px,calc(100vw - 2rem))}
   #dot,#ring{display:none!important}
+  .lb-body{grid-template-columns:1fr}
+  .vid-cta-btns{display:grid;grid-template-columns:1fr;gap:.75rem}
 }
 @media (pointer:coarse), (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -1669,7 +1672,6 @@ backToTopButton?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'s
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20);
   backToTopButton?.classList.toggle('show',window.scrollY>500);
-  doReveal();
 },{passive:true});
 
 // ── MOBILE MENU ──
@@ -1684,7 +1686,20 @@ function doReveal(){
       setTimeout(()=>el.classList.add('on'),i*55);
   });
 }
-setTimeout(doReveal,200);
+const revealItems=[...document.querySelectorAll('.rv,.rvx')];
+if('IntersectionObserver' in window){
+  const revealObserver=new IntersectionObserver((entries,observer)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
+      const idx=revealItems.indexOf(entry.target);
+      setTimeout(()=>entry.target.classList.add('on'),Math.max(idx,0)%6*45);
+      observer.unobserve(entry.target);
+    });
+  },{rootMargin:'0px 0px -55px 0px',threshold:0.08});
+  revealItems.forEach(el=>revealObserver.observe(el));
+}else{
+  setTimeout(doReveal,200);
+}
 
 // ── FAQ ──
 function toggleFAQ(btn){
@@ -1773,7 +1788,8 @@ function toggleAI(){
   document.getElementById('aiFab').classList.toggle('open-fab',aiOpen);
   if(aiOpen)document.getElementById('aiNotif').style.display='none';
 }
-setTimeout(()=>{const n=document.getElementById('aiNotif');if(n)n.style.display='flex';},6000);
+const queueAIBadge=()=>setTimeout(()=>{const n=document.getElementById('aiNotif');if(n)n.style.display='flex';},6000);
+if('requestIdleCallback' in window){requestIdleCallback(queueAIBadge,{timeout:4000});}else{queueAIBadge();}
 function closeCookie(){
   const c=document.getElementById('cookie');
   c.style.transition='transform .4s ease';
