@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="E-Defter Klasor Otomasyonu satin alma talep formu">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://edefterotomasyon.com.tr/purchase-form.html">
+    <title>Satin Alma Talebi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .download-form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 2rem;
+        }
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 560px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .form-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+        .form-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="download-form-container">
+        <div class="form-card">
+            <h1>Satin Alma Talebi</h1>
+            <p>Formu doldurun, odeme bilgileri ve sonraki adimlar mail olarak gonderilecektir.</p>
+            <div class="note" style="margin-bottom:1rem; text-align:left;">
+                <strong>Cihaz Kimligini nasil alirim?</strong><br>
+                1. Full kurulum dosyasini indirip kurun.<br>
+                2. Programi acin, lisans ekrani cihaz kimligini gosterir.<br>
+                3. Bu kodu asagidaki alana yazin (opsiyonel).<br>
+                Kisa video: <a href="https://www.youtube.com/watch?v=Bcc4_BaMpOc" target="_blank" rel="noopener">izlemek icin tiklayin</a>
+            </div>
+            <form id="purchaseForm" action="https://purchase-mailer.edefterotomasyon.workers.dev/submit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="source" value="purchase-form">
+
+                <div class="form-group">
+                    <label for="company">Musteri/Firma</label>
+                    <input id="company" name="Musteri/Firma" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input id="email" name="email" type="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon numarasi</label>
+                    <input id="phone" name="Telefon numarasi" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="device">Cihaz Kimligi (opsiyonel)</label>
+                    <input id="device" name="Cihaz Kimligi" type="text">
+                    <div class="note" style="margin-top:0.35rem;">
+                        Cihaz kimligini simdi girmeniz, lisansinizin daha hizli teslim edilmesini saglar.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="receipt">Dekont Yukle (opsiyonel)</label>
+                    <input id="receipt" name="attachment" type="file">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notlar</label>
+                    <textarea id="notes" name="Notlar" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="cta-btn">Talebi Gonder</button>
+            </form>
+            <div class="note">Form gonderildiginde odeme bilgileri e-posta ile iletilecektir.</div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var form = document.getElementById('purchaseForm');
+            if (!form) return;
+            form.addEventListener('submit', function () {
+                var btn = form.querySelector('button[type="submit"]');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = 'Gonderiliyor...';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

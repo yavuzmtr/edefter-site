@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mali müşavir ofisleri için e-defter gönderimi sonrası ikincil yedekleme ve müşterilere otomatik e-defter bildirim yazılımı.">
+<meta name="keywords" content="e-defter otomasyonu, mali müşavir yazılımı, GIB e-defter gönderimi, e-defter yedekleme, e-defter bildirimi, muhasebe ofisi otomasyonu">
+<meta name="author" content="E-Defter Otomasyon">
+<meta name="robots" content="index, follow">
+<meta name="google-site-verification" content="VxsUgk4g2OCfzAkBKpTXq3CcoIbMqHYqqf">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://edefterotomasyon.com.tr/">
+<meta property="og:title" content="E-Defter Klasör Otomasyonu - Mali Müşavir Ofisleri İçin">
+<meta property="og:description" content="GIB'e gönderilen e-defter klasörlerini otomatik izleyen, yedekleyen ve müşterilere anında bildirim gönderen otomasyon sistemi.">
+<meta property="og:image" content="https://edefterotomasyon.com.tr/assets/og-image.jpg">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://edefterotomasyon.com.tr/">
+<meta name="twitter:title" content="E-Defter Klasör Otomasyonu - Mali Müşavir Ofisleri İçin">
+<meta name="twitter:description" content="Mali müşavir ofisleri için e-defter klasör izleme, yedekleme ve otomatik bildirim sistemi.">
+<meta name="twitter:image" content="https://edefterotomasyon.com.tr/assets/twitter-image.jpg">
+<link rel="canonical" href="https://edefterotomasyon.com.tr/">
+<title>E-Defter Klasör Otomasyonu — Mali Müşavir Ofisleri İçin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;overflow-x:hidden;background:#f7f4ef;cursor:none}
+
+:root{
+  --ink:#0e1a12;
+  --ink2:#1c3322;
+  --ink3:#2a4d36;
+  --sage:#4a7c5e;
+  --sage2:#3d6b4f;
+  --cream:#f7f4ef;
+  --cream2:#ede8df;
+  --cream3:#e2dbd0;
+  --gold:#c9a84c;
+  --gold2:#e8c96a;
+  --white:#ffffff;
+  --red:#e84545;
+  --green:#00c875;
+  --muted:#7a9485;
+  --body:#3d5c47;
+  --border:rgba(14,26,18,0.10);
+  --border2:rgba(14,26,18,0.18);
+  --sh-sm:0 2px 12px rgba(14,26,18,0.06);
+  --sh-md:0 8px 32px rgba(14,26,18,0.10);
+  --sh-lg:0 24px 64px rgba(14,26,18,0.14);
+  --sh-xl:0 40px 100px rgba(14,26,18,0.18);
+  --r:12px;--r2:20px;--r3:32px;
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--cream2)}
+::-webkit-scrollbar-thumb{background:var(--ink2);border-radius:2px}
+
+/* ── CURSOR ── */
+#dot,#ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#dot{width:9px;height:9px;background:var(--ink2);transition:width .2s,height .2s,background .2s;mix-blend-mode:multiply}
+#ring{width:36px;height:36px;border:1.5px solid rgba(14,26,18,.28);transition:transform .15s ease,width .3s,height .3s}
+body.big #dot{width:16px;height:16px;background:var(--gold)}
+body.big #ring{width:54px;height:54px;border-color:rgba(201,168,76,.45)}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:70px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;
+  background:rgba(247,244,239,.93);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .3s;
+}
+#nav.scrolled{box-shadow:var(--sh-sm)}
+.n-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.n-logo-mark{
+  width:38px;height:38px;border-radius:11px;background:var(--ink2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--gold);
+  position:relative;overflow:hidden;
+}
+.n-logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.15),transparent)}
+.n-logo-text{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);letter-spacing:-.01em}
+.n-links{display:flex;gap:.1rem}
+.n-link{
+  padding:.48rem .9rem;border-radius:8px;
+  font-size:.85rem;font-weight:500;color:var(--muted);
+  text-decoration:none;background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:color .2s,background .2s;
+}
+.n-link:hover{color:var(--ink);background:rgba(14,26,18,.06)}
+.n-right{display:flex;align-items:center;gap:.9rem}
+.n-live{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--green);
+  background:rgba(0,200,117,.08);border:1px solid rgba(0,200,117,.2);
+  padding:.3rem .75rem;border-radius:100px;
+}
+.n-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.n-cta{
+  padding:.56rem 1.3rem;border-radius:var(--r);
+  background:var(--ink2);color:var(--cream);
+  font-size:.85rem;font-weight:600;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;text-decoration:none;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.n-cta::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transition:left .5s}
+.n-cta:hover{background:var(--ink3);transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,26,18,.25)}
+.n-cta:hover::before{left:100%}
+.n-ham{display:none;background:none;border:none;cursor:pointer;padding:.5rem;flex-direction:column;gap:5px}
+.n-ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s}
+.mob-menu{
+  display:none;position:fixed;top:70px;left:0;right:0;z-index:499;
+  background:var(--cream);border-bottom:1px solid var(--border);
+  flex-direction:column;padding:1rem;
+  box-shadow:var(--sh-md);
+}
+.mob-menu.open{display:flex}
+.mob-menu a,.mob-menu button{
+  padding:.75rem 1rem;border-radius:8px;font-size:.9rem;font-weight:500;
+  color:var(--ink);text-decoration:none;background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;text-align:left;transition:background .2s;
+}
+.mob-menu a:hover,.mob-menu button:hover{background:var(--cream2)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;background:var(--ink2);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;padding-top:70px;
+}
+.hero-grain{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;animation:grain .8s steps(1) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,-3%)}50%{transform:translate(3%,1%)}75%{transform:translate(-1%,4%)}100%{transform:translate(2%,-2%)}}
+.hero-gl{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.gl1{width:600px;height:600px;background:rgba(74,124,94,.18);top:-120px;right:-80px;animation:glf1 16s ease-in-out infinite alternate}
+.gl2{width:400px;height:400px;background:rgba(201,168,76,.09);bottom:60px;left:-60px;animation:glf2 13s ease-in-out infinite alternate}
+.gl3{width:280px;height:280px;background:rgba(74,124,94,.12);top:45%;left:42%;animation:glf3 19s ease-in-out infinite alternate}
+@keyframes glf1{to{transform:translate(-55px,45px) scale(1.14)}}
+@keyframes glf2{to{transform:translate(75px,-35px) scale(1.18)}}
+@keyframes glf3{to{transform:translate(-35px,55px) scale(.88)}}
+.hero-grid-bg{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.045;background-image:linear-gradient(rgba(247,244,239,1) 1px,transparent 1px),linear-gradient(90deg,rgba(247,244,239,1) 1px,transparent 1px);background-size:64px 64px}
+
+.hero-body{
+  flex:1;display:grid;grid-template-columns:1fr 460px;
+  gap:4rem;align-items:center;
+  padding:4rem 3rem 3rem;
+  max-width:1280px;margin:0 auto;width:100%;
+  position:relative;z-index:2;
+}
+.h-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Space Mono',monospace;font-size:.67rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.8rem;
+  animation:fup .8s .1s both;
+}
+.h-eyebrow-line{width:30px;height:1px;background:var(--gold);opacity:.6}
+.h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(3rem,5.8vw,5.8rem);
+  line-height:1.02;letter-spacing:-.03em;color:var(--cream);
+  margin-bottom:1.5rem;animation:fup .8s .2s both;
+}
+.h1 em{font-style:italic;color:var(--gold)}
+.h1 .out{-webkit-text-stroke:1.5px rgba(247,244,239,.38);color:transparent}
+.h-desc{font-size:1.07rem;line-height:1.78;color:rgba(247,244,239,.54);font-weight:300;max-width:500px;margin-bottom:2.8rem;animation:fup .8s .3s both}
+.h-desc strong{color:rgba(247,244,239,.85);font-weight:500}
+.h-ctas{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;animation:fup .8s .4s both;margin-bottom:2.8rem}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:.88rem 1.9rem;border-radius:var(--r);background:var(--gold);color:var(--ink);font-size:.94rem;font-weight:700;border:none;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.38)}
+.btn-ghost-w{display:inline-flex;align-items:center;gap:8px;padding:.88rem 1.6rem;border-radius:var(--r);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:rgba(247,244,239,.82);font-size:.9rem;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;transition:all .3s}
+.btn-ghost-w:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)}
+.h-trust{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;animation:fup .8s .5s both}
+.h-avs{display:flex}
+.h-av{width:30px;height:30px;border-radius:50%;border:2.5px solid var(--ink2);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#fff;flex-shrink:0}
+.h-av:first-child{margin-left:0}
+.av1{background:linear-gradient(135deg,var(--ink3),var(--sage))}.av2{background:linear-gradient(135deg,var(--gold),#a07a2a)}.av3{background:linear-gradient(135deg,var(--sage2),var(--ink2))}.av4{background:linear-gradient(135deg,var(--muted),var(--sage))}
+.h-trust-txt{font-size:.82rem;color:rgba(247,244,239,.42)}
+.h-trust-txt strong{color:rgba(247,244,239,.72)}
+
+/* Hero dashboard */
+.h-vis{position:relative;animation:fright .9s .25s ease both}
+@keyframes fright{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.h-dash{background:rgba(247,244,239,.05);border:1px solid rgba(247,244,239,.1);border-radius:var(--r2);backdrop-filter:blur(12px);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.04)}
+.h-dbar{padding:.88rem 1.2rem;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+.h-ddots{display:flex;gap:5px}
+.hd{width:9px;height:9px;border-radius:50%}.hd-r{background:#ff5f57}.hd-y{background:#febc2e}.hd-g{background:#28c840}
+.h-dtitle{font-family:'Space Mono',monospace;font-size:.59rem;color:rgba(247,244,239,.28);letter-spacing:.06em}
+.h-dlive{display:flex;align-items:center;gap:5px;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--green);letter-spacing:.06em}
+.h-dlive::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+.h-dbody{padding:1.2rem;display:flex;flex-direction:column;gap:.85rem}
+.h-mets{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.h-met{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.85rem .75rem}
+.hm-v{font-family:'DM Serif Display',serif;font-size:1.48rem;color:var(--cream);margin-bottom:.14rem}
+.hm-v.g{color:var(--green)}.hm-v.au{color:var(--gold)}
+.hm-l{font-family:'Space Mono',monospace;font-size:.54rem;color:rgba(247,244,239,.28);letter-spacing:.05em}
+.h-chart{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.9rem;height:72px;overflow:hidden}
+.h-bars{display:flex;align-items:flex-end;gap:5px;height:100%}
+.h-bar{flex:1;border-radius:3px 3px 0 0;background:rgba(255,255,255,.05)}
+.h-bfill{border-radius:3px 3px 0 0;animation:bGrow 1.4s ease both}
+.h-bar:nth-child(1) .h-bfill{height:42%;background:rgba(74,124,94,.6);animation-delay:.1s}
+.h-bar:nth-child(2) .h-bfill{height:68%;background:rgba(74,124,94,.6);animation-delay:.2s}
+.h-bar:nth-child(3) .h-bfill{height:52%;background:rgba(74,124,94,.6);animation-delay:.3s}
+.h-bar:nth-child(4) .h-bfill{height:80%;background:rgba(201,168,76,.7);animation-delay:.4s}
+.h-bar:nth-child(5) .h-bfill{height:62%;background:rgba(74,124,94,.6);animation-delay:.5s}
+.h-bar:nth-child(6) .h-bfill{height:93%;background:var(--green);animation-delay:.6s}
+@keyframes bGrow{from{height:0}to{}}
+.h-log{display:flex;flex-direction:column;gap:.44rem}
+.h-lrow{display:flex;align-items:center;gap:.7rem;padding:.58rem .8rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;animation:lslide .5s ease both}
+.h-lrow:nth-child(1){animation-delay:.4s}.h-lrow:nth-child(2){animation-delay:.65s}.h-lrow:nth-child(3){animation-delay:.9s}
+@keyframes lslide{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+.h-lic{width:25px;height:25px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.lic-g{background:rgba(0,200,117,.12)}.lic-au{background:rgba(201,168,76,.12)}.lic-s{background:rgba(74,124,94,.15)}
+.h-ltxt{font-size:.72rem;color:rgba(247,244,239,.48);flex:1}
+.h-ltxt strong{color:rgba(247,244,239,.74);font-weight:500}
+.h-lt{font-family:'Space Mono',monospace;font-size:.54rem;color:rgba(247,244,239,.2)}
+.h-chip{position:absolute;background:rgba(247,244,239,.96);border:1px solid var(--border2);border-radius:var(--r);padding:.68rem 1.05rem;display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;color:var(--ink);box-shadow:var(--sh-md);white-space:nowrap;backdrop-filter:blur(8px)}
+.chip-a{top:-16px;right:-18px;animation:cf1 3.5s ease-in-out infinite}
+.chip-b{bottom:18px;left:-22px;animation:cf2 4s ease-in-out infinite}
+@keyframes cf1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes cf2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cdg{background:var(--green)}.cdau{background:var(--gold)}
+
+/* Hero stat bar */
+.h-stats{border-top:1px solid rgba(247,244,239,.07);padding:2.2rem 3rem;display:grid;grid-template-columns:repeat(4,1fr);max-width:1280px;margin:0 auto;width:100%;position:relative;z-index:2;animation:fup .8s .7s both}
+.h-sitem{padding:0 1.8rem;border-right:1px solid rgba(247,244,239,.07)}
+.h-sitem:first-child{padding-left:0}.h-sitem:last-child{border-right:none}
+.h-sn{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--cream);line-height:1;margin-bottom:.33rem;letter-spacing:-.025em}
+.h-sn .u{color:var(--gold);font-size:1.5rem}
+.h-sl{font-size:.77rem;color:rgba(247,244,239,.36);line-height:1.45}
+
+/* ── TICKER ── */
+.ticker{background:var(--gold);overflow:hidden;padding:.76rem 0}
+.t-track{display:flex;white-space:nowrap;animation:tickmove 30s linear infinite;width:max-content}
+.t-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 1.5rem;font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.tsep{font-size:.4rem;opacity:.45}
+@keyframes tickmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SHARED ── */
+.wrap{max-width:1280px;margin:0 auto;padding:0 3rem}
+.sec{padding:7rem 0}
+.slabel{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);background:rgba(74,124,94,.08);border:1px solid rgba(74,124,94,.2);padding:.28rem .88rem;border-radius:100px;margin-bottom:1.35rem}
+.stitle{font-family:'DM Serif Display',serif;font-size:clamp(2.1rem,3.8vw,3.3rem);line-height:1.07;letter-spacing:-.023em;color:var(--ink);margin-bottom:1rem}
+.stitle em{font-style:italic;color:var(--sage)}
+.sbody{font-size:1rem;line-height:1.78;color:var(--muted);max-width:560px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:none}
+.rvx{opacity:0;transform:translateX(26px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rvx.on{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}
+
+@keyframes fup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ── PROBLEM / ÇÖZÜM ── */
+#why{background:var(--white);border-bottom:1px solid var(--border)}
+.ps-header{margin-bottom:3.5rem}
+.ps-big-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(3rem,6vw,5.5rem);
+  font-weight:400;line-height:1.02;letter-spacing:-.035em;
+  color:var(--ink);margin-bottom:.5rem;
+}
+.ps-big-title em{font-style:italic;color:var(--sage)}
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.ps-card{border-radius:var(--r2);padding:2.5rem;position:relative;overflow:hidden}
+.ps-card.bad{background:#fdf5f5;border:1px solid rgba(232,69,69,.15)}
+.ps-card.good{background:#f3faf7;border:1px solid rgba(0,200,117,.18)}
+.ps-badge{display:flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem}
+.ps-card.bad .ps-badge{color:var(--red)}.ps-card.good .ps-badge{color:var(--green)}
+.ps-bdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ps-card.bad .ps-bdot{background:var(--red)}.ps-card.good .ps-bdot{background:var(--green);animation:blink 2s infinite}
+.ps-items{display:flex;flex-direction:column;gap:1rem}
+.ps-item{display:flex;align-items:flex-start;gap:12px;font-size:.92rem;line-height:1.58}
+.ps-ic{font-size:1rem;flex-shrink:0;margin-top:1px}
+.ps-item-text{color:var(--body)}.ps-item-text strong{color:var(--ink);font-weight:600}
+
+/* ── LOGO BAR ── */
+.logos-bar{background:var(--cream2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2.4rem 3rem}
+.logos-label{text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1.8rem}
+.logos-row{display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+.logo-item{font-family:'DM Serif Display',serif;font-size:1.05rem;color:rgba(14,26,18,.3);letter-spacing:-.01em;transition:color .2s}
+.logo-item:hover{color:var(--ink2)}
+
+/* ── AI WIDGET ── */
+#aiW{position:fixed;bottom:1.8rem;right:1.8rem;z-index:1000}
+.ai-fab{width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;background:var(--ink2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 8px 28px rgba(14,26,18,.38);transition:all .3s cubic-bezier(.34,1.56,.64,1);position:relative}
+.ai-fab:hover{transform:scale(1.1);background:var(--ink3)}
+.ai-fab.open-fab{background:var(--sage)}
+.ai-notif{position:absolute;top:-3px;right:-3px;width:19px;height:19px;border-radius:50%;background:var(--red);border:2.5px solid var(--cream);font-size:.6rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;animation:nPulse 2s infinite}
+@keyframes nPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,69,69,.45)}50%{box-shadow:0 0 0 8px rgba(232,69,69,0)}}
+.ai-panel{position:absolute;bottom:72px;right:0;width:370px;background:var(--white);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh-xl);transform:scale(.85) translateY(20px);opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.ai-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+.ai-head{padding:1.1rem 1.3rem;background:var(--ink2);display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.ai-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--sage),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1rem;position:relative}
+.ai-av::after{content:'';position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;background:var(--green);border:2px solid var(--ink2)}
+.ai-name{font-size:.9rem;font-weight:600;color:var(--cream)}
+.ai-status{font-size:.7rem;color:rgba(247,244,239,.4);margin-top:1px}
+.ai-close-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:rgba(247,244,239,.35);font-size:1.1rem;line-height:1;transition:color .2s}
+.ai-close-btn:hover{color:var(--cream)}
+.ai-msgs{height:280px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem;scroll-behavior:smooth;background:var(--cream)}
+.ai-msgs::-webkit-scrollbar{width:3px}.ai-msgs::-webkit-scrollbar-thumb{background:var(--cream3)}
+.mrow{display:flex;gap:7px;align-items:flex-end}.mrow.u{flex-direction:row-reverse}
+.mav{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.mav.bot{background:linear-gradient(135deg,var(--sage),var(--ink2));color:#fff;font-family:'DM Serif Display',serif}
+.mav.user{background:var(--cream2);color:var(--muted);border:1px solid var(--border)}
+.mbub{max-width:82%;padding:.7rem .95rem;border-radius:14px;font-size:.8rem;line-height:1.55}
+.mrow.bot .mbub{background:var(--white);color:var(--body);border:1px solid var(--border);border-bottom-left-radius:3px}
+.mrow.u .mbub{background:var(--ink2);color:var(--cream);border-bottom-right-radius:3px}
+.typing-dots{display:flex;gap:3px;padding:.1rem 0;align-items:center}
+.td{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:tdB 1.2s infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes tdB{0%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.ai-quick{display:flex;flex-wrap:wrap;gap:.35rem;padding:.8rem 1rem;border-bottom:1px solid var(--border);background:var(--cream2)}
+.aiq{padding:.3rem .7rem;border-radius:6px;background:var(--white);border:1px solid var(--border);color:var(--body);font-size:.7rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;white-space:nowrap}
+.aiq:hover{background:var(--ink2);border-color:var(--ink2);color:var(--cream)}
+.ai-input-bar{display:flex;padding:.7rem;border-top:1px solid var(--border);background:var(--white);gap:.5rem;align-items:center}
+.ai-input{flex:1;background:var(--cream2);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--ink);font-family:'Outfit',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s}
+.ai-input:focus{border-color:var(--sage)}.ai-input::placeholder{color:var(--muted)}
+.ai-send-btn{width:36px;height:36px;border-radius:8px;flex-shrink:0;background:var(--ink2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:.9rem;transition:all .2s}
+.ai-send-btn:hover{background:var(--sage);transform:scale(1.05)}
+
+/* ── ÖZELLİKLER DETAY ── */
+#features-detail{background:var(--cream)}
+.fd-row{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:5rem 0;border-bottom:1px solid var(--border)}
+.fd-row:last-child{border-bottom:none}
+.fd-row.flip{direction:rtl}.fd-row.flip>*{direction:ltr}
+.fd-label{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);background:rgba(74,124,94,.08);border:1px solid rgba(74,124,94,.18);padding:.28rem .85rem;border-radius:100px;margin-bottom:1.5rem}
+.fd-big-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:400;line-height:1.05;letter-spacing:-.03em;color:var(--ink);margin-bottom:1.2rem}
+.fd-big-title em{font-style:italic;color:var(--sage)}
+.fd-desc{font-size:1rem;line-height:1.78;color:var(--muted);margin-bottom:2rem}
+.fd-bullets{display:flex;flex-direction:column;gap:1rem}
+.fd-bullet{display:flex;align-items:flex-start;gap:12px}
+.fd-bullet-icon{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:rgba(74,124,94,.08);border:1px solid rgba(74,124,94,.15)}
+.fd-bullet-text strong{display:block;font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.fd-bullet-text span{font-size:.83rem;color:var(--muted);line-height:1.5}
+.fd-vis{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;box-shadow:var(--sh-md);position:relative;overflow:hidden}
+.fd-vis::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(circle at center,rgba(74,124,94,.04) 0%,transparent 55%);animation:rotatePulse 20s linear infinite;pointer-events:none}
+@keyframes rotatePulse{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.fv-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--sage);background:rgba(74,124,94,.08);border:1px solid rgba(74,124,94,.18);padding:.25rem .65rem;border-radius:5px;margin-bottom:1.2rem}
+.fv-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.2rem}
+.fv-stat{background:var(--cream2);border:1px solid var(--border);border-radius:10px;padding:.9rem}
+.fv-val{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);margin-bottom:.15rem}
+.fv-val.g{color:var(--green)}.fv-val.au{color:var(--gold)}
+.fv-lbl{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.05em}
+.fv-bars{display:flex;flex-direction:column;gap:.65rem;margin-top:.5rem}
+.fv-bar-head{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:.4rem}
+.fv-bar-track{height:5px;background:var(--cream3);border-radius:3px;overflow:hidden}
+.fv-bar-fill{height:100%;border-radius:3px;animation:bwid 1.5s ease both}
+@keyframes bwid{from{width:0}to{}}
+.fv-email{background:var(--cream2);border:1px solid var(--border);border-radius:10px;padding:1.2rem}
+.fv-email-head{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:.7rem;padding-bottom:.7rem;border-bottom:1px solid var(--border)}
+.fv-email-body{font-size:.82rem;color:var(--body);line-height:1.7}
+.fv-timeline{display:flex;flex-direction:column;gap:.6rem}
+.fv-trow{display:flex;align-items:center;gap:.8rem;padding:.7rem;border-radius:9px;font-size:.8rem}
+.fv-trow.done{background:rgba(0,200,117,.06);border:1px solid rgba(0,200,117,.15)}
+.fv-trow.warn{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18)}
+.fv-trow.late{background:rgba(232,69,69,.06);border:1px solid rgba(232,69,69,.15)}
+.fv-tdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.done .fv-tdot{background:var(--green)}.warn .fv-tdot{background:var(--gold);animation:blink 1.5s infinite}.late .fv-tdot{background:var(--red)}
+.fv-tname{flex:1;color:var(--body)}.fv-tstatus{font-family:'Space Mono',monospace;font-size:.6rem}
+.done .fv-tstatus{color:var(--green)}.warn .fv-tstatus{color:var(--gold)}.late .fv-tstatus{color:var(--red)}
+
+/* ── SSS ── */
+#faq{background:var(--white)}
+.faq-list{max-width:820px;margin:3rem auto 0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{width:100%;background:none;border:none;cursor:pointer;padding:1.4rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-family:'Outfit',sans-serif;font-size:.97rem;font-weight:500;color:var(--ink);text-align:left;transition:color .2s}
+.faq-q:hover{color:var(--sage)}
+.faq-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--muted);transition:all .3s}
+.faq-item.open .faq-icon{background:var(--sage);border-color:var(--sage);color:var(--cream);transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1),padding .3s;font-size:.9rem;color:var(--muted);line-height:1.78}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:1.4rem}
+
+/* ── REAL SOCIAL ICONS ── */
+.soc-btn{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;text-decoration:none;background:var(--cream2);border:1px solid var(--border);transition:all .22s;cursor:pointer;color:#555}
+.ssbar-btn{width:36px;height:36px;border-radius:9px;background:rgba(247,244,239,.9);border:1px solid var(--border2);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;text-decoration:none;color:#555;transition:all .25s;cursor:pointer}
+.ft-soc{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(247,244,239,.5);transition:all .2s;cursor:pointer}
+.soc-btn svg,.ssbar-btn svg,.ft-soc svg{width:18px;height:18px;display:block;fill:currentColor}
+.s-yt:hover{background:#ff0000;border-color:#ff0000;color:#fff}
+.s-li:hover{background:#0077b5;border-color:#0077b5;color:#fff}
+.s-ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-color:#cc2366;color:#fff}
+.s-fb:hover{background:#1877f2;border-color:#1877f2;color:#fff}
+.s-tw:hover{background:#000;border-color:#000;color:#fff}
+.ssbar-btn:hover{background:var(--ink2);color:var(--cream);border-color:var(--ink2);transform:translateX(2px)}
+.ft-soc:hover{background:rgba(255,255,255,.14);color:var(--cream);transform:translateY(-2px)}
+
+/* ── ÖZELLİKLER ── */
+#features{background:var(--white)}
+.feat-intro{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:flex-end;margin-bottom:3.5rem;border-bottom:1px solid var(--border);padding-bottom:2rem}
+.feat-note{font-size:.84rem;color:var(--muted);max-width:240px;text-align:right;line-height:1.6}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:1.2rem}
+.fc{background:var(--cream);border:1px solid var(--border);border-radius:var(--r2);padding:2.2rem;display:flex;flex-direction:column;gap:.88rem;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s}
+.fc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sage),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.fc:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);border-color:rgba(74,124,94,.22)}
+.fc:hover::after{transform:scaleX(1)}
+.fc.wide{grid-column:span 2}
+.fc.dark{background:var(--ink2);border-color:var(--ink3)}
+.fc.dark::after{background:linear-gradient(90deg,var(--gold),var(--green))}
+.fc-n{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.07em}
+.fc.dark .fc-n{color:rgba(247,244,239,.28)}
+.fc-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;background:var(--cream2);border:1px solid var(--border)}
+.fc.dark .fc-icon{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}
+.fc-t{font-family:'DM Serif Display',serif;font-size:1.18rem;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
+.fc.dark .fc-t{color:var(--cream)}
+.fc-d{font-size:.875rem;line-height:1.72;color:var(--muted);flex:1}
+.fc.dark .fc-d{color:rgba(247,244,239,.48)}
+.fc-bullets{display:flex;flex-direction:column;gap:.45rem;margin-top:.2rem}
+.fc-bullet{display:flex;align-items:flex-start;gap:7px;font-size:.82rem;color:var(--muted);line-height:1.45}
+.fc.dark .fc-bullet{color:rgba(247,244,239,.42)}
+.fc-bullet::before{content:'✓';color:var(--green);font-size:.75rem;flex-shrink:0;margin-top:1px}
+.fc-bars{display:flex;align-items:flex-end;gap:4px;height:44px;margin-top:.5rem}
+.fcb{flex:1;border-radius:3px 3px 0 0;background:rgba(255,255,255,.06)}
+.fcbf{border-radius:3px 3px 0 0;animation:bGrow 1.5s ease both}
+.fcb:nth-child(1) .fcbf{height:38%;background:rgba(74,124,94,.5);animation-delay:.1s}
+.fcb:nth-child(2) .fcbf{height:65%;background:rgba(74,124,94,.5);animation-delay:.2s}
+.fcb:nth-child(3) .fcbf{height:50%;background:rgba(74,124,94,.5);animation-delay:.3s}
+.fcb:nth-child(4) .fcbf{height:83%;background:var(--gold);animation-delay:.4s}
+.fcb:nth-child(5) .fcbf{height:60%;background:rgba(74,124,94,.5);animation-delay:.5s}
+
+/* ── EKRAN GÖRÜNTÜLERİ ── */
+#screenshots{background:var(--ink2)}
+.ss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3.5rem}
+.ss-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .35s;position:relative}
+.ss-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45);border-color:rgba(201,168,76,.25)}
+.ss-thumb{
+  width:100%;aspect-ratio:16/10;
+  background:var(--ink3);
+  position:relative;overflow:hidden;
+}
+.ss-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+.ss-card:hover .ss-thumb img{transform:scale(1.03)}
+.ss-overlay{position:absolute;inset:0;background:rgba(14,26,18,.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px)}
+.ss-card:hover .ss-overlay{opacity:1}
+.ss-zoom{font-size:1.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.ss-info{padding:1rem}
+.ss-title{font-size:.88rem;font-weight:600;color:rgba(247,244,239,.75);margin-bottom:.3rem;font-family:'DM Serif Display',serif}
+.ss-desc{font-size:.72rem;color:rgba(247,244,239,.35);line-height:1.5}
+
+/* Lightbox */
+#lightbox{position:fixed;inset:0;z-index:800;background:rgba(14,26,18,.92);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#lightbox.open{opacity:1;pointer-events:all}
+.lb-inner{max-width:900px;width:90%;background:var(--ink2);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;transform:scale(.92);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+#lightbox.open .lb-inner{transform:scale(1)}
+.lb-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.lb-title{font-size:.9rem;font-weight:600;color:var(--cream);font-family:'DM Serif Display',serif}
+.lb-close{background:none;border:none;color:rgba(247,244,239,.45);font-size:1.3rem;cursor:pointer;line-height:1;transition:color .2s}
+.lb-close:hover{color:var(--cream)}
+.lb-body{
+  padding:1.2rem 1.2rem 1.4rem;background:var(--ink3);
+}
+.lb-image-wrap{border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.lb-image{width:100%;display:block;max-height:72vh;object-fit:contain;background:#132218}
+.lb-body-txt{font-size:.85rem;color:rgba(247,244,239,.42);font-family:'Space Mono',monospace;text-align:center;padding:1rem 1rem .2rem}
+
+/* ── VIDEO ── */
+#video-demo{background:var(--cream)}
+.vid-main{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;box-shadow:var(--sh-lg);margin-top:3rem;
+  position:relative;
+}
+.vid-head{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.vid-head-t{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink)}
+.vid-head-badge{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--sage);background:rgba(74,124,94,.08);border:1px solid rgba(74,124,94,.18);padding:.25rem .65rem;border-radius:100px}
+.vid-player{
+  width:100%;aspect-ratio:16/9;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+  position:relative;overflow:hidden;cursor:pointer;
+}
+.vid-player-bg{position:absolute;inset:0;opacity:.12;background:linear-gradient(135deg,var(--sage),var(--ink2))}
+.vid-play-btn{
+  width:72px;height:72px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+  box-shadow:0 0 0 12px rgba(201,168,76,.15);z-index:1;
+  transition:all .3s;
+}
+.vid-player:hover .vid-play-btn{transform:scale(1.08);box-shadow:0 0 0 18px rgba(201,168,76,.1)}
+.vid-player-label{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--cream);z-index:1;text-align:center;padding:0 2rem}
+.vid-player-sub{font-size:.82rem;color:rgba(247,244,239,.45);z-index:1}
+.vid-cta{padding:1.5rem 2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.vid-cta-t{font-size:.88rem;color:var(--muted)}
+.vid-cta-btns{display:flex;gap:.7rem;flex-wrap:wrap}
+
+.vid-side-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.5rem}
+.vid-scard{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;cursor:pointer;transition:all .3s;
+}
+.vid-scard:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:rgba(74,124,94,.2)}
+.vid-sthumb{
+  aspect-ratio:16/9;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;
+  position:relative;overflow:hidden;
+}
+.vid-sthumb-bg{position:absolute;inset:0;opacity:.15}
+.bg-sage{background:var(--sage)}.bg-gold{background:var(--gold)}
+.vid-splay{width:42px;height:42px;border-radius:50%;background:rgba(247,244,239,.15);display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:1;border:1px solid rgba(255,255,255,.2)}
+.vid-slabel{font-size:.75rem;color:rgba(247,244,239,.6);z-index:1;font-family:'Space Mono',monospace;letter-spacing:.05em}
+.vid-ssize{font-size:.6rem;color:rgba(247,244,239,.3);z-index:1;font-family:'Space Mono',monospace}
+.vid-sbody{padding:1.1rem 1.3rem}
+.vid-st{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--ink);margin-bottom:.3rem}
+.vid-sd{font-size:.78rem;color:var(--muted);line-height:1.55}
+
+/* ── NASIL ÇALIŞIR ── */
+#how-it-works{background:var(--ink2)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.how-step{padding:2.5rem 2rem;border:1px solid rgba(247,244,239,.08);border-radius:var(--r2);background:rgba(255,255,255,.025);position:relative;overflow:hidden;transition:all .3s}
+.how-step:hover{background:rgba(255,255,255,.04);border-color:rgba(201,168,76,.2)}
+.how-n{position:absolute;top:1rem;right:1.5rem;font-family:'DM Serif Display',serif;font-size:5.5rem;color:rgba(247,244,239,.025);line-height:1;pointer-events:none;letter-spacing:-.04em}
+.how-icon{width:52px;height:52px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.6rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2)}
+.how-t{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--cream);margin-bottom:.8rem}
+.how-d{font-size:.875rem;color:rgba(247,244,239,.44);line-height:1.72}
+.how-arr{margin-top:1.8rem;display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:.67rem;letter-spacing:.05em;color:var(--gold)}
+
+/* ── FIYATLANDIRMA ── */
+#pricing{background:var(--cream2)}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:4rem;align-items:stretch}
+.plan{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:2.5rem;display:flex;flex-direction:column;transition:all .3s;position:relative}
+.plan:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.plan.featured{background:var(--ink2);border-color:var(--ink3)}
+.plan-pop{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .95rem;border-radius:0 0 8px 8px;font-weight:700;white-space:nowrap}
+.plan-name{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:1.8rem}
+.plan.featured .plan-name{color:rgba(247,244,239,.38)}
+.plan-price{font-family:'DM Serif Display',serif;font-size:3.1rem;color:var(--ink);letter-spacing:-.03em;margin-bottom:.33rem;line-height:1}
+.plan.featured .plan-price{color:var(--cream)}
+.plan-cur{font-size:1.45rem;vertical-align:top;margin-top:.5rem;display:inline-block}
+.plan-per{font-size:.79rem;color:var(--muted);margin-bottom:2rem}
+.plan.featured .plan-per{color:rgba(247,244,239,.33)}
+.plan-div{height:1px;background:var(--border);margin-bottom:2rem}
+.plan.featured .plan-div{background:rgba(247,244,239,.08)}
+.plan-feats{flex:1;display:flex;flex-direction:column;gap:.82rem;margin-bottom:2rem}
+.pf{display:flex;align-items:flex-start;gap:9px;font-size:.875rem;line-height:1.44;color:var(--body)}
+.plan.featured .pf{color:rgba(247,244,239,.62)}
+.pf-check{width:17px;height:17px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(0,200,117,.1);color:var(--green);font-size:.58rem}
+.plan.featured .pf-check{background:rgba(0,200,117,.15)}
+.plan-btn{display:block;text-align:center;padding:.93rem;border-radius:var(--r);font-size:.875rem;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .25s;text-decoration:none}
+.pb-o{border:1.5px solid var(--border2);color:var(--ink);background:transparent}
+.pb-o:hover{background:var(--ink2);color:var(--cream);border-color:var(--ink2)}
+.pb-gold{background:var(--gold);color:var(--ink)}
+.pb-gold:hover{background:var(--gold2);box-shadow:0 6px 20px rgba(201,168,76,.35);transform:translateY(-1px)}
+
+/* Download CTA */
+.dl-section{background:var(--ink2);padding:5rem 0;position:relative;overflow:hidden}
+.dl-section::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(74,124,94,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 50%,rgba(201,168,76,.08) 0%,transparent 60%)}
+.dl-inner{position:relative;z-index:1;text-align:center;max-width:680px;margin:0 auto}
+.dl-inner h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.1rem);color:var(--cream);letter-spacing:-.025em;margin-bottom:.9rem;line-height:1.08}
+.dl-inner h2 em{font-style:italic;color:var(--gold)}
+.dl-inner p{font-size:.97rem;color:rgba(247,244,239,.48);margin-bottom:.8rem;line-height:1.7}
+.dl-sys{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:rgba(247,244,239,.28);margin-bottom:2.2rem}
+.dl-btn{display:inline-flex;align-items:center;gap:9px;padding:1rem 2.2rem;border-radius:var(--r);background:var(--gold);color:var(--ink);font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;transition:all .3s}
+.dl-btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,168,76,.38)}
+
+/* ── DOKÜMANTASYon ── */
+#docs{background:var(--white)}
+.docs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3.5rem}
+.doc-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:all .3s;text-decoration:none;display:flex;flex-direction:column;gap:.8rem}
+.doc-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:rgba(74,124,94,.22)}
+.doc-icon{width:46px;height:46px;border-radius:13px;background:var(--cream2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+.doc-t{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--ink);letter-spacing:-.01em}
+.doc-d{font-size:.875rem;color:var(--muted);line-height:1.68;flex:1}
+.doc-link{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.07em;color:var(--sage);display:flex;align-items:center;gap:5px;margin-top:auto}
+
+/* ── İLETİŞİM ── */
+#contact{background:var(--cream2)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start;margin-top:4rem}
+.ci-list{display:flex;flex-direction:column;gap:1.1rem}
+.ci{padding:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:var(--r2);transition:border-color .2s}
+.ci:hover{border-color:rgba(74,124,94,.28)}
+.ci-lbl{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.42rem}
+.ci-val{font-size:.94rem;font-weight:500;color:var(--ink);line-height:1.5}
+.ci-val a{color:var(--sage);text-decoration:none;transition:color .2s}
+.ci-val a:hover{color:var(--ink2)}
+.soc-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.5rem}
+.soc-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;text-decoration:none;background:var(--cream2);border:1px solid var(--border);transition:all .2s;cursor:pointer}
+.soc-btn:hover{transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.sb-yt:hover{background:#ff0000;border-color:#ff0000;color:#fff}
+.sb-li:hover{background:#0077b5;border-color:#0077b5;color:#fff}
+.sb-ig:hover{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%);border-color:#d6249f;color:#fff}
+.sb-fb:hover{background:#1877f2;border-color:#1877f2;color:#fff}
+.sb-tw:hover{background:#000;border-color:#000;color:#fff}
+.sb-wa{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.25);color:#25d366}
+.sb-wa:hover{background:#25d366;border-color:#25d366;color:#fff}
+
+.cform{display:flex;flex-direction:column;gap:.9rem}
+.cform-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.cf-lbl{font-size:.77rem;font-weight:600;color:var(--ink);display:block;margin-bottom:.38rem}
+.cf-inp,.cf-ta,.cf-sel{width:100%;padding:.83rem 1.02rem;background:var(--cream);border:1.5px solid var(--border);border-radius:var(--r);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.cf-inp:focus,.cf-ta:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,124,94,.1);background:var(--white)}
+.cf-inp::placeholder,.cf-ta::placeholder{color:var(--muted)}
+.cf-ta{min-height:130px;resize:vertical}
+.cf-sel{appearance:none;cursor:pointer}
+.cf-sub{display:flex;align-items:center;gap:9px;padding:.88rem 2rem;border-radius:var(--r);background:var(--ink2);color:var(--cream);font-size:.94rem;font-weight:600;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .3s;align-self:flex-start;position:relative;overflow:hidden}
+.cf-sub::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transition:left .5s}
+.cf-sub:hover{background:var(--ink3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,26,18,.25)}
+.cf-sub:hover::after{left:100%}
+
+/* ── SOCIAL SIDEBAR ── */
+.soc-sidebar{position:fixed;left:1.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:.68rem;z-index:400}
+.ssbar-line{width:1px;height:44px;background:var(--border2)}
+.ssbar-btn{width:36px;height:36px;border-radius:9px;background:rgba(247,244,239,.9);border:1px solid var(--border2);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:.88rem;text-decoration:none;color:var(--muted);transition:all .25s;cursor:pointer}
+.ssbar-btn:hover{background:var(--ink2);color:var(--cream);border-color:var(--ink2);transform:translateX(2px)}
+.ssbar-wa:hover{background:#25d366 !important;border-color:#25d366 !important;color:#fff !important}
+
+/* ── BTT ── */
+#btt{position:fixed;bottom:5.5rem;right:1.8rem;z-index:400;width:40px;height:40px;border-radius:10px;background:rgba(247,244,239,.92);border:1.5px solid var(--border2);backdrop-filter:blur(8px);color:var(--muted);font-size:1rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .2s}
+#btt:hover{background:var(--ink2);color:var(--cream);border-color:var(--ink2)}
+#btt.show{display:flex}
+
+/* ── COOKIE ── */
+#cookie{position:fixed;bottom:0;left:0;right:0;z-index:900;background:var(--white);border-top:1px solid var(--border);padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;box-shadow:0 -4px 24px rgba(14,26,18,.06);transform:translateY(100%);animation:cookieUp .5s 3s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes cookieUp{to{transform:translateY(0)}}
+.ck-t{font-size:.8rem;color:var(--muted);flex:1}
+.ck-t a{color:var(--sage);text-decoration:none}
+.ck-btns{display:flex;gap:.65rem}
+.ck-btn{padding:.48rem 1.05rem;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;border:none;transition:all .2s}
+.ck-acc{background:var(--ink2);color:var(--cream)}.ck-acc:hover{background:var(--ink3)}
+.ck-rej{background:transparent;border:1.5px solid var(--border2);color:var(--muted)}.ck-rej:hover{color:var(--ink)}
+
+/* ── FOOTER ── */
+footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
+.ft-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(247,244,239,.07)}
+.ft-logo-row{display:flex;align-items:center;gap:9px;margin-bottom:1.1rem}
+.ft-logo-m{width:32px;height:32px;border-radius:9px;background:var(--ink3);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1rem;color:var(--gold)}
+.ft-logo-t{font-family:'DM Serif Display',serif;font-size:.93rem;color:var(--cream)}
+.ft-tag{font-size:.83rem;color:rgba(247,244,239,.36);line-height:1.7;margin-bottom:1.4rem}
+.ft-socs{display:flex;gap:.5rem;flex-wrap:wrap}
+.ft-soc{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.82rem;text-decoration:none;color:rgba(247,244,239,.38);transition:all .2s;cursor:pointer}
+.ft-soc:hover{background:rgba(255,255,255,.1);color:var(--cream);transform:translateY(-2px)}
+.ft-soc.wa-ft:hover{background:rgba(37,211,102,.15);border-color:rgba(37,211,102,.3);color:#25d366}
+.ft-col-t{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,239,.23);margin-bottom:1.15rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.62rem}
+.ft-col li a,.ft-col li button{background:none;border:none;cursor:pointer;font-size:.84rem;color:rgba(247,244,239,.42);text-decoration:none;font-family:'Outfit',sans-serif;padding:0;text-align:left;transition:color .2s}
+.ft-col li a:hover,.ft-col li button:hover{color:rgba(247,244,239,.82)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;padding-top:1.8rem;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-family:'Space Mono',monospace;font-size:.57rem;color:rgba(247,244,239,.18);letter-spacing:.04em}
+
+/* ── MOBILE ── */
+@media(max-width:1024px){
+  .soc-sidebar{display:none}
+  #nav{padding:0 1.5rem}
+  .n-links{display:none}
+  .n-ham{display:flex}
+  .wrap{padding:0 1.5rem}
+  .hero-body{grid-template-columns:1fr;padding:3.5rem 1.5rem 2.5rem;gap:3rem}
+  .h-vis{display:none}
+  .h-stats{grid-template-columns:repeat(2,1fr);padding:2rem 1.5rem}
+  .sec{padding:5rem 0}
+  .feat-intro{flex-direction:column;align-items:flex-start}
+  .feat-note{text-align:left}
+  .feat-grid,.ss-grid,.how-steps,.plan-grid,.docs-grid,.vid-side-grid{grid-template-columns:1fr}
+  .fc.wide{grid-column:span 1}
+  .contact-grid{grid-template-columns:1fr;gap:3rem}
+  .cform-row{grid-template-columns:1fr}
+  .ft-top{grid-template-columns:1fr 1fr;gap:2rem;padding:0 1.5rem 3rem}
+  .ft-bot{padding:1.5rem 1.5rem 0;flex-direction:column;text-align:center}
+  #cookie{padding:1.1rem 1.5rem;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div id="dot"></div>
+<div id="ring"></div>
+<button id="btt" type="button" aria-label="Yukarı çık">↑</button>
+
+<div class="soc-sidebar">
+  <div class="ssbar-line"></div>
+  <a href="https://www.youtube.com/@edefterotomasyon" target="_blank" class="ssbar-btn s-yt" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg></a>
+  <a href="https://www.linkedin.com/in/e-defter-otomasyon-y%C3%B6netim-ofisi-9593b73a9/" target="_blank" class="ssbar-btn s-li" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.3-1.9 3.5 0 4.2 2.3 4.2 5.4v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM3.5 20.4h3.6V9H3.5v11.4zM22.2 0H1.8A1.8 1.8 0 0 0 0 1.8v20.4A1.8 1.8 0 0 0 1.8 24h20.4a1.8 1.8 0 0 0 1.8-1.8V1.8A1.8 1.8 0 0 0 22.2 0z"/></svg></a>
+  <a href="https://www.instagram.com/edefterotomasyoncomtr/" target="_blank" class="ssbar-btn s-ig" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.3 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg></a>
+  <a href="https://www.facebook.com/edefterotomasyoncom/" target="_blank" class="ssbar-btn s-fb" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg></a>
+  <a href="https://x.com/edefterotomasyn" target="_blank" class="ssbar-btn s-tw" title="Twitter / X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1h3.7l-8 9.1L24 23h-7.4l-5.8-7.5L4.5 23H.8l8.6-9.8L0 1h7.6l5.2 6.9L18.9 1zm-1.3 19.8h2L6.5 3.2H4.3L17.6 20.8z"/></svg></a>
+  <div class="ssbar-line"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="n-logo" href="#">
+    <div class="n-logo-mark"></div>
+    <span class="n-logo-text">E-Defter Otomasyon</span>
+  </a>
+  <div class="n-links">
+    <a class="n-link" href="#why">Neden?</a>
+    <a class="n-link" href="#features">Özellikler</a>
+    <a class="n-link" href="#screenshots">Ekran Görüntüleri</a>
+    <a class="n-link" href="#video-demo">Video</a>
+    <a class="n-link" href="#how-it-works">Nasıl Çalışır</a>
+    <a class="n-link" href="#pricing">Fiyatlandırma</a>
+    <a class="n-link" href="docs.html" target="_blank">Dokümantasyon</a>
+    <a class="n-link" href="#faq">SSS</a>
+    <a class="n-link" href="#contact">İletişim</a>
+  </div>
+  <div class="n-right">
+    <div class="n-live">v1.0.1 Aktif</div>
+    <a class="n-cta" href="download-form.html" target="_blank">💾 Demo İndir</a>
+  </div>
+  <button class="n-ham" id="hamBtn" onclick="toggleMob()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#why" onclick="closeMob()">Neden?</a>
+  <a href="#features" onclick="closeMob()">Özellikler</a>
+  <a href="#screenshots" onclick="closeMob()">Ekran Görüntüleri</a>
+  <a href="#video-demo" onclick="closeMob()">Video</a>
+  <a href="#how-it-works" onclick="closeMob()">Nasıl Çalışır</a>
+  <a href="#pricing" onclick="closeMob()">Fiyatlandırma</a>
+  <a href="docs.html" target="_blank">Dokümantasyon</a>
+  <a href="#faq" onclick="closeMob()">SSS</a>
+  <a href="#contact" onclick="closeMob()">İletişim</a>
+</div>
+
+<!-- ════════════════════════
+     HERO
+════════════════════════ -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-gl gl1"></div>
+  <div class="hero-gl gl2"></div>
+  <div class="hero-gl gl3"></div>
+
+  <div class="hero-body">
+    <div>
+      <div class="h-eyebrow"><div class="h-eyebrow-line"></div>v1.0.1 · Mali Müşavir Ofisleri İçin</div>
+      <h1 class="h1">
+        E-Defter<br>
+        <em>takibini</em><br>
+        <span class="out">bırakın.</span>
+      </h1>
+      <p class="h-desc">
+        GIB'e gönderilen e-defter klasörlerini <strong>7/24 otomatik izleyen</strong>, yedekleyen ve müşterilerinize <strong>anında bildirim gönderen</strong> mali müşavir ofisleri için özel otomasyon sistemi.
+      </p>
+      <div class="h-ctas">
+        <a class="btn-gold" href="download-form.html" target="_blank">💾 Demo İndir — 15 Gün Ücretsiz</a>
+        <a class="btn-ghost-w" href="docs.html" target="_blank">📖 Dokümantasyon</a>
+      </div>
+      <div class="h-trust">
+        <div class="h-avs">
+          <div class="h-av av1">AK</div>
+          <div class="h-av av2">FD</div>
+          <div class="h-av av3">MÖ</div>
+          <div class="h-av av4">SY</div>
+        </div>
+        <span class="h-trust-txt"><strong>500+</strong> mali müşavir güveniyor</span>
+      </div>
+    </div>
+
+    <div class="h-vis">
+      <div class="h-chip chip-a"><div class="cdot cdg"></div>Bildirim gönderildi ✓</div>
+      <div class="h-dash">
+        <div class="h-dbar">
+          <div class="h-ddots"><div class="hd hd-r"></div><div class="hd hd-y"></div><div class="hd hd-g"></div></div>
+          <div class="h-dtitle">E-Defter Otomasyon · Kontrol Paneli</div>
+          <div class="h-dlive">Aktif</div>
+        </div>
+        <div class="h-dbody">
+          <div class="h-mets">
+            <div class="h-met"><div class="hm-v g">147</div><div class="hm-l">Takip edilen</div></div>
+            <div class="h-met"><div class="hm-v au">98.4%</div><div class="hm-l">Başarı</div></div>
+            <div class="h-met"><div class="hm-v">12</div><div class="hm-l">Bekl. berat</div></div>
+          </div>
+          <div class="h-chart">
+            <div class="h-bars">
+              <div class="h-bar"><div class="h-bfill"></div></div>
+              <div class="h-bar"><div class="h-bfill"></div></div>
+              <div class="h-bar"><div class="h-bfill"></div></div>
+              <div class="h-bar"><div class="h-bfill"></div></div>
+              <div class="h-bar"><div class="h-bfill"></div></div>
+              <div class="h-bar"><div class="h-bfill"></div></div>
+            </div>
+          </div>
+          <div class="h-log">
+            <div class="h-lrow"><div class="h-lic lic-g">✅</div><div class="h-ltxt"><strong>ABC Ltd.</strong> — defter tespit, bildirim gönderildi</div><div class="h-lt">30sn</div></div>
+            <div class="h-lrow"><div class="h-lic lic-au">💾</div><div class="h-ltxt"><strong>XYZ A.Ş.</strong> — Mart klasörü yedeklendi</div><div class="h-lt">2dk</div></div>
+            <div class="h-lrow"><div class="h-lic lic-s">📊</div><div class="h-ltxt">Excel raporu güncellendi — <strong>5 eksik</strong></div><div class="h-lt">5dk</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="h-chip chip-b"><div class="cdot cdau"></div>Yedekleme tamamlandı</div>
+    </div>
+  </div>
+
+  <div class="h-stats">
+    <div class="h-sitem"><div class="h-sn">100<span class="u">%</span></div><div class="h-sl">Otomasyon oranı · sıfır manuel işlem</div></div>
+    <div class="h-sitem"><div class="h-sn">30<span class="u">sn</span></div><div class="h-sl">Kontrol aralığı · 7/24 izleme</div></div>
+    <div class="h-sitem"><div class="h-sn">0</div><div class="h-sl">Kaçırılan e-defter · tam kayıt</div></div>
+    <div class="h-sitem"><div class="h-sn">∞</div><div class="h-sl">Şirket kapasitesi · sınır yok</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="t-track">
+    <span class="t-item">7/24 Klasör İzleme <span class="tsep">◆</span></span>
+    <span class="t-item">Otomatik E-posta Bildirimi <span class="tsep">◆</span></span>
+    <span class="t-item">Akıllı Yedekleme <span class="tsep">◆</span></span>
+    <span class="t-item">Excel Raporlama <span class="tsep">◆</span></span>
+    <span class="t-item">Berat Son Tarih Takibi <span class="tsep">◆</span></span>
+    <span class="t-item">GIB Entegrasyonu <span class="tsep">◆</span></span>
+    <span class="t-item">Sınırsız Şirket Desteği <span class="tsep">◆</span></span>
+    <span class="t-item">Windows Arka Plan Servisi <span class="tsep">◆</span></span>
+    <span class="t-item">7/24 Klasör İzleme <span class="tsep">◆</span></span>
+    <span class="t-item">Otomatik E-posta Bildirimi <span class="tsep">◆</span></span>
+    <span class="t-item">Akıllı Yedekleme <span class="tsep">◆</span></span>
+    <span class="t-item">Excel Raporlama <span class="tsep">◆</span></span>
+    <span class="t-item">Berat Son Tarih Takibi <span class="tsep">◆</span></span>
+    <span class="t-item">GIB Entegrasyonu <span class="tsep">◆</span></span>
+    <span class="t-item">Sınırsız Şirket Desteği <span class="tsep">◆</span></span>
+    <span class="t-item">Windows Arka Plan Servisi <span class="tsep">◆</span></span>
+  </div>
+</div>
+
+<!-- NEDEN -->
+<section id="why">
+  <div class="wrap sec" style="padding-top:6rem;padding-bottom:6rem">
+    <div class="ps-header rv">
+      <div class="slabel">Neden E-Defter Otomasyon?</div>
+      <h2 class="ps-big-title">Eski yöntem <em>zaman çalıyor.</em></h2>
+    </div>
+    <div class="ps-grid">
+      <div class="ps-card bad rv d1">
+        <div class="ps-badge"><div class="ps-bdot"></div>Eskiden — Manuel Süreç</div>
+        <div class="ps-items">
+          <div class="ps-item"><div class="ps-ic">😰</div><div class="ps-item-text">Her ay <strong>yüzlerce klasörü tek tek kontrol</strong> — saatler boşa gidiyor</div></div>
+          <div class="ps-item"><div class="ps-ic">📞</div><div class="ps-item-text">Müşterileri arama, hatırlatma — <strong>hep siz, hep tekrar</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">⚠️</div><div class="ps-item-text">Bir defter kaçtı mı? <strong>Aylarca fark edilmez</strong> — yasal risk</div></div>
+          <div class="ps-item"><div class="ps-ic">🕐</div><div class="ps-item-text">Berat için ayrı takvim — <strong>sürekli stres, sürekli unutma</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">📂</div><div class="ps-item-text">Yedek nerede? Hangi versiyon? <strong>Kimse bilmiyor</strong></div></div>
+        </div>
+      </div>
+      <div class="ps-card good rv d2">
+        <div class="ps-badge"><div class="ps-bdot"></div>Şimdi — E-Defter Otomasyon</div>
+        <div class="ps-items">
+          <div class="ps-item"><div class="ps-ic">🤖</div><div class="ps-item-text">30 saniyede bir otomatik tarama — <strong>siz sadece raporu kontrol edin</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">📧</div><div class="ps-item-text">Otomatik, kişisel e-posta — <strong>yasal metinle birlikte anında</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">✅</div><div class="ps-item-text">Sıfır kaçırılan defter — <strong>her klasör kayıt altında</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">📅</div><div class="ps-item-text">Berat otomatik takip — <strong>yaklaşınca uyarı, asla gecikme</strong></div></div>
+          <div class="ps-item"><div class="ps-ic">💾</div><div class="ps-item-text">Otomatik yedek — <strong>yapılandırılmış, temiz, her zaman erişilebilir</strong></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO BAR -->
+<div class="logos-bar rv">
+  <p class="logos-label">Türkiye'nin dört bir yanından 500+ ofis güveniyor</p>
+  <div class="logos-row">
+    <div class="logo-item">Kaya SMMM</div>
+    <div class="logo-item">Demir &amp; Ortak</div>
+    <div class="logo-item">Atlas YMM</div>
+    <div class="logo-item">Öztürk Bağımsız</div>
+    <div class="logo-item">Yıldız Denetim</div>
+    <div class="logo-item">Seymen SMMM</div>
+  </div>
+</div>
+
+<!-- ÖZELLİKLER -->
+<section id="features">
+  <div class="wrap sec">
+    <div class="rv" style="margin-bottom:3rem">
+      <div class="slabel">Özellikler</div>
+      <h2 class="ps-big-title">Her şey dahil, <em>sınır yok.</em></h2>
+      <p class="sbody">Tek lisansta tüm modüller. Ek ücret, ek karmaşa, ek modül yok.</p>
+    </div>
+    <div class="feat-grid">
+      <!-- 1 - Tam Otomasyon (wide + dark) -->
+      <div class="fc wide dark rv d1">
+        <div class="fc-n">01 / 06</div>
+        <div class="fc-icon">🤖</div>
+        <div class="fc-t">Tam Otomasyon</div>
+        <div class="fc-d">GIB'e gönderilen e-defter klasörlerini 7/24 otomatik izler. Uygulama kapalı olsa bile arka planda çalışır — Windows başlangıcında otomatik başlatma ile kesintisiz izleme.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Her 30 saniyede bir otomatik kontrol</div>
+          <div class="fc-bullet">Windows başlangıcında otomatik başlatma</div>
+          <div class="fc-bullet">Mali müşavir ofisleri için özel tasarım</div>
+        </div>
+        <div class="fc-bars">
+          <div class="fcb"><div class="fcbf"></div></div>
+          <div class="fcb"><div class="fcbf"></div></div>
+          <div class="fcb"><div class="fcbf"></div></div>
+          <div class="fcb"><div class="fcbf"></div></div>
+          <div class="fcb"><div class="fcbf"></div></div>
+        </div>
+      </div>
+      <!-- 2 - Klasör İzleme -->
+      <div class="fc rv d2">
+        <div class="fc-n">02 / 06</div>
+        <div class="fc-icon">📂</div>
+        <div class="fc-t">E-Defter Klasör İzleme</div>
+        <div class="fc-d">GIB'e gönderildikten sonra yerel klasörde oluşan e-defter klasörlerini sürekli izler ve tespit eder.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Gerçek zamanlı klasör tespiti</div>
+          <div class="fc-bullet">Müşteri bazlı organizasyon</div>
+          <div class="fc-bullet">Dönem ve yıl bazlı otomatik kontrol</div>
+        </div>
+      </div>
+      <!-- 3 - Email -->
+      <div class="fc rv d1">
+        <div class="fc-n">03 / 06</div>
+        <div class="fc-icon">📧</div>
+        <div class="fc-t">Müşteriye Otomatik Email</div>
+        <div class="fc-d">Her e-defter dönem klasörü oluştuğunda müşterilere anında otomatik bildirim. Yasal sorumluluk metinleriyle birlikte özelleştirilebilir şablonlar.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Tarama biter bitmez anında gönderim</div>
+          <div class="fc-bullet">Müşteri bazlı dönem email bildirimleri</div>
+          <div class="fc-bullet">Yasal sorumluluk metinli şablonlar</div>
+        </div>
+      </div>
+      <!-- 4 - Yedekleme -->
+      <div class="fc rv d2">
+        <div class="fc-n">04 / 06</div>
+        <div class="fc-icon">💾</div>
+        <div class="fc-t">Otomatik Yedekleme</div>
+        <div class="fc-d">GIB'e gönderilen e-defter klasörlerini otomatik olarak belirlediğiniz güvenli konuma yedekler. Sadece yeni klasörleri kopyalar, klasör yapısını bozmaz.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Yalnızca yeni klasörleri kopyalar</div>
+          <div class="fc-bullet">Müşteri klasör yapısı korunur</div>
+          <div class="fc-bullet">Tam otomatik yedekleme sistemi</div>
+        </div>
+      </div>
+      <!-- 5 - Excel -->
+      <div class="fc rv d1">
+        <div class="fc-n">05 / 06</div>
+        <div class="fc-icon">📊</div>
+        <div class="fc-t">Excel Raporlama</div>
+        <div class="fc-d">Müşteri bazlı e-defter raporları oluşturun, eksik dönemleri saniyeler içinde kolayca tespit edin.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Müşteri bazlı detaylı raporlar</div>
+          <div class="fc-bullet">Eksik dönem tespiti</div>
+          <div class="fc-bullet">Mali müşavir ofisleri için özel format</div>
+        </div>
+      </div>
+      <!-- 6 - Berat -->
+      <div class="fc rv d2">
+        <div class="fc-n">06 / 06</div>
+        <div class="fc-icon">📅</div>
+        <div class="fc-t">E-Defter Berat Takibi</div>
+        <div class="fc-d">Berat yükleme sürelerini şirket bazlı takip edin. Yaklaşan son tarihlerde akıllı uyarılarla yasal süreleri asla kaçırmayın.</div>
+        <div class="fc-bullets">
+          <div class="fc-bullet">Yaklaşan tarihler için akıllı uyarılar</div>
+          <div class="fc-bullet">Tüm şirketler tek ekrandan görünüm</div>
+          <div class="fc-bullet">Gecikme riskine karşı otomatik bilgilendirme</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <div style="text-align:center;margin-top:3rem" class="rv">
+      <a href="#features-detail" class="btn-gold" style="display:inline-flex;font-size:.95rem">Tüm Özellikleri Gör →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     ÖZELLİKLER DETAY
+════════════════════════ -->
+<section id="features-detail">
+  <div class="wrap">
+
+    <!-- 01 Klasör İzleme -->
+    <div class="fd-row rv">
+      <div>
+        <div class="fd-label">01 · Klasör İzleme</div>
+        <h2 class="fd-big-title">Her <em>30 saniyede</em><br>bir tarama</h2>
+        <p class="fd-desc">GIB'e gönderilen e-defter klasörleri, Windows arka planında sürekli izlenir. Uygulama kapalı olsa bile çalışmaya devam eder.</p>
+        <div class="fd-bullets">
+          <div class="fd-bullet"><div class="fd-bullet-icon">⚡</div><div class="fd-bullet-text"><strong>30 Saniyelik Sıklık</strong><span>Saatte bir değil — hiçbir şey gözden kaçmaz</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🔋</div><div class="fd-bullet-text"><strong>Arka Plan Servisi</strong><span>Windows başlangıcında otomatik çalışır, sistemi yormaz</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🎯</div><div class="fd-bullet-text"><strong>Akıllı Tespit</strong><span>Sadece yeni klasörleri algılar, mevcut olanları tekrar işlemez</span></div></div>
+        </div>
+      </div>
+      <div class="fd-vis rvx">
+        <div class="fv-tag">CANLI İZLEME</div>
+        <div class="fv-stats">
+          <div class="fv-stat"><div class="fv-val g">147</div><div class="fv-lbl">Aktif klasör</div></div>
+          <div class="fv-stat"><div class="fv-val au">30sn</div><div class="fv-lbl">Son tarama</div></div>
+        </div>
+        <div class="fv-bars">
+          <div><div class="fv-bar-head"><span>Otomasyon</span><span>%100</span></div><div class="fv-bar-track"><div class="fv-bar-fill" style="width:100%;background:var(--green)"></div></div></div>
+          <div><div class="fv-bar-head"><span>Başarı Oranı</span><span>%98.4</span></div><div class="fv-bar-track"><div class="fv-bar-fill" style="width:98%;background:var(--sage)"></div></div></div>
+          <div><div class="fv-bar-head"><span>Manuel İşlem</span><span>%0</span></div><div class="fv-bar-track"><div class="fv-bar-fill" style="width:2%;background:var(--red)"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Email Bildirimi -->
+    <div class="fd-row flip rv">
+      <div>
+        <div class="fd-label">02 · Email Bildirimi</div>
+        <h2 class="fd-big-title">Müşteriniz<br><em>anında haberdar</em></h2>
+        <p class="fd-desc">Yeni e-defter klasörü oluştuğu anda özelleştirilebilir şablonla otomatik e-posta gider. Kendi adresinizden, anında.</p>
+        <div class="fd-bullets">
+          <div class="fd-bullet"><div class="fd-bullet-icon">📧</div><div class="fd-bullet-text"><strong>Özel Şablon</strong><span>Yasal sorumluluk metinleri dahil, tamamen özelleştirilebilir</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🔌</div><div class="fd-bullet-text"><strong>SMTP Entegrasyonu</strong><span>Gmail, Outlook ve tüm SMTP sunucularıyla uyumlu</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">📋</div><div class="fd-bullet-text"><strong>Gönderim Kaydı</strong><span>Her bildirimin tarihi ve saati kayıt altında</span></div></div>
+        </div>
+      </div>
+      <div class="fd-vis rv">
+        <div class="fv-tag">BİLDİRİM ÖRNEĞİ</div>
+        <div class="fv-email">
+          <div class="fv-email-head">KONU: E-Defter Bilgilendirmesi — ABC Ltd. / Mart 2025</div>
+          <div class="fv-email-body">Sayın ABC Ltd. yetkilisi,<br><br>Mart 2025 dönemine ait e-defterin GIB'e gönderildiği tespit edilmiştir. İlgili defterin bir kopyasını kayıt altına almanızı tavsiye ederiz.<br><br><span style="color:var(--sage);font-family:'Space Mono',monospace;font-size:.62rem">26.04.2026 · 09:14 · Otomatik bildirim</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Yedekleme -->
+    <div class="fd-row rv">
+      <div>
+        <div class="fd-label">03 · Akıllı Yedekleme</div>
+        <h2 class="fd-big-title">Her klasör <em>güvende,</em><br>her zaman hazır</h2>
+        <p class="fd-desc">GIB'e gönderilen e-defter klasörlerini seçtiğiniz konuma otomatik yedekler. Sadece yeni klasörleri kopyalar, var olanları tekrar işlemez.</p>
+        <div class="fd-bullets">
+          <div class="fd-bullet"><div class="fd-bullet-icon">💾</div><div class="fd-bullet-text"><strong>Artımlı Yedekleme</strong><span>Yalnızca yeni klasörleri kopyalar — bant genişliği ve zaman tasarrufu</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">📁</div><div class="fd-bullet-text"><strong>Klasör Yapısı Korunur</strong><span>Müşteri organizasyonunuzu bozmadan yedek alır</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🔒</div><div class="fd-bullet-text"><strong>Yerel Depolama</strong><span>Verileriniz buluta değil, kendi belirlediğiniz konuma gider</span></div></div>
+        </div>
+      </div>
+      <div class="fd-vis rvx">
+        <div class="fv-tag">YEDEKLEME DURUMU</div>
+        <div class="fv-stats">
+          <div class="fv-stat"><div class="fv-val g">423</div><div class="fv-lbl">Yedeklenen klasör</div></div>
+          <div class="fv-stat"><div class="fv-val au">0</div><div class="fv-lbl">Eksik yedek</div></div>
+        </div>
+        <div class="fv-bars">
+          <div><div class="fv-bar-head"><span>Yedekleme Başarısı</span><span>%100</span></div><div class="fv-bar-track"><div class="fv-bar-fill" style="width:100%;background:var(--green)"></div></div></div>
+          <div><div class="fv-bar-head"><span>Disk Kullanımı</span><span>%34</span></div><div class="fv-bar-track"><div class="fv-bar-fill" style="width:34%;background:var(--sage)"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Berat Takibi -->
+    <div class="fd-row flip rv">
+      <div>
+        <div class="fd-label">04 · Berat Takibi</div>
+        <h2 class="fd-big-title">Son tarihleri<br><em>asla kaçırmayın</em></h2>
+        <p class="fd-desc">Tüm müşterilerinizin berat yükleme son tarihlerini tek ekranda görün. 15 gün ve 7 gün kala otomatik uyarı.</p>
+        <div class="fd-bullets">
+          <div class="fd-bullet"><div class="fd-bullet-icon">📅</div><div class="fd-bullet-text"><strong>Merkezi Takvim</strong><span>Tüm şirketler tek ekranda, renk kodlu durum göstergesi</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🔔</div><div class="fd-bullet-text"><strong>Erken Uyarı</strong><span>15 gün ve 7 gün kala otomatik bildirim — gecikme yok</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">⚠️</div><div class="fd-bullet-text"><strong>Gecikme Alarmı</strong><span>Süresi geçmiş beratlar için anlık uyarı sistemi</span></div></div>
+        </div>
+      </div>
+      <div class="fd-vis rv">
+        <div class="fv-tag">BERAT TAKVİMİ</div>
+        <div class="fv-timeline">
+          <div class="fv-trow done"><div class="fv-tdot"></div><div class="fv-tname">ABC Ltd. — Ocak 2025</div><div class="fv-tstatus">Yüklendi ✓</div></div>
+          <div class="fv-trow warn"><div class="fv-tdot"></div><div class="fv-tname">XYZ A.Ş. — Şubat 2025</div><div class="fv-tstatus">7 gün kaldı</div></div>
+          <div class="fv-trow warn"><div class="fv-tdot"></div><div class="fv-tname">MNO Ltd. — Şubat 2025</div><div class="fv-tstatus">15 gün kaldı</div></div>
+          <div class="fv-trow late"><div class="fv-tdot"></div><div class="fv-tname">DEF Ltd. — Ocak 2025</div><div class="fv-tstatus">Gecikmiş!</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Excel Raporlama -->
+    <div class="fd-row rv">
+      <div>
+        <div class="fd-label">05 · Excel Raporlama</div>
+        <h2 class="fd-big-title">Eksik dönem<br><em>saniyede tespit</em></h2>
+        <p class="fd-desc">Müşteri bazlı e-defter raporları oluşturun, eksik dönemleri saniyeler içinde kolayca tespit edin. Denetim artık stressiz.</p>
+        <div class="fd-bullets">
+          <div class="fd-bullet"><div class="fd-bullet-icon">📊</div><div class="fd-bullet-text"><strong>Müşteri Bazlı Rapor</strong><span>Her müşteri için dönem bazlı detaylı Excel çıktısı</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">🔍</div><div class="fd-bullet-text"><strong>Eksik Dönem Tespiti</strong><span>Hangi müşteride hangi dönem eksik — tek bakışta</span></div></div>
+          <div class="fd-bullet"><div class="fd-bullet-icon">📤</div><div class="fd-bullet-text"><strong>Tek Tık Export</strong><span>Raporu hazırlamak için hiçbir manuel işlem gerekmez</span></div></div>
+        </div>
+      </div>
+      <div class="fd-vis rvx">
+        <div class="fv-tag">RAPOR ÖZETİ</div>
+        <div class="fv-stats">
+          <div class="fv-stat"><div class="fv-val g">142</div><div class="fv-lbl">Eksiksiz dönem</div></div>
+          <div class="fv-stat"><div class="fv-val" style="color:var(--red)">5</div><div class="fv-lbl">Eksik dönem</div></div>
+        </div>
+        <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:rgba(0,200,117,.06);border:1px solid rgba(0,200,117,.15);border-radius:8px;font-size:.78rem">
+            <span style="color:var(--body)">ABC Ltd. — Tüm dönemler</span>
+            <span style="color:var(--green);font-family:'Space Mono',monospace;font-size:.6rem">✓ Tam</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:rgba(232,69,69,.06);border:1px solid rgba(232,69,69,.15);border-radius:8px;font-size:.78rem">
+            <span style="color:var(--body)">XYZ A.Ş. — Mart 2025</span>
+            <span style="color:var(--red);font-family:'Space Mono',monospace;font-size:.6rem">✗ Eksik</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;background:rgba(0,200,117,.06);border:1px solid rgba(0,200,117,.15);border-radius:8px;font-size:.78rem">
+            <span style="color:var(--body)">DEF Ltd. — Tüm dönemler</span>
+            <span style="color:var(--green);font-family:'Space Mono',monospace;font-size:.6rem">✓ Tam</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center;padding:3rem 0 5rem">
+    <a href="download-form.html" target="_blank" class="btn-gold" style="display:inline-flex;font-size:.95rem">💾 Demo İndir — Tüm Özellikleri Dene →</a>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     SSS
+════════════════════════ -->
+<section id="faq">
+  <div class="wrap sec">
+    <div class="rv" style="text-align:center;max-width:640px;margin:0 auto">
+      <div class="slabel" style="justify-content:center">SSS</div>
+      <h2 class="stitle">Sıkça Sorulan <em>Sorular</em></h2>
+      <p class="sbody" style="margin:0 auto">Yanıt bulamazsanız AI asistanımız veya bize doğrudan ulaşabilirsiniz.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>E-Defter Otomasyon tam olarak ne yapıyor?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Program, GIB'e gönderilen e-defter klasörlerini Windows arka planında 30 saniyede bir tarar. Yeni klasör tespit ettiğinde müşterinize otomatik e-posta gönderir, klasörü belirlediğiniz konuma yedekler ve Excel raporunu günceller. Tüm bunlar arka planda, sizin herhangi bir işlem yapmanıza gerek kalmadan gerçekleşir.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Sistem gereksinimleri neler?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Windows 10 veya Windows 11 yüklü bir bilgisayar, minimum 4 GB RAM ve 100 MB boş disk alanı yeterlidir. .NET Framework 4.8 veya üzeri gereklidir (çoğu sistemde zaten yüklüdür). Program tamamen yerel çalışır — tüm verileriniz kendi bilgisayarınızda kalır.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Kurulum ne kadar sürer?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Ortalama 10 dakika. Demo'yu indirin → GIB klasör yolunu seçin → Müşteri bilgilerini hazır Excel şablonuyla yükleyin → SMTP e-posta ayarlarını girin → Başlatın. Uzaktan kurulum desteği de sunuyoruz, teknik bilgi gerektirmez.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Berat ne zaman yüklenmeli?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">GIB mevzuatına göre e-defterin GIB'e gönderilmesinden itibaren 3 ay içinde berat yüklenmelidir. Sistemimiz tüm müşterilerinizin berat son tarihlerini otomatik olarak takip eder; tarihe 15 gün ve 7 gün kala otomatik uyarı gönderir.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Sınırsız şirket gerçekten sınır yok mu?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Evet, Profesyonel planda hiçbir şirket sayısı kısıtı yoktur. 10 şirket de 500 şirket de takip edebilirsiniz. Sistem performanstan ödün vermeden ölçeklenir. Yalnızca deneme (demo) planında 10 şirket sınırı bulunmaktadır.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Verilerim güvende mi?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Evet. Program tamamen yerel çalışır; hiçbir veri buluta yüklenmez. Müşteri bilgileri şifrelenmiş yerel veritabanında tutulur. İnternet bağlantısı yalnızca e-posta göndermek için kullanılır.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>E-posta bildirimler kendi adresimden mi gönderiliyor?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Evet. SMTP bilgilerinizi (Gmail, Outlook veya özel sunucu) bir kez yapılandırdıktan sonra tüm bildirimler sizin e-posta adresinizden gönderilir. Müşteriniz e-postanın doğrudan sizden geldiğini görür.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)"><span>Güncellemeler ücretsiz mi?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Profesyonel ve Kurumsal planlarda tüm güncellemeler ücretsizdir ve program içinden otomatik bildirim alırsınız. Tek tıkla güncelleyebilirsiniz, herhangi bir veri kaybı yaşanmaz.</div>
+      </div>
+    </div>
+    <div class="rv" style="margin-top:2.5rem;padding:2rem;background:var(--cream2);border:1px solid var(--border);border-radius:var(--r2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+      <div>
+        <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.3rem">Başka sorunuz var mı?</div>
+        <div style="font-size:.88rem;color:var(--muted)">AI asistanımız veya ekibimiz yardımcı olacak.</div>
+      </div>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+        <button onclick="toggleAI()" style="display:inline-flex;align-items:center;gap:8px;padding:.7rem 1.4rem;border-radius:var(--r);background:var(--cream);border:1.5px solid var(--border2);color:var(--ink);font-size:.875rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s">🤖 AI Asistana Sor</button>
+        <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:.7rem 1.4rem;border-radius:var(--r);background:var(--ink2);color:var(--cream);font-size:.875rem;font-weight:600;text-decoration:none;transition:all .2s">İletişime Geç →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="screenshots">
+  <div class="wrap sec">
+    <div class="rv">
+      <div class="slabel" style="color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2)">Uygulama Görünümü</div>
+      <h2 class="stitle" style="color:var(--cream)">Profesyonel arayüz, <em style="color:var(--gold)">kullanıcı dostu tasarım</em></h2>
+      <p class="sbody" style="color:rgba(247,244,239,.44)">Ekran görüntülerine tıklayarak büyük boyutta inceleyebilirsiniz.</p>
+    </div>
+    <div class="ss-grid">
+      <div class="ss-card rv d1" onclick="openLB('screenshots/Kontrol%20Paneli.png','Kontrol Paneli','Gerçek zamanlı istatistikler, sistem durumu ve güncel aktiviteler')">
+        <div class="ss-thumb"><img src="screenshots/Kontrol%20Paneli.png" alt="Kontrol Paneli ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">📊 Kontrol Paneli</div><div class="ss-desc">Tüm e-defter işlemlerinizi tek ekrandan yönetin</div></div>
+      </div>
+      <div class="ss-card rv d2" onclick="openLB('screenshots/Otomasyon%20Merkezi.png','Otomasyon Merkezi','Sürekli izleme, otomatik yedekleme ve email gönderim ayarları')">
+        <div class="ss-thumb"><img src="screenshots/Otomasyon%20Merkezi.png" alt="Otomasyon Merkezi ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">🤖 Otomasyon Merkezi</div><div class="ss-desc">Tek tuşla tam otomasyonu başlatın</div></div>
+      </div>
+      <div class="ss-card rv d3" onclick="openLB('screenshots/E-posta%20Sistemi.png','E-posta Sistemi','Şirket bazlı email yönetimi ve otomatik gönderim aktivite raporları')">
+        <div class="ss-thumb"><img src="screenshots/E-posta%20Sistemi.png" alt="E-posta Sistemi ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">📧 E-posta Sistemi</div><div class="ss-desc">Müşterilerinize otomatik bildirim gönderin</div></div>
+      </div>
+      <div class="ss-card rv d4" onclick="openLB('screenshots/Yedekleme%20Sistemi.png','Yedekleme Sistemi','Otomatik yedekleme, aktivite raporları ve başarılı işlem takibi')">
+        <div class="ss-thumb"><img src="screenshots/Yedekleme%20Sistemi.png" alt="Yedekleme Sistemi ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">💾 Yedekleme Sistemi</div><div class="ss-desc">E-defterlerinizi güvenle yedekleyin</div></div>
+      </div>
+      <div class="ss-card rv d1" onclick="openLB('screenshots/Raporlama.png','Raporlama Sistemi','Excel raporları, eksik dönem tespiti ve müşteri bazlı analiz')">
+        <div class="ss-thumb"><img src="screenshots/Raporlama.png" alt="Raporlama Sistemi ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">📊 Raporlama</div><div class="ss-desc">Detaylı GIB e-defter raporları</div></div>
+      </div>
+      <div class="ss-card rv d2" onclick="openLB('screenshots/Klasör%20İzleme.png','Klasör İzleme','Anlık kontrol sonuçları, KB/YB dosya durumu ve şirket bazlı takip')">
+        <div class="ss-thumb"><img src="screenshots/Klasör%20İzleme.png" alt="Klasör İzleme ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">👁️ Klasör İzleme</div><div class="ss-desc">GIB e-defter klasörlerini gerçek zamanlı takip</div></div>
+      </div>
+      <div class="ss-card rv d3" onclick="openLB('screenshots/Berat%20Takip.png','Berat Takip','Yaklaşan ve gecikmiş son tarihler, şirket bazlı uyarı sistemi')">
+        <div class="ss-thumb"><img src="screenshots/Berat%20Takip.png" alt="Berat Takip ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">📅 Berat Takip</div><div class="ss-desc">E-defter berat yükleme son tarihlerini izleyin</div></div>
+      </div>
+      <div class="ss-card rv d4" onclick="openLB('screenshots/%C5%9Eirket%20Y%C3%B6netimi.png','Şirket Yönetimi','Excel şablonu ile toplu yükleme, düzenleme ve export özellikleri')">
+        <div class="ss-thumb"><img src="screenshots/%C5%9Eirket%20Y%C3%B6netimi.png" alt="Şirket Yönetimi ekran görüntüsü" loading="lazy" decoding="async"><div class="ss-overlay"><div class="ss-zoom">🔍</div></div></div>
+        <div class="ss-info"><div class="ss-title">🏢 Şirket Yönetimi</div><div class="ss-desc">Müşterilerinizi tek ekrandan yönetin</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLB()">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <div class="lb-head">
+      <div class="lb-title" id="lbTitle">Ekran Görüntüsü</div>
+      <button class="lb-close" onclick="closeLB()">✕</button>
+    </div>
+    <div class="lb-body">
+      <div class="lb-image-wrap">
+        <img class="lb-image" id="lbImg" src="screenshots/Kontrol%20Paneli.png" alt="Ekran görüntüsü">
+      </div>
+      <div class="lb-body-txt" id="lbDesc">Ekran görüntüsü burada görünecek</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════
+     TANITIM VİDEOLARI
+════════════════════════ -->
+<section id="video-demo">
+  <div class="wrap sec">
+    <div class="rv">
+      <div class="slabel">Tanıtım Videoları</div>
+      <h2 class="stitle">E-Defter Otomasyonunu <em>farklı açılardan keşfedin</em></h2>
+    </div>
+
+    <!-- Ana video -->
+    <div class="vid-main rv">
+      <div class="vid-head">
+        <div class="vid-head-t">🚀 E-Defter Otomasyonu: Kaostan Kontrole</div>
+        <div class="vid-head-badge">Ana Tanıtım</div>
+      </div>
+      <div class="vid-player" onclick="playVideo('assets/video/kaos-kontrol.mp4','Kaostan Kontrole')">
+        <div class="vid-player-bg"></div>
+        <div class="vid-play-btn">▶</div>
+        <div class="vid-player-label">🚀 E-Defter Otomasyonu: Kaostan Kontrole</div>
+        <div class="vid-player-sub">Mali müşavir ofislerinin e-defter yönetimindeki zorluklardan kurtulun</div>
+      </div>
+      <div class="vid-cta">
+        <div class="vid-cta-t">
+          ✅ Manuel takipten otomatik izlemeye &nbsp;·&nbsp;
+          ✅ Zaman kaybından tam kontrole &nbsp;·&nbsp;
+          ✅ Stresli süreçten rahat çalışmaya
+        </div>
+        <div class="vid-cta-btns">
+          <a class="btn-gold" href="download-form.html" target="_blank" style="font-size:.85rem;padding:.68rem 1.4rem">💾 15 Gün Ücretsiz Dene</a>
+          <a class="btn-ghost-w" href="assets/downloads/E-Defter-Brosur.pdf" target="_blank" style="font-size:.85rem;padding:.68rem 1.4rem;background:rgba(14,26,18,.08);border-color:var(--border2);color:var(--ink)">📄 PDF Broşür</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yan videolar -->
+    <div class="vid-side-grid">
+      <div class="vid-scard rv d1" onclick="playVideo('assets/video/kisa-tanitim.mp4','Kısa Tanıtım')">
+        <div class="vid-sthumb">
+          <div class="vid-sthumb-bg bg-sage"></div>
+          <div class="vid-splay">▶</div>
+          <div class="vid-slabel">KISA TANITIM</div>
+          <div class="vid-ssize">15 MB</div>
+        </div>
+        <div class="vid-sbody">
+          <div class="vid-st">⚡ Kısa Tanıtım</div>
+          <div class="vid-sd">Hızlı bakış: E-Defter Otomasyonunun temel özellikleri</div>
+        </div>
+      </div>
+      <div class="vid-scard rv d2" onclick="playVideo('assets/video/tanitim-video.mp4','Detaylı Ürün Tanıtımı')">
+        <div class="vid-sthumb">
+          <div class="vid-sthumb-bg bg-gold"></div>
+          <div class="vid-splay">▶</div>
+          <div class="vid-slabel">DETAYLI TANITIM</div>
+          <div class="vid-ssize">9.8 MB</div>
+        </div>
+        <div class="vid-sbody">
+          <div class="vid-st">📊 Detaylı Ürün Tanıtımı</div>
+          <div class="vid-sd">Tüm özelliklerin detaylı gösterimi ve kullanım senaryoları</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div id="vidModal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(14,26,18,.92);align-items:center;justify-content:center;backdrop-filter:blur(8px)" onclick="closeVid()">
+  <div style="max-width:860px;width:90%;background:var(--ink2);border-radius:var(--r2);overflow:hidden;border:1px solid rgba(255,255,255,.08)" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div style="font-family:'DM Serif Display',serif;font-size:.9rem;color:var(--cream)" id="vidModalTitle">Video</div>
+      <button style="background:none;border:none;color:rgba(247,244,239,.4);font-size:1.3rem;cursor:pointer;line-height:1" onclick="closeVid()">✕</button>
+    </div>
+    <video id="vidEl" controls style="width:100%;display:block;background:#000;max-height:70vh"></video>
+  </div>
+</div>
+
+<!-- ════════════════════════
+     NASIL ÇALIŞIR
+════════════════════════ -->
+<section id="how-it-works">
+  <div class="wrap sec">
+    <div class="rv">
+      <div class="slabel" style="color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2)">Nasıl Çalışır?</div>
+      <h2 class="stitle" style="color:var(--cream)">3 basit adımda <em style="color:var(--gold)">tam otomasyon</em></h2>
+      <p class="sbody" style="color:rgba(247,244,239,.42)">Tek seferlik kurulum, sürekli fayda. Teknik bilgi gerekmez.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step rv d1">
+        <div class="how-n">1</div>
+        <div class="how-icon">📂</div>
+        <div class="how-t">E-Defter Klasörünü Tanımlayın</div>
+        <div class="how-d">GIB'e gönderilen e-defterlerin yerel klasör yolunu seçin. Müşteri bilgilerini hazır Excel şablonuyla toplu olarak sisteme yükleyin. ~10 dakika yeterli.</div>
+        <div class="how-arr">→ 10 dakika kurulum</div>
+      </div>
+      <div class="how-step rv d2">
+        <div class="how-n">2</div>
+        <div class="how-icon">📧</div>
+        <div class="how-t">Müşteri Email Ayarları</div>
+        <div class="how-d">SMTP ayarlarınızı yapılandırın. Müşteri e-posta adreslerini sisteme ekleyin veya Excel'den toplu yükleyin. Email şablonunu kendi ofisinize göre özelleştirin.</div>
+        <div class="how-arr">→ Bir kez ayarla, sürekli çalışsın</div>
+      </div>
+      <div class="how-step rv d3">
+        <div class="how-n">3</div>
+        <div class="how-icon">▶️</div>
+        <div class="how-t">Tam Otomasyonu Başlatın</div>
+        <div class="how-d">Tek tuşla başlatın! Sistem e-defter klasörlerini 7/24 izler, yedekler ve müşterilere otomatik e-posta gönderir. Windows başlangıcında kendiliğinden devreye girer.</div>
+        <div class="how-arr">→ Sıfır günlük müdahale</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     FİYATLANDIRMA
+════════════════════════ -->
+<section id="pricing">
+  <div class="wrap sec">
+    <div class="rv" style="text-align:center;max-width:580px;margin:0 auto 0">
+      <div class="slabel" style="justify-content:center">Fiyatlandırma</div>
+      <h2 class="stitle">İhtiyacınıza uygun <em>paketi seçin</em></h2>
+      <p class="sbody" style="margin:0 auto">Kredi kartı gerektirmez. 15 gün tam özellikli ücretsiz kullanım.</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan rv d1">
+        <div class="plan-name">Başlangıç</div>
+        <div class="plan-price">₺0</div>
+        <div class="plan-per">15 günlük deneme · ücretsiz · kredi kartı yok</div>
+        <div class="plan-div"></div>
+        <div class="plan-feats">
+          <div class="pf"><div class="pf-check">✓</div>15 günlük deneme süresi</div>
+          <div class="pf"><div class="pf-check">✓</div>Tüm temel özellikler</div>
+          <div class="pf"><div class="pf-check">✓</div>10 şirkete kadar</div>
+          <div class="pf"><div class="pf-check">✓</div>E-posta desteği</div>
+        </div>
+        <a class="plan-btn pb-o" href="download-form.html" target="_blank">💾 Deneyin →</a>
+      </div>
+      <div class="plan featured rv d2">
+        <div class="plan-pop">✦ Erken Kullanıcı</div>
+        <div class="plan-name">Profesyonel (Yıllık)</div>
+        <div class="plan-price"><span class="plan-cur">₺</span>4.900</div>
+        <div class="plan-per">Bu fiyat yalnızca erken kullanıcılar içindir · ilerleyen dönemde güncellenecek</div>
+        <div class="plan-div"></div>
+        <div class="plan-feats">
+          <div class="pf"><div class="pf-check">✓</div>Sınırsız şirket kapasitesi</div>
+          <div class="pf"><div class="pf-check">✓</div>Tüm özellikler dahil</div>
+          <div class="pf"><div class="pf-check">✓</div>Öncelikli destek hattı</div>
+          <div class="pf"><div class="pf-check">✓</div>Uzaktan kurulum desteği</div>
+          <div class="pf"><div class="pf-check">✓</div>Gelecek tüm güncellemeler</div>
+        </div>
+        <a class="plan-btn pb-gold" href="purchase-form.html" target="_blank">Satın Alma Talebi →</a>
+      </div>
+      <div class="plan rv d3">
+        <div class="plan-name">Kurumsal</div>
+        <div class="plan-price" style="font-size:2.2rem;line-height:1.2">Özel<br>Teklif</div>
+        <div class="plan-per">Çoklu kullanıcı · API entegrasyonu · özel geliştirme</div>
+        <div class="plan-div"></div>
+        <div class="plan-feats">
+          <div class="pf"><div class="pf-check">✓</div>Çoklu kullanıcı desteği</div>
+          <div class="pf"><div class="pf-check">✓</div>API entegrasyonu</div>
+          <div class="pf"><div class="pf-check">✓</div>Özel geliştirme</div>
+          <div class="pf"><div class="pf-check">✓</div>Eğitim ve danışmanlık</div>
+          <div class="pf"><div class="pf-check">✓</div>7/24 destek</div>
+        </div>
+        <a class="plan-btn pb-o" href="#contact">Teklif Alın →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD CTA -->
+<section class="dl-section">
+  <div class="wrap">
+    <div class="dl-inner rv">
+      <h2>Mali müşavir ofisiniz için <em>hemen deneyin</em></h2>
+      <p>15 günlük ücretsiz demo ile tüm özellikleri test edin. Kurulum 10 dakika.</p>
+      <div class="dl-sys">SİSTEM GEREKSİNİMLERİ: WINDOWS 10/11 · 4GB RAM · 100MB DİSK ALANI · DEMO SÜRESİ: 15 GÜN</div>
+      <a class="dl-btn" href="download-form.html" target="_blank">💾 Demo Sürümü İndir — v1.0.1 · 101 MB</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     DOKÜMANTASYon
+════════════════════════ -->
+<section id="docs">
+  <div class="wrap sec">
+    <div class="rv">
+      <div class="slabel">Dokümantasyon</div>
+      <h2 class="stitle">Her şeyi <em>belgeleyen rehberler</em></h2>
+      <p class="sbody">Kurulumdan ileri seviye kullanıma kadar eksiksiz dokümantasyon.</p>
+    </div>
+    <div class="docs-grid">
+      <a class="doc-card rv d1" href="docs.html" target="_blank">
+        <div class="doc-icon">🚀</div>
+        <div class="doc-t">Hızlı Başlangıç</div>
+        <div class="doc-d">Programı indirip ilk otomasyonu başlatmak için adım adım kurulum rehberi. 10 dakikada hazır olun.</div>
+        <div class="doc-link">Rehberi Oku →</div>
+      </a>
+      <a class="doc-card rv d2" href="docs.html" target="_blank">
+        <div class="doc-icon">📧</div>
+        <div class="doc-t">Email & SMTP Ayarları</div>
+        <div class="doc-d">Gmail, Outlook ve özel e-posta sunucularıyla SMTP yapılandırması. Email şablonlarını özelleştirme.</div>
+        <div class="doc-link">Rehberi Oku →</div>
+      </a>
+      <a class="doc-card rv d3" href="docs.html" target="_blank">
+        <div class="doc-icon">📊</div>
+        <div class="doc-t">Raporlama & Excel</div>
+        <div class="doc-d">Excel raporları oluşturma, eksik dönem tespiti ve şirket bazlı analiz kullanım kılavuzu.</div>
+        <div class="doc-link">Rehberi Oku →</div>
+      </a>
+    </div>
+    <div class="rv" style="text-align:center;margin-top:2.5rem">
+      <a class="btn-gold" href="docs.html" target="_blank" style="display:inline-flex">Tüm Dokümantasyonu Gör →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     İLETİŞİM
+════════════════════════ -->
+<section id="contact">
+  <div class="wrap sec">
+    <div class="rv">
+      <div class="slabel">İletişime Geçin</div>
+      <h2 class="stitle">Sorularınız için <em>bize ulaşın</em></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="ci-list rv">
+        <div class="ci">
+          <div class="ci-lbl">E-posta</div>
+          <div class="ci-val"><a href="mailto:edefterotomasyon@gmail.com">edefterotomasyon@gmail.com</a></div>
+        </div>
+        <div class="ci">
+          <div class="ci-lbl">Telefon</div>
+          <div class="ci-val">+90 (XXX) XXX XX XX</div>
+        </div>
+        <div class="ci">
+          <div class="ci-lbl">Destek Saatleri</div>
+          <div class="ci-val">Pazartesi – Cuma · 09:00 – 16:00</div>
+        </div>
+        <div class="ci">
+          <div class="ci-lbl">Sistem Gereksinimleri</div>
+          <div class="ci-val" style="font-family:'Space Mono',monospace;font-size:.8rem;line-height:1.7">Windows 10/11 · 4GB RAM<br>100MB Disk Alanı · .NET 4.8+</div>
+        </div>
+        <div class="ci">
+          <div class="ci-lbl">Sosyal Medyada Takip Edin</div>
+          <div class="soc-row">
+            <a href="https://www.youtube.com/@edefterotomasyon" target="_blank" class="soc-btn s-yt" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg></a>
+            <a href="https://www.linkedin.com/in/e-defter-otomasyon-y%C3%B6netim-ofisi-9593b73a9/" target="_blank" class="soc-btn s-li" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.3-1.9 3.5 0 4.2 2.3 4.2 5.4v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM3.5 20.4h3.6V9H3.5v11.4zM22.2 0H1.8A1.8 1.8 0 0 0 0 1.8v20.4A1.8 1.8 0 0 0 1.8 24h20.4a1.8 1.8 0 0 0 1.8-1.8V1.8A1.8 1.8 0 0 0 22.2 0z"/></svg></a>
+            <a href="https://www.instagram.com/edefterotomasyoncomtr/" target="_blank" class="soc-btn s-ig" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.3 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg></a>
+            <a href="https://www.facebook.com/edefterotomasyoncom/" target="_blank" class="soc-btn s-fb" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg></a>
+            <a href="https://x.com/edefterotomasyn" target="_blank" class="soc-btn s-tw" title="Twitter / X"><svg viewBox="0 0 24 24"><path d="M18.9 1h3.7l-8 9.1L24 23h-7.4l-5.8-7.5L4.5 23H.8l8.6-9.8L0 1h7.6l5.2 6.9L18.9 1zm-1.3 19.8h2L6.5 3.2H4.3L17.6 20.8z"/></svg></a>
+          </div>
+        </div>
+        <div class="ci" style="background:rgba(37,211,102,.04);border-color:rgba(37,211,102,.18)">
+          <div class="ci-lbl">Hızlı Demo Talebi</div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:1rem">15 günlük demo sürümünü hemen indirin, kurulumu yapalım.</p>
+          <a href="download-form.html" target="_blank" class="btn-gold" style="display:inline-flex;font-size:.85rem;padding:.65rem 1.3rem;border-radius:var(--r);text-decoration:none">💾 Demo İndir</a>
+        </div>
+      </div>
+
+      <form class="cform rvx" id="contactForm" action="https://formsubmit.co/edefterotomasyon@gmail.com" method="POST" accept-charset="UTF-8">
+  <input type="hidden" name="_subject" value="Yeni İletişim Mesajı - E-Defter Otomasyon">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_next" value="https://edefterotomasyon.com.tr/index.html#contact">
+  <input type="text" name="_honey" style="display:none">
+  <div class="cform-row">
+    <div><label class="cf-lbl">Adınız Soyadınız</label><input class="cf-inp" type="text" name="Ad_Soyad" placeholder="Ahmet Kaya" required></div>
+    <div><label class="cf-lbl">Şirket / Büro Adı</label><input class="cf-inp" type="text" name="Sirket_Buro" placeholder="Kaya SMMM Bürosu"></div>
+  </div>
+  <div><label class="cf-lbl">E-posta Adresiniz</label><input class="cf-inp" type="email" name="Email" placeholder="ahmet@buro.com" required></div>
+  <div><label class="cf-lbl">Telefon (İsteğe Bağlı)</label><input class="cf-inp" type="tel" name="Telefon" placeholder="0 5xx xxx xx xx"></div>
+  <div>
+    <label class="cf-lbl">Müşteri Sayınız</label>
+    <select class="cf-sel cf-inp" name="Musteri_Sayisi">
+      <option>1 – 50 müşteri</option>
+      <option>51 – 150 müşteri</option>
+      <option>151 – 300 müşteri</option>
+      <option>300+ müşteri</option>
+    </select>
+  </div>
+  <div><label class="cf-lbl">Mesajınız</label><textarea class="cf-ta" name="Mesaj" placeholder="Nasıl yardımcı olabiliriz? Satın alma, kurulum veya başka bir konu..."></textarea></div>
+  <button type="submit" class="cf-sub">Gönder <span>→</span></button>
+</form>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════
+     FOOTER
+════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo-row">
+          <div class="ft-logo-m">E</div>
+          <div class="ft-logo-t">E-Defter Klasör Otomasyonu</div>
+        </div>
+        <p class="ft-tag">Mali müşavir ofisleri için GIB e-defter klasör izleme,<br>yedekleme ve müşteri bilgilendirme sistemi.<br>Windows 10/11 · Türkçe · Yerel Çalışma</p>
+        <div class="ft-socs">
+          <a class="ft-soc s-yt" href="https://www.youtube.com/@edefterotomasyon" target="_blank" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg></a>
+          <a class="ft-soc s-li" href="https://www.linkedin.com/in/e-defter-otomasyon-y%C3%B6netim-ofisi-9593b73a9/" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.3-1.9 3.5 0 4.2 2.3 4.2 5.4v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM3.5 20.4h3.6V9H3.5v11.4zM22.2 0H1.8A1.8 1.8 0 0 0 0 1.8v20.4A1.8 1.8 0 0 0 1.8 24h20.4a1.8 1.8 0 0 0 1.8-1.8V1.8A1.8 1.8 0 0 0 22.2 0z"/></svg></a>
+          <a class="ft-soc s-ig" href="https://www.instagram.com/edefterotomasyoncomtr/" target="_blank" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.3 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg></a>
+          <a class="ft-soc s-fb" href="https://www.facebook.com/edefterotomasyoncom/" target="_blank" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3v-2.6c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg></a>
+          <a class="ft-soc s-tw" href="https://x.com/edefterotomasyn" target="_blank" title="Twitter / X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1h3.7l-8 9.1L24 23h-7.4l-5.8-7.5L4.5 23H.8l8.6-9.8L0 1h7.6l5.2 6.9L18.9 1zm-1.3 19.8h2L6.5 3.2H4.3L17.6 20.8z"/></svg></a>
+        </div>
+      </div>
+      <div class="ft-col">
+  <div class="ft-col-t">Hızlı Linkler</div>
+  <ul>
+    <li><a href="#features">Özellikler</a></li>
+    <li><a href="#screenshots">Ekran Görüntüleri</a></li>
+    <li><a href="#video-demo">Video</a></li>
+    <li><a href="#how-it-works">Nasıl Çalışır</a></li>
+    <li><a href="#pricing">Fiyatlandırma</a></li>
+    <li><a href="docs.html" target="_blank">Dokümantasyon</a></li>
+    <li><a href="#faq">SSS</a></li>
+    <li><a href="#contact">İletişim</a></li>
+  </ul>
+  <div class="ft-col-t" style="margin-top:1.6rem">Yasal</div>
+  <ul>
+    <li><a href="privacy.html" target="_blank">Gizlilik Politikası</a></li>
+    <li><a href="terms.html" target="_blank">Kullanım Şartları</a></li>
+    <li><a href="kvkk.html" target="_blank">KVKK</a></li>
+  </ul>
+</div>
+<div class="ft-col">
+  <div class="ft-col-t">İletişim</div>
+        <ul>
+          <li><a href="mailto:edefterotomasyon@gmail.com">edefterotomasyon@gmail.com</a></li>
+          <li><a href="download-form.html" target="_blank">💾 Demo İndir</a></li>
+          <li><a href="purchase-form.html" target="_blank">Satın Alma Talebi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <div class="ft-copy">© 2026 E-DEFTER OTOMASYON — TÜM HAKLARI SAKLIDIR · TASARIM: YAVUZ MERCİMEK</div>
+    </div>
+  </div>
+</footer>
+
+<!-- AI WIDGET -->
+<div id="aiW">
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-head">
+      <div class="ai-av">🤖</div>
+      <div>
+        <div class="ai-name">Defter Asistanı</div>
+        <div class="ai-status">Çevrimiçi · Anında yanıt verir</div>
+      </div>
+      <button class="ai-close-btn" onclick="toggleAI()">✕</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs">
+      <div class="mrow bot">
+        <div class="mav bot">🤖</div>
+        <div class="mbub">Merhaba! E-Defter Otomasyon hakkında her sorunuzu yanıtlıyorum. Fiyatlar, kurulum, mevzuat, berat takvimleri — ne öğrenmek istersiniz? 😊</div>
+      </div>
+    </div>
+    <div class="ai-quick">
+      <button class="aiq" onclick="qAsk('💰 Fiyatlar ne kadar?')">💰 Fiyatlar</button>
+      <button class="aiq" onclick="qAsk('⚙️ Kurulum nasıl yapılıyor?')">⚙️ Kurulum</button>
+      <button class="aiq" onclick="qAsk('📅 Berat ne zaman yüklenmeli?')">📅 Berat</button>
+      <button class="aiq" onclick="qAsk('📋 Program ne yapıyor?')">📋 Program</button>
+      <button class="aiq" onclick="qAsk('💻 Sistem gereksinimleri neler?')">💻 Gereksinimler</button>
+      <button class="aiq" onclick="qAsk('🎁 Ücretsiz deneme var mı?')">🎁 Deneme</button>
+    </div>
+    <div class="ai-input-bar">
+      <input class="ai-input" id="aiIn" type="text" placeholder="Sorunuzu yazın..." onkeypress="if(event.key==='Enter')sendMsg()">
+      <button class="ai-send-btn" onclick="sendMsg()">↑</button>
+    </div>
+  </div>
+  <button class="ai-fab" id="aiFab" onclick="toggleAI()">
+    🤖<div class="ai-notif" id="aiNotif" style="display:none">1</div>
+  </button>
+</div>
+
+<!-- Cookie -->
+<div id="cookie">
+  <div class="ck-t">Bu site deneyiminizi geliştirmek için çerezler kullanır. <a href="privacy.html" target="_blank">Gizlilik politikamız →</a></div>
+  <div class="ck-btns">
+    <button class="ck-btn ck-rej" onclick="closeCookie()">Reddet</button>
+    <button class="ck-btn ck-acc" onclick="closeCookie()">Kabul Et</button>
+  </div>
+</div>
+
+<script>
+// ── CURSOR ──
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+const backToTopButton=document.getElementById('btt');
+let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+document.querySelectorAll('a,button,.fc,.ss-card,.vid-scard,.plan,.doc-card,.how-step').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('big'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('big'));
+});
+backToTopButton?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20);
+  backToTopButton?.classList.toggle('show',window.scrollY>500);
+  doReveal();
+});
+
+// ── MOBILE MENU ──
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+
+// ── REVEAL ──
+function doReveal(){
+  document.querySelectorAll('.rv,.rvx').forEach((el,i)=>{
+    if(el.classList.contains('on'))return;
+    if(el.getBoundingClientRect().top<window.innerHeight-55)
+      setTimeout(()=>el.classList.add('on'),i*55);
+  });
+}
+setTimeout(doReveal,200);
+
+// ── FAQ ──
+function toggleFAQ(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+// ── LIGHTBOX ──
+function openLB(src,title,desc){
+  document.getElementById('lbTitle').textContent=title;
+  document.getElementById('lbImg').src=src;
+  document.getElementById('lbImg').alt=title;
+  document.getElementById('lbDesc').textContent='Gerçek site ekran görüntüsü: '+desc;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLB();closeVid()}});
+
+// ── VIDEO ──
+function playVideo(src,title){
+  document.getElementById('vidModalTitle').textContent=title;
+  const v=document.getElementById('vidEl');
+  v.src=src;v.load();
+  const m=document.getElementById('vidModal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeVid(){
+  const v=document.getElementById('vidEl');
+  v.pause();v.src='';
+  document.getElementById('vidModal').style.display='none';
+  document.body.style.overflow='';
+}
+
+
+// ── AI WIDGET ──
+const KB={
+  fiyat:'Fiyatlarımız:\n\n🆓 Başlangıç — Ücretsiz · 15 gün · 10 şirkete kadar\n⭐ Profesyonel — Yıllık ₺4.900 · sınırsız şirket · tüm özellikler · uzaktan kurulum\n🏢 Kurumsal — Özel teklif · API · çoklu kullanıcı\n\nKredi kartı gerekmez.',
+  kurulum:'Kurulum yaklaşık 10 dakika:\n\n1️⃣ Demo\'yu indirin ve çalıştırın\n2️⃣ GIB klasör yolunu seçin\n3️⃣ Müşterileri Excel şablonuyla yükleyin\n4️⃣ SMTP e-posta ayarlarını girin\n5️⃣ Başlatın — hazır!\n\nUzaktan kurulum desteği de sunuyoruz.',
+  berat:'Berat yükleme süresi:\n\n📅 E-defterin GIB\'e gönderilmesinden itibaren 3 ay içinde berat yüklenmelidir.\n\n🔔 Sistemimiz 15 gün ve 7 gün kala otomatik uyarı gönderir.',
+  program:'E-Defter Otomasyon ne yapar?\n\n🤖 GIB klasörlerini 30sn\'de bir otomatik tarar\n📧 Yeni defter tespit edilince müşteriye anında e-posta gönderir\n💾 Klasörleri belirlenen konuma yedekler\n📊 Eksik dönemleri Excel\'e raporlar\n📅 Berat son tarihlerini takip eder',
+  gereksinim:'Sistem gereksinimleri:\n\n💻 Windows 10 veya 11\n🧠 Minimum 4 GB RAM\n💾 100 MB disk alanı\n⚙️ .NET Framework 4.8+\n🌐 İnternet (yalnızca e-posta için)\n\nTüm veriler kendi bilgisayarınızda kalır.',
+  deneme:'✅ Evet, 15 günlük ücretsiz deneme!\n\n• Kredi kartı gerekmez\n• Tüm özellikler açık\n• 10 şirkete kadar\n• Süre dolunca otomatik durar\n\n"Demo İndir" butonundan hemen başlayabilirsiniz.',
+  default:'Anladım! Bu konuda yardımcı olabilirim.\n\nDetaylı bilgi için:\n📧 edefterotomasyon@gmail.com\n\nYa da şu konularda soru sorun:\n• Fiyatlar • Kurulum • Berat • Program • Gereksinimler'
+};
+function getResp(m){
+  m=m.toLowerCase();
+  if(m.includes('fiyat')||m.includes('ücret')||m.includes('plan')||m.includes('kaç'))return KB.fiyat;
+  if(m.includes('kur')||m.includes('nasıl')||m.includes('indir')||m.includes('başla'))return KB.kurulum;
+  if(m.includes('berat'))return KB.berat;
+  if(m.includes('program')||m.includes('nedir')||m.includes('ne iş')||m.includes('ne yap'))return KB.program;
+  if(m.includes('gereksinim')||m.includes('sistem')||m.includes('windows')||m.includes('ram'))return KB.gereksinim;
+  if(m.includes('deneme')||m.includes('ücretsiz')||m.includes('demo')||m.includes('free'))return KB.deneme;
+  return KB.default;
+}
+function addBubble(txt,role){
+  const msgs=document.getElementById('aiMsgs');
+  const row=document.createElement('div');row.className='mrow '+role;
+  const av=document.createElement('div');av.className='mav '+role;av.textContent=role==='bot'?'🤖':'S';
+  const bub=document.createElement('div');bub.className='mbub';
+  bub.innerHTML=txt.replace(/\n/g,'<br>');
+  row.appendChild(av);row.appendChild(bub);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){
+  const msgs=document.getElementById('aiMsgs');
+  const row=document.createElement('div');row.className='mrow bot';row.id='typingRow';
+  row.innerHTML='<div class="mav bot">🤖</div><div class="mbub"><div class="typing-dots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function sendMsg(){
+  const inp=document.getElementById('aiIn');const txt=inp.value.trim();if(!txt)return;
+  addBubble(txt,'u');inp.value='';showTyping();
+  setTimeout(()=>{const t=document.getElementById('typingRow');if(t)t.remove();addBubble(getResp(txt),'bot');},900+Math.random()*500);
+}
+function qAsk(q){document.getElementById('aiIn').value=q;sendMsg();}
+let aiOpen=false;
+function toggleAI(){
+  aiOpen=!aiOpen;
+  document.getElementById('aiPanel').classList.toggle('open',aiOpen);
+  document.getElementById('aiFab').classList.toggle('open-fab',aiOpen);
+  if(aiOpen)document.getElementById('aiNotif').style.display='none';
+}
+setTimeout(()=>{const n=document.getElementById('aiNotif');if(n)n.style.display='flex';},6000);
+function closeCookie(){
+  const c=document.getElementById('cookie');
+  c.style.transition='transform .4s ease';
+  c.style.transform='translateY(100%)';
+  setTimeout(()=>c.remove(),400);
+}
+</script>
+</body>
+</html>

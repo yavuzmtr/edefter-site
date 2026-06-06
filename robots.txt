@@ -1,0 +1,14 @@
+# E-Defter Klasör Otomasyonu - Robots.txt
+# https://edefterotomasyon.com.tr
+
+User-agent: *
+Allow: /
+
+# Sitemap konumu
+Sitemap: https://edefterotomasyon.com.tr/sitemap.xml
+
+# İndirme dosyalarını indexleme
+Disallow: /assets/downloads/
+
+# Yasaklı alanlar (varsa)
+# Disallow: /private/

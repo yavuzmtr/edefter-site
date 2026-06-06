@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pazarlama Studyo Web</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f5f7;margin:0;padding:16px;color:#1f2937}
+    .wrap{max-width:980px;margin:0 auto}
+    .card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin-bottom:12px}
+    h1{margin:0 0 8px;font-size:24px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    select,input,button{padding:10px;border:1px solid #d1d5db;border-radius:8px}
+    button{cursor:pointer;background:#0ea5e9;border-color:#0ea5e9;color:#fff;font-weight:700}
+    .secondary{background:#fff;color:#111827}
+    textarea{width:100%;min-height:100px;border:1px solid #d1d5db;border-radius:8px;padding:8px}
+    .post{border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-top:10px}
+    .post h4{margin:0 0 8px}
+    .meta{font-size:12px;color:#6b7280}
+    .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+    .chip{padding:4px 8px;border-radius:999px;background:#e0f2fe;font-size:12px;color:#075985}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Pazarlama Studyo (Web)</h1>
+      <div class="row">
+        <select id="platform"><option value="x">X Post</option><option value="youtube">YouTube Video</option></select>
+        <select id="tone"><option value="sade">Sade</option><option value="resmi">Resmi</option><option value="satis">Satis Odakli</option></select>
+        <input id="objective" value="zaman kazanimi">
+        <input id="count" type="number" min="1" max="20" value="5">
+        <button id="generate">Icerik Uret</button>
+        <button id="save" class="secondary">Kaydet</button>
+      </div>
+      <p class="meta">Telefon dahil her yerden kullan. Kayitlar bu tarayicida tutulur.</p>
+    </div>
+    <div class="card">
+      <div class="row">
+        <button id="exportTxt" class="secondary">Taslaklari TXT indir</button>
+        <button id="exportJson" class="secondary">Taslaklari JSON indir</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>WhatsApp Iletisim Botu</h3>
+      <div class="row">
+        <input id="waName" placeholder="Musteri adi">
+        <input id="waPhone" placeholder="Telefon (9053xxxxxxx)">
+        <button id="waAdd" class="secondary">Musteri Ekle</button>
+        <button id="waStatusGen">Durum Metni Uret</button>
+      </div>
+      <textarea id="waMessage" placeholder="AI mesaj burada olusur veya elle yazabilirsiniz."></textarea>
+      <div class="row" style="margin-top:8px">
+        <button id="waMsgFromDraft" class="secondary">AI Mesaj Uret (Taslak)</button>
+        <button id="waOpenAll" class="secondary">Toplu WhatsApp Ac</button>
+        <button id="waCopyStatus" class="secondary">Durum Metni Kopyala</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <select id="waMode">
+          <option value="wa_me">wa.me (manual)</option>
+          <option value="meta_api">Meta API (gateway)</option>
+        </select>
+        <input id="waApiBase" placeholder="Gateway URL (or: https://api.senin-domain.com)">
+        <input id="waApiKey" placeholder="Gateway API Key">
+        <button id="waTestApi" class="secondary">Gateway Test</button>
+      </div>
+      <div id="waContacts"></div>
+    </div>
+    <div class="card"><h3>Taslaklar</h3><div id="drafts"></div></div>
+    <div class="card"><h3>Kayitli Icerikler</h3><div id="saved"></div></div>
+  </div>
+<script>
+const DEMO_URL = 'https://edefterotomasyon.com.tr/download-form.html';
+const STORE_KEY = 'marketing_studio_web_posts_v1';
+const WA_STORE_KEY = 'marketing_studio_web_wa_contacts_v1';
+const WA_SETTINGS_KEY = 'marketing_studio_web_wa_settings_v1';
+const FEATURES = [
+  'e-defter berat takip otomasyonu',
+  '7/3/son gun e-posta uyari sistemi',
+  'klasor izleme ve eksik dosya tespiti',
+  'raporlama ve denetim hazirligi',
+  'otomatik yedekleme ve arsivleme'
+];
+const PAINS = [
+  'Son gun yaklasinca stres ve kontrol yukunun artmasi',
+  'Mail/berat durumunun tek tek kontrol edilmesi',
+  'Eksik klasor veya geciken donemlerin gec fark edilmesi',
+  'Ofiste kisiye bagimli isleyis nedeniyle surec riski',
+  'Yogun donemlerde atlanan takip adimlari'
+];
+const HOOKS = {
+  sade: ['Hala manuel e-defter kontrolu mu?','Takvim yaklastiginda ekip zorlanmasin.','Kontrol listesi yerine otomatik akis kullanin.'],
+  resmi: ['Mali musavir ofisleri icin operasyonel standart:','Surec yonetiminde izlenebilirlik ve zamaninda aksiyon:','Denetime hazir, olculebilir bir takip yapisi:'],
+  satis: ['Her ay ayni stres? 10 dakikada duzen kurun.','Ceza riski yerine otomatik takip secin.','Ekibin zamani kontrole degil musteriye kalsin.']
+};
+
+let currentDrafts = [];
+let postIndex = {};
+let waStatusText = '';
+
+function pick(arr, i){return arr[i % arr.length]}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function joinTags(tags){return (tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join('')}
+function copyText(v){navigator.clipboard.writeText(v||'').then(()=>alert('Kopyalandi'))}
+function downloadFile(name, content, type){
+  const blob = new Blob([content], { type: type || 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+}
+function savePosts(posts){localStorage.setItem(STORE_KEY, JSON.stringify(posts||[]))}
+function loadPosts(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}catch(e){return []}}
+function saveContacts(list){localStorage.setItem(WA_STORE_KEY, JSON.stringify(list||[]))}
+function loadContacts(){try{return JSON.parse(localStorage.getItem(WA_STORE_KEY)||'[]')}catch(e){return []}}
+function saveWaSettings(s){localStorage.setItem(WA_SETTINGS_KEY, JSON.stringify(s||{}))}
+function loadWaSettings(){try{return JSON.parse(localStorage.getItem(WA_SETTINGS_KEY)||'{}')}catch(e){return {}}}
+function indexPosts(posts){(posts||[]).forEach(p=>postIndex[p.id]=p)}
+function nowIso(){return new Date().toISOString()}
+function hashtags(platform){return platform==='youtube' ? ['edefter','maliMusavir','otomasyon','beratTakip','raporlama'] : ['#edefter','#muhasebe','#maliMusavir','#otomasyon']}
+
+function getWaConfig(){
+  const mode = document.getElementById('waMode').value;
+  const apiBase = (document.getElementById('waApiBase').value || '').trim().replace(/\/+$/,'');
+  const apiKey = (document.getElementById('waApiKey').value || '').trim();
+  return { mode, apiBase, apiKey };
+}
+
+async function sendViaMetaApi(phone, text){
+  const cfg = getWaConfig();
+  if(!cfg.apiBase) throw new Error('Gateway URL girin');
+  const res = await fetch(cfg.apiBase + '/api/wa/send-text', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': cfg.apiKey || ''
+    },
+    body: JSON.stringify({ to: phone, text })
+  });
+  const data = await res.json();
+  if(!res.ok || !data.ok) throw new Error(data.error || ('Gateway hata: ' + res.status));
+  return data;
+}
+
+function createPost(platform, tone, objective, i){
+  const feature = pick(FEATURES, i);
+  const pain = pick(PAINS, i+1);
+  const hook = pick(HOOKS[tone] || HOOKS.sade, i);
+  const cta = 'Demo indir: ' + DEMO_URL;
+  if(platform==='youtube'){
+    const flow = ['0-5 sn: Problem cümlesi',`5-20 sn: ${pain}`,`20-45 sn: ${feature} ekran gosteri`,`45-60 sn: Sonuc + ${cta}`].join('\n');
+    return {
+      id:'yt-'+Date.now()+'-'+i, platform, tone, status:'draft', createdAt:nowIso(),
+      title:`${feature}: ${objective} icin net cozum`,
+      hook,
+      body:`${hook}\n\nBu videoda ${feature} ile surec kontrolunu sadeleştiriyoruz.\nHedef: ${objective}\nKimler icin: Mali musavir ofisleri\nDemo: ${DEMO_URL}\n\nVideo akisi:\n${flow}`,
+      cta, tags: hashtags(platform), videoFlow: flow
+    };
+  }
+  return {
+    id:'x-'+Date.now()+'-'+i, platform, tone, status:'draft', createdAt:nowIso(),
+    title:`${feature} | ${objective}`,
+    hook,
+    body:`${hook}\n\n${pain}.\n${feature} ile bu sureci tek panelden takip edin.\n\nHedef: ${objective}\n${cta}\n${hashtags(platform).join(' ')}`,
+    cta, hashtags: hashtags(platform)
+  };
+}
+
+function postPackageText(post){
+  const tags = post.hashtags || post.tags || [];
+  const lines = [
+    'PLATFORM: ' + (post.platform || ''),
+    'DURUM: ' + (post.status || 'draft'),
+    'BASLIK: ' + (post.title || ''),
+    'HOOK: ' + (post.hook || ''),
+    'CTA: ' + (post.cta || ''),
+    'ETIKETLER: ' + tags.join(', '),
+    '',
+    'METIN:',
+    post.body || ''
+  ];
+  if (post.videoFlow) lines.push('', 'VIDEO AKISI:', post.videoFlow);
+  return lines.join('\n');
+}
+
+function buildImagePrompt(p){
+  const tags = (p.hashtags || p.tags || []).join(', ');
+  const fmt = p.platform === 'youtube' ? 'youtube thumbnail, high contrast, readable title area' : 'social media post visual, clean layout';
+  return ['Professional fintech style visual',p.title||'',p.hook||'','Topic: E-Defter otomasyon, mali musavir ofisi',fmt,'Color palette: navy blue, cyan accents, white text','No watermark, no logo distortion, sharp details','Keywords: '+tags].join('. ');
+}
+function buildVideoPrompt(p){
+  return [
+    'TR DILINDE 60 saniyelik tanitim videosu olustur.',
+    'Kitle: Mali musavir ofisleri.',
+    'Baslik: ' + (p.title || ''),
+    'Acilis hook: ' + (p.hook || ''),
+    'Sahne 1 (0-5sn): Problem cümlesi.',
+    'Sahne 2 (5-20sn): Manuel takip riskleri.',
+    'Sahne 3 (20-45sn): Uygulama ekrani, klasor/berat/mail takip akışı.',
+    'Sahne 4 (45-60sn): Sonuc + CTA.',
+    'Ekran cagrisi: ' + (p.cta || ('Demo indir: ' + DEMO_URL))
+  ].join('\n');
+}
+
+function normalizePhone(raw){
+  return String(raw||'').replace(/\D/g,'').replace(/^0/,'90');
+}
+
+function generateWaMessageFromPost(p){
+  if(!p) return 'Merhaba, e-defter surecleriniz icin otomasyon cozumumuzu paylasmak isterim. Demo: ' + DEMO_URL;
+  const shortBody = (p.body || '').split('\n').slice(0,4).join(' ');
+  return [
+    'Merhaba,',
+    shortBody,
+    'Kisa bir demo ile gosterebilirim:',
+    DEMO_URL
+  ].join('\n');
+}
+
+function generateStatusText(){
+  const tone = document.getElementById('tone').value;
+  const objective = document.getElementById('objective').value || 'surec kolayligi';
+  const line = pick(HOOKS[tone] || HOOKS.sade, Date.now() % 3);
+  return [
+    line,
+    'E-defter gonderiminden sonra kontrol yukunu azaltin.',
+    'Berat takip + klasor izleme + mail uyari tek yerde.',
+    'Hedef: ' + objective,
+    'Demo: ' + DEMO_URL
+  ].join('\n');
+}
+
+function postHtml(p, editable){
+  const tags = p.hashtags || p.tags || [];
+  const xBtn = p.platform === 'x' ? '<button class="open-x secondary">Xte Ac</button>' : '';
+  return '<div class="post" data-id="'+p.id+'">'+
+    '<h4>'+esc(p.title)+'</h4>'+
+    '<div class="meta">Hook: '+esc(p.hook||'-')+'</div>'+
+    '<textarea '+(editable?'':'readonly')+' class="body">'+esc(p.body)+'</textarea>'+
+    '<div class="chips">'+joinTags(tags)+'</div>'+
+    '<div class="meta">Platform: '+esc(p.platform)+' | Durum: '+esc(p.status||'draft')+'</div>'+
+    '<div class="row" style="margin-top:8px">'+
+      '<button class="copy secondary">Metni Kopyala</button>'+
+      '<button class="copy-title secondary">Baslik Kopyala</button>'+
+      '<button class="ai-image secondary">AI Gorsel Uret</button>'+
+      '<button class="ai-video secondary">AI Video Prompt</button>'+
+      xBtn+
+      '<button class="download-one secondary">Paket indir</button>'+
+      (editable ? '<button class="mark">Ready</button><button class="publish secondary">Published</button>' : '')+
+    '</div></div>';
+}
+
+function renderDrafts(){
+  indexPosts(currentDrafts);
+  document.getElementById('drafts').innerHTML = currentDrafts.map(p=>postHtml(p,false)).join('') || '<p>Taslak yok</p>';
+  bind();
+}
+function renderSaved(){
+  const posts = loadPosts();
+  indexPosts(posts);
+  document.getElementById('saved').innerHTML = posts.map(p=>postHtml(p,true)).join('') || '<p>Kayit yok</p>';
+  bind();
+}
+
+function setStatus(id, status){
+  const posts = loadPosts();
+  const p = posts.find(x=>x.id===id);
+  if(!p) return;
+  p.status = status; p.updatedAt = nowIso();
+  savePosts(posts); renderSaved();
+}
+
+function renderContacts(){
+  const list = loadContacts();
+  const html = list.map((c) => (
+    '<div class="post" data-phone="'+esc(c.phone)+'">'+
+      '<div><strong>'+esc(c.name||'Musteri')+'</strong> - '+esc(c.phone)+'</div>'+
+      '<div class="row" style="margin-top:8px">'+
+        '<button class="wa-open secondary">WhatsApp Ac</button>'+
+        '<button class="wa-remove secondary">Sil</button>'+
+      '</div>'+
+    '</div>'
+  )).join('');
+  document.getElementById('waContacts').innerHTML = html || '<p class="meta">Musteri yok</p>';
+
+  document.querySelectorAll('.wa-open').forEach((btn) => {
+    btn.onclick = async () => {
+      const parent = btn.closest('.post');
+      const phone = parent.getAttribute('data-phone');
+      const msg = document.getElementById('waMessage').value || 'Merhaba';
+      const cfg = getWaConfig();
+      if (cfg.mode === 'meta_api') {
+        try {
+          await sendViaMetaApi(phone, msg);
+          alert('Mesaj gonderildi: ' + phone);
+        } catch (error) {
+          alert('Meta API hata: ' + (error.message || error));
+        }
+        return;
+      }
+      window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+    };
+  });
+  document.querySelectorAll('.wa-remove').forEach((btn) => {
+    btn.onclick = () => {
+      const phone = btn.closest('.post').getAttribute('data-phone');
+      saveContacts(loadContacts().filter(c => c.phone !== phone));
+      renderContacts();
+    };
+  });
+}
+
+function bind(){
+  document.querySelectorAll('.copy').forEach(btn=>btn.onclick=()=>copyText(btn.closest('.post').querySelector('.body').value));
+  document.querySelectorAll('.copy-title').forEach(btn=>btn.onclick=()=>copyText(btn.closest('.post').querySelector('h4').innerText));
+  document.querySelectorAll('.open-x').forEach(btn=>btn.onclick=()=>{const id=btn.closest('.post').dataset.id; const p=postIndex[id]; if(!p)return; window.open('https://x.com/intent/tweet?text='+encodeURIComponent(p.body||''),'_blank')});
+  document.querySelectorAll('.download-one').forEach(btn=>btn.onclick=()=>{const id=btn.closest('.post').dataset.id; const p=postIndex[id]; if(!p)return; downloadFile('paket-'+(p.title||'icerik').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,50)+'.txt',postPackageText(p),'text/plain;charset=utf-8')});
+  document.querySelectorAll('.ai-image').forEach(btn=>btn.onclick=()=>{
+    const id=btn.closest('.post').dataset.id;
+    const p=postIndex[id];
+    if(!p)return;
+    const prompt=buildImagePrompt(p);
+    copyText(prompt);
+    const trimmed = prompt.slice(0, 350);
+    const bingUrl = 'https://www.bing.com/images/create?q=' + encodeURIComponent(trimmed);
+    const pollinationsUrl = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(trimmed) + '?model=flux&seed=' + Date.now();
+    window.open(bingUrl, '_blank');
+    setTimeout(() => window.open(pollinationsUrl, '_blank'), 500);
+  });
+  document.querySelectorAll('.ai-video').forEach(btn=>btn.onclick=()=>{const id=btn.closest('.post').dataset.id; const p=postIndex[id]; if(!p)return; const t=buildVideoPrompt(p); copyText(t); downloadFile('video-prompt.txt', t, 'text/plain;charset=utf-8')});
+  document.querySelectorAll('.mark').forEach(btn=>btn.onclick=()=>setStatus(btn.closest('.post').dataset.id,'ready'));
+  document.querySelectorAll('.publish').forEach(btn=>btn.onclick=()=>setStatus(btn.closest('.post').dataset.id,'published'));
+}
+
+document.getElementById('generate').onclick = () => {
+  const platform = document.getElementById('platform').value;
+  const tone = document.getElementById('tone').value;
+  const objective = document.getElementById('objective').value;
+  const count = Math.max(1, Math.min(20, Number(document.getElementById('count').value || 5)));
+  currentDrafts = Array.from({length:count}, (_,i)=>createPost(platform,tone,objective,i));
+  renderDrafts();
+};
+document.getElementById('save').onclick = () => {
+  if(!currentDrafts.length) return alert('Once icerik uret');
+  const posts = loadPosts();
+  savePosts([...currentDrafts, ...posts].slice(0,700));
+  renderSaved();
+};
+document.getElementById('exportTxt').onclick = () => {
+  if(!currentDrafts.length) return alert('Once icerik uret');
+  downloadFile('taslaklar.txt', currentDrafts.map((p,i)=>'--- Taslak '+(i+1)+' ---\n'+postPackageText(p)).join('\n\n'), 'text/plain;charset=utf-8');
+};
+document.getElementById('exportJson').onclick = () => {
+  if(!currentDrafts.length) return alert('Once icerik uret');
+  downloadFile('taslaklar.json', JSON.stringify(currentDrafts, null, 2), 'application/json;charset=utf-8');
+};
+
+document.getElementById('waAdd').onclick = () => {
+  const name = document.getElementById('waName').value.trim();
+  const phone = normalizePhone(document.getElementById('waPhone').value);
+  if(!phone || phone.length < 10) return alert('Telefon gecersiz');
+  const list = loadContacts();
+  if(!list.some(c => c.phone === phone)) list.unshift({ name, phone, createdAt: nowIso() });
+  saveContacts(list.slice(0, 300));
+  document.getElementById('waName').value = '';
+  document.getElementById('waPhone').value = '';
+  renderContacts();
+};
+
+document.getElementById('waMsgFromDraft').onclick = () => {
+  const first = currentDrafts[0] || loadPosts()[0];
+  const msg = generateWaMessageFromPost(first);
+  document.getElementById('waMessage').value = msg;
+};
+
+document.getElementById('waStatusGen').onclick = () => {
+  waStatusText = generateStatusText();
+  document.getElementById('waMessage').value = waStatusText;
+};
+
+document.getElementById('waCopyStatus').onclick = () => {
+  if(!waStatusText) waStatusText = generateStatusText();
+  copyText(waStatusText);
+};
+
+document.getElementById('waOpenAll').onclick = async () => {
+  const list = loadContacts();
+  if(!list.length) return alert('Musteri listesi bos');
+  const msg = document.getElementById('waMessage').value || 'Merhaba';
+  const cfg = getWaConfig();
+  if (cfg.mode === 'meta_api') {
+    let success = 0;
+    let fail = 0;
+    for (const c of list.slice(0, 50)) {
+      try {
+        await sendViaMetaApi(c.phone, msg);
+        success += 1;
+      } catch (error) {
+        fail += 1;
+      }
+    }
+    alert('Meta API gonderim tamamlandi. Basarili: ' + success + ' / Hatali: ' + fail);
+    return;
+  }
+  list.slice(0, 20).forEach((c, i) => {
+    setTimeout(() => window.open('https://wa.me/' + c.phone + '?text=' + encodeURIComponent(msg), '_blank'), i * 350);
+  });
+};
+
+document.getElementById('waTestApi').onclick = async () => {
+  const cfg = getWaConfig();
+  if(!cfg.apiBase) return alert('Gateway URL girin');
+  try {
+    const res = await fetch(cfg.apiBase + '/health');
+    const data = await res.json();
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    if (data.ok) alert('Gateway OK');
+    else alert('Gateway acik ama Meta ayarlari eksik: ' + (data.missing || '-'));
+  } catch (error) {
+    alert('Gateway erisim hatasi: ' + (error.message || error));
+  }
+};
+
+function hydrateWaSettings(){
+  const s = loadWaSettings();
+  if(s.mode) document.getElementById('waMode').value = s.mode;
+  if(s.apiBase) document.getElementById('waApiBase').value = s.apiBase;
+  if(s.apiKey) document.getElementById('waApiKey').value = s.apiKey;
+}
+
+function persistWaSettings(){
+  saveWaSettings(getWaConfig());
+}
+
+['waMode','waApiBase','waApiKey'].forEach((id) => {
+  document.getElementById(id).addEventListener('change', persistWaSettings);
+  document.getElementById(id).addEventListener('blur', persistWaSettings);
+});
+
+hydrateWaSettings();
+renderSaved();
+renderContacts();
+</script>
+</body>
+</html>

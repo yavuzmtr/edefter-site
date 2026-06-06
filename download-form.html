@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="E-Defter Klasor Otomasyonu demo indirme talep formu">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://edefterotomasyon.com.tr/download-form.html">
+    <title>Demo Talep Formu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .download-form-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 560px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .form-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #1a202c;
+        }
+        .form-card p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="download-form-container">
+        <div class="form-card">
+            <h1>Demo Talep Formu</h1>
+            <p>Formu doldurun, demo indirme linki mail olarak gönderilecektir.</p>
+            <form action="https://demo-mailer.edefterotomasyon.workers.dev" method="POST">
+                <input type="hidden" name="source" value="Website Demo Form">
+                <input type="hidden" name="utm_source" id="utm_source">
+                <input type="hidden" name="utm_medium" id="utm_medium">
+                <input type="hidden" name="utm_campaign" id="utm_campaign">
+                <input type="hidden" name="utm_content" id="utm_content">
+                <input type="hidden" name="utm_term" id="utm_term">
+                <input type="hidden" name="referrer" id="referrer">
+                <input type="hidden" name="page_url" id="page_url">
+
+                <div class="form-group">
+                    <label for="company">Musteri/Firma</label>
+                    <input id="company" name="company" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input id="email" name="email" type="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon numarasi</label>
+                    <input id="phone" name="phone" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notlar</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="cta-btn">Talebi Gonder</button>
+            </form>
+            <div class="note">Form gonderildiginde demo linki e-posta ile iletilecektir.</div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var fields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+            fields.forEach(function (key) {
+                var el = document.getElementById(key);
+                if (el) {
+                    el.value = params.get(key) || '';
+                }
+            });
+            var ref = document.getElementById('referrer');
+            if (ref) {
+                ref.value = document.referrer || '';
+            }
+            var page = document.getElementById('page_url');
+            if (page) {
+                page.value = window.location.href;
+            }
+        })();
+    </script>
+</body>
+</html>
