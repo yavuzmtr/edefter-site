@@ -22,11 +22,14 @@
 <link rel="canonical" href="https://edefterotomasyon.com.tr/">
 <title>E-Defter Klasör Otomasyonu — Mali Müşavir Ofisleri İçin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;overflow-x:hidden;background:#f7f4ef;cursor:none}
+section,footer{content-visibility:auto;contain-intrinsic-size:900px}
+section.hero{content-visibility:visible;contain-intrinsic-size:auto}
 
 :root{
   --ink:#0e1a12;
@@ -654,12 +657,47 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
   .feat-intro{flex-direction:column;align-items:flex-start}
   .feat-note{text-align:left}
   .feat-grid,.ss-grid,.how-steps,.plan-grid,.docs-grid,.vid-side-grid{grid-template-columns:1fr}
+  .fd-row{grid-template-columns:1fr;gap:2rem;padding:3rem 0}
+  .fd-row.flip{direction:ltr}
+  .fd-vis{padding:1.35rem}
+  .fv-email{padding:1rem}
+  .fv-email-head{font-size:.7rem;line-height:1.6}
+  .fv-email-body{font-size:.9rem;line-height:1.75;overflow-wrap:anywhere;word-break:normal}
   .fc.wide{grid-column:span 1}
   .contact-grid{grid-template-columns:1fr;gap:3rem}
   .cform-row{grid-template-columns:1fr}
   .ft-top{grid-template-columns:1fr 1fr;gap:2rem;padding:0 1.5rem 3rem}
   .ft-bot{padding:1.5rem 1.5rem 0;flex-direction:column;text-align:center}
   #cookie{padding:1.1rem 1.5rem;flex-direction:column;align-items:flex-start}
+}
+@media(max-width:768px){
+  body{cursor:auto}
+  #nav{gap:.75rem;padding:0 1rem}
+  .n-logo{gap:.75rem;min-width:0}
+  .n-logo-mark{width:36px;height:36px;border-radius:12px}
+  .n-logo-text{font-size:.84rem;line-height:1.15}
+  .n-live{padding:.28rem .7rem;font-size:.56rem}
+  .n-cta{padding:.72rem .9rem;font-size:.76rem;line-height:1.15;border-radius:14px;max-width:110px;justify-content:center;text-align:center;white-space:normal}
+  .hero-grain,.hero-grid-bg,.hero-gl{display:none}
+  .sec{padding:4rem 0}
+  .h-stats{grid-template-columns:1fr;padding:1.5rem 1rem}
+  .h-sitem{padding:0 0 1rem;border-right:none;border-bottom:1px solid rgba(247,244,239,.07)}
+  .h-sitem:last-child{border-bottom:none;padding-bottom:0}
+  .ps-grid{grid-template-columns:1fr}
+  .fd-big-title{font-size:clamp(2rem,10vw,2.8rem)}
+  .ck-btns{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .ck-btn{width:100%}
+  #cookie{gap:1rem}
+  #aiW{right:1rem;bottom:1rem}
+  .ai-panel{width:min(340px,calc(100vw - 2rem))}
+  #dot,#ring{display:none!important}
+}
+@media (pointer:coarse), (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  body{cursor:auto}
+  #dot,#ring{display:none!important}
+  .hero-grain,.hero-gl,.hero-grid-bg{display:none}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
@@ -1611,13 +1649,20 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
 // ── CURSOR ──
 const dot=document.getElementById('dot'),ring=document.getElementById('ring');
 const backToTopButton=document.getElementById('btt');
-let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
-(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
-document.querySelectorAll('a,button,.fc,.ss-card,.vid-scard,.plan,.doc-card,.how-step').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('big'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('big'));
-});
+const useFancyCursor=window.matchMedia('(pointer:fine)').matches&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(useFancyCursor&&dot&&ring){
+  let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'},{passive:true});
+  (function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+  document.querySelectorAll('a,button,.fc,.ss-card,.vid-scard,.plan,.doc-card,.how-step').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('big'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('big'));
+  });
+}else{
+  document.body.style.cursor='auto';
+  dot?.remove();
+  ring?.remove();
+}
 backToTopButton?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
 // ── NAV SCROLL ──
@@ -1625,7 +1670,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20);
   backToTopButton?.classList.toggle('show',window.scrollY>500);
   doReveal();
-});
+},{passive:true});
 
 // ── MOBILE MENU ──
 function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
