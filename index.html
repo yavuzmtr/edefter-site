@@ -1530,11 +1530,7 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
         </div>
       </div>
 
-      <form class="cform rvx" id="contactForm" action="https://formsubmit.co/info@edefterotomasyon.com.tr" method="POST" accept-charset="UTF-8">
-  <input type="hidden" name="_subject" value="Yeni İletişim Mesajı - E-Defter Otomasyon">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_next" value="https://edefterotomasyon.com.tr/index.html#contact">
+      <form class="cform rvx" id="contactForm" action="#" method="POST" accept-charset="UTF-8">
   <input type="text" name="_honey" style="display:none">
   <div class="cform-row">
     <div><label class="cf-lbl">Adınız Soyadınız</label><input class="cf-inp" type="text" name="Ad_Soyad" placeholder="Ahmet Kaya" required></div>
@@ -1803,6 +1799,31 @@ function closeCookie(){
   c.style.transition='transform .4s ease';
   c.style.transform='translateY(100%)';
   setTimeout(()=>c.remove(),400);
+}
+
+const contactForm=document.getElementById('contactForm');
+if(contactForm){
+  contactForm.addEventListener('submit',function(event){
+    event.preventDefault();
+    const submitBtn=contactForm.querySelector('button[type="submit"]');
+    if(submitBtn){
+      submitBtn.disabled=true;
+      submitBtn.textContent='Taslak Açılıyor...';
+    }
+    const bodyLines=[
+      'Yeni iletisim mesaji',
+      '',
+      'Ad Soyad: '+(contactForm.querySelector('[name="Ad_Soyad"]').value||''),
+      'Sirket/Buro: '+(contactForm.querySelector('[name="Sirket_Buro"]').value||''),
+      'E-posta: '+(contactForm.querySelector('[name="Email"]').value||''),
+      'Telefon: '+(contactForm.querySelector('[name="Telefon"]').value||''),
+      'Musteri Sayisi: '+(contactForm.querySelector('[name="Musteri_Sayisi"]').value||''),
+      'Mesaj: '+(contactForm.querySelector('[name="Mesaj"]').value||'')
+    ];
+    const subject='Yeni Iletisim Mesaji - E-Defter Otomasyon';
+    window.location.href='mailto:info@edefterotomasyon.com.tr?cc=satis@edefterotomasyon.com.tr&subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(bodyLines.join('\n'));
+    setTimeout(()=>{window.location.hash='contact';},400);
+  });
 }
 </script>
 </body>

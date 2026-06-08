@@ -36,6 +36,17 @@
       font-size: 0.9rem;
       line-height: 1.5;
     }
+    .manual-note {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -66,6 +77,9 @@
       <div id="statusNote" class="status-note">
         Bilgilendirme e-postasi bu denemede gonderilememis olabilir. Lutfen dekontu ve cihaz kimligini <strong>satis@edefterotomasyon.com.tr</strong> adresine iletin.
       </div>
+      <div id="manualNote" class="manual-note">
+        E-posta uygulamaniz acildiysa sadece gonder tusuna basin. Acilmadiysa ayni bilgileri <strong>satis@edefterotomasyon.com.tr</strong> adresine manuel yollayabilirsiniz.
+      </div>
     </div>
   </div>
   <script>
@@ -86,6 +100,12 @@
         var note = document.getElementById('statusNote');
         if (note) {
           note.style.display = 'block';
+        }
+      }
+      if (params.get('manual_mail') === '1') {
+        var manualNote = document.getElementById('manualNote');
+        if (manualNote) {
+          manualNote.style.display = 'block';
         }
       }
     })();
