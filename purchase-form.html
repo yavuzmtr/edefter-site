@@ -97,7 +97,7 @@
     <div class="download-form-container">
         <div class="form-card">
             <h1>Satin Alma Talebi</h1>
-            <p>Formu doldurun; e-posta taslagi otomatik acilir ve odeme bilgileri hemen sonraki sayfada gosterilir.</p>
+            <p>Formu doldurun; odeme bilgileri ve sonraki adimlar otomatik mail ile iletilir.</p>
             <div class="helper-card">
                 <h2>Cihaz Kimligini en kolay nasil alirsiniz?</h2>
                 <ol class="helper-steps">
@@ -113,7 +113,7 @@
                     Full kurulum dosyasini lisans olmadan da acabilirsiniz. Program lisans ekraninda cihaz kimligini gosterir; odeme onayindan sonra size lisans dosyasi gonderilir.
                 </div>
             </div>
-            <form id="purchaseForm" action="#" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+            <form id="purchaseForm" action="https://purchase-mailer.edefterotomasyon.workers.dev/submit" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
                 <input type="hidden" name="source" value="purchase-form">
                 <input type="hidden" name="app" id="app_source">
 
@@ -150,7 +150,7 @@
 
                 <button type="submit" class="cta-btn">Talebi Gonder</button>
             </form>
-            <div class="note">Form gonderildiginde e-posta taslagi acilir; ardindan odeme bilgileri ekranda gosterilir.</div>
+            <div class="note">Form gonderildiginde odeme bilgileri e-posta ile iletilir.</div>
         </div>
     </div>
     <script>
@@ -174,35 +174,12 @@
             if (appSource) {
                 appSource.value = params.get('app') || '';
             }
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
+            form.addEventListener('submit', function () {
                 var btn = form.querySelector('button[type="submit"]');
                 if (btn) {
                     btn.disabled = true;
-                    btn.textContent = 'Taslak Aciliyor...';
+                    btn.textContent = 'Gonderiliyor...';
                 }
-                var source = form.querySelector('input[name="source"]');
-                var appSource = document.getElementById('app_source');
-                var receipt = document.getElementById('receipt');
-                var receiptName = receipt && receipt.files && receipt.files[0] ? receipt.files[0].name : '';
-                var bodyLines = [
-                    'Yeni satin alma talebi',
-                    '',
-                    'Musteri/Firma: ' + (document.getElementById('company').value || ''),
-                    'E-posta: ' + (document.getElementById('email').value || ''),
-                    'Telefon: ' + (document.getElementById('phone').value || ''),
-                    'Cihaz Kimligi: ' + (document.getElementById('device').value || ''),
-                    'Notlar: ' + (document.getElementById('notes').value || ''),
-                    'Kaynak: ' + ((source && source.value) || 'purchase-form'),
-                    'Uygulama: ' + ((appSource && appSource.value) || '')
-                ];
-                if (receiptName) {
-                    bodyLines.push('Dekont Dosyasi: ' + receiptName + ' (lutfen mailinize manuel ekleyin)');
-                }
-                window.location.href = 'mailto:satis@edefterotomasyon.com.tr?cc=info@edefterotomasyon.com.tr&subject=' + encodeURIComponent('E-Defter Otomasyon | Yeni Satin Alma Talebi') + '&body=' + encodeURIComponent(bodyLines.join('\n'));
-                setTimeout(function () {
-                    window.location.href = 'https://edefterotomasyon.com.tr/purchase-thanks.html?submitted=1&manual_mail=1';
-                }, 400);
             });
         })();
     </script>

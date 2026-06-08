@@ -56,8 +56,8 @@
     <div class="download-form-container">
         <div class="form-card">
             <h1>Demo Talep Formu</h1>
-            <p>Formu doldurun; e-posta taslagi otomatik acilir ve demo indirme linki hemen sonraki sayfada gosterilir.</p>
-            <form id="demoForm" action="#" method="POST" accept-charset="UTF-8">
+            <p>Formu doldurun; demo indirme linki mail olarak gonderilir.</p>
+            <form id="demoForm" action="https://demo-mailer.edefterotomasyon.workers.dev" method="POST" accept-charset="UTF-8">
                 <input type="hidden" name="source" value="Website Demo Form">
                 <input type="hidden" name="utm_source" id="utm_source">
                 <input type="hidden" name="utm_medium" id="utm_medium">
@@ -86,7 +86,7 @@
 
                 <button type="submit" class="cta-btn">Talebi Gonder</button>
             </form>
-            <div class="note">Form gonderildiginde e-posta taslagi acilir; demo linki hemen ekranda acilir. Sorulariniz icin <strong>satis@edefterotomasyon.com.tr</strong>.</div>
+            <div class="note">Form gonderildiginde demo linki e-posta ile iletilir. Sorulariniz icin <strong>satis@edefterotomasyon.com.tr</strong>.</div>
         </div>
     </div>
     <script>
@@ -109,33 +109,12 @@
                 page.value = window.location.href;
             }
             if (form) {
-                form.addEventListener('submit', function (event) {
-                    event.preventDefault();
+                form.addEventListener('submit', function () {
                     var btn = form.querySelector('button[type="submit"]');
                     if (btn) {
                         btn.disabled = true;
-                        btn.textContent = 'Taslak Aciliyor...';
+                        btn.textContent = 'Gonderiliyor...';
                     }
-                    var bodyLines = [
-                        'Yeni demo talebi',
-                        '',
-                        'Musteri/Firma: ' + (document.getElementById('company').value || ''),
-                        'E-posta: ' + (document.getElementById('email').value || ''),
-                        'Telefon: ' + (document.getElementById('phone').value || ''),
-                        'Notlar: ' + (document.getElementById('notes').value || ''),
-                        'Kaynak: Website Demo Form',
-                        'UTM Source: ' + (document.getElementById('utm_source').value || ''),
-                        'UTM Medium: ' + (document.getElementById('utm_medium').value || ''),
-                        'UTM Campaign: ' + (document.getElementById('utm_campaign').value || ''),
-                        'UTM Content: ' + (document.getElementById('utm_content').value || ''),
-                        'UTM Term: ' + (document.getElementById('utm_term').value || ''),
-                        'Referrer: ' + (document.getElementById('referrer').value || ''),
-                        'Sayfa: ' + (document.getElementById('page_url').value || '')
-                    ];
-                    window.location.href = 'mailto:satis@edefterotomasyon.com.tr?cc=info@edefterotomasyon.com.tr&subject=' + encodeURIComponent('E-Defter Otomasyon | Yeni Demo Talebi') + '&body=' + encodeURIComponent(bodyLines.join('\n'));
-                    setTimeout(function () {
-                        window.location.href = 'https://edefterotomasyon.com.tr/download-thanks.html?submitted=1&manual_mail=1';
-                    }, 400);
                 });
             }
         })();
