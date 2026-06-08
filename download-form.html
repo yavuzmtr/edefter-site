@@ -56,8 +56,12 @@
     <div class="download-form-container">
         <div class="form-card">
             <h1>Demo Talep Formu</h1>
-            <p>Formu doldurun, demo indirme linki mail olarak gönderilecektir.</p>
-            <form action="https://demo-mailer.edefterotomasyon.workers.dev" method="POST">
+            <p>Formu doldurun; demo indirme linki hemen sonraki sayfada gosterilir, talebiniz de bize iletilir.</p>
+            <form action="https://formsubmit.co/info@edefterotomasyon.com.tr" method="POST" accept-charset="UTF-8">
+                <input type="hidden" name="_subject" value="E-Defter Otomasyon | Yeni Demo Talebi">
+                <input type="hidden" name="_next" value="https://edefterotomasyon.com.tr/download-thanks.html?submitted=1">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="source" value="Website Demo Form">
                 <input type="hidden" name="utm_source" id="utm_source">
                 <input type="hidden" name="utm_medium" id="utm_medium">
@@ -86,7 +90,7 @@
 
                 <button type="submit" class="cta-btn">Talebi Gonder</button>
             </form>
-            <div class="note">Form gonderildiginde demo linki e-posta ile iletilecektir. Sorulariniz icin <strong>satis@edefterotomasyon.com.tr</strong>.</div>
+            <div class="note">Form gonderildiginde demo linki hemen ekranda acilir. Sorulariniz icin <strong>satis@edefterotomasyon.com.tr</strong>.</div>
         </div>
     </div>
     <script>

@@ -97,7 +97,7 @@
     <div class="download-form-container">
         <div class="form-card">
             <h1>Satin Alma Talebi</h1>
-            <p>Formu doldurun, odeme bilgileri ve sonraki adimlar mail olarak gonderilecektir.</p>
+            <p>Formu doldurun; odeme bilgileri ve sonraki adimlar hemen sonraki sayfada gosterilir, talep kaydiniz da bize iletilir.</p>
             <div class="helper-card">
                 <h2>Cihaz Kimligini en kolay nasil alirsiniz?</h2>
                 <ol class="helper-steps">
@@ -113,7 +113,11 @@
                     Full kurulum dosyasini lisans olmadan da acabilirsiniz. Program lisans ekraninda cihaz kimligini gosterir; odeme onayindan sonra size lisans dosyasi gonderilir.
                 </div>
             </div>
-            <form id="purchaseForm" action="https://purchase-mailer.yavuzmercimek.workers.dev/submit" method="POST" enctype="multipart/form-data">
+            <form id="purchaseForm" action="https://formsubmit.co/info@edefterotomasyon.com.tr" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+                <input type="hidden" name="_subject" value="E-Defter Otomasyon | Yeni Satin Alma Talebi">
+                <input type="hidden" name="_next" value="https://edefterotomasyon.com.tr/purchase-thanks.html?submitted=1">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="source" value="purchase-form">
                 <input type="hidden" name="app" id="app_source">
 
@@ -150,7 +154,7 @@
 
                 <button type="submit" class="cta-btn">Talebi Gonder</button>
             </form>
-            <div class="note">Form gonderildiginde odeme bilgileri e-posta ile iletilecektir.</div>
+            <div class="note">Form gonderildiginde odeme bilgileri hemen ekranda gosterilir.</div>
         </div>
     </div>
     <script>

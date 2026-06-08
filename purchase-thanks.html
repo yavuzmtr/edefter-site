@@ -25,6 +25,17 @@
     }
     .card h1 { color: #0f172a; margin-bottom: 0.5rem; }
     .card p { color: #64748b; line-height: 1.6; }
+    .status-note {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: #fff7ed;
+      color: #9a3412;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -49,6 +60,12 @@
       <p style="margin-top:0.75rem; font-size:0.9rem; color:#64748b;">
         Odeme onayindan sonra lisans dosyaniz e-posta ile gonderilecektir.
       </p>
+      <p style="margin-top:0.75rem; font-size:0.85rem; color:#64748b;">
+        Bilgilendirme e-postasi gec gelse bile bu sayfadaki odeme ve indirme bilgileri gecerlidir.
+      </p>
+      <div id="statusNote" class="status-note">
+        Bilgilendirme e-postasi bu denemede gonderilememis olabilir. Lutfen dekontu ve cihaz kimligini <strong>satis@edefterotomasyon.com.tr</strong> adresine iletin.
+      </div>
     </div>
   </div>
   <script>
@@ -64,6 +81,13 @@
           setTimeout(function () { btn.textContent = 'Kopyala'; }, 1500);
         });
       });
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('fallback') === '1') {
+        var note = document.getElementById('statusNote');
+        if (note) {
+          note.style.display = 'block';
+        }
+      }
     })();
   </script>
 </body>

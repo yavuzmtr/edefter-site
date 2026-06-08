@@ -25,17 +25,47 @@
     }
     .card h1 { color: #1a202c; margin-bottom: 0.5rem; }
     .card p { color: #64748b; line-height: 1.6; }
+    .status-note {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: #fef3c7;
+      color: #92400e;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
   <div class="thanks">
     <div class="card">
       <h1>Talebiniz Alindi</h1>
-      <p>Demo indirme linki e-posta adresinize gonderildi.</p>
-      <p style="margin-top:1rem;font-size:0.9rem;color:#64748b;">
-        Lutfen gelen kutusu ve spam klasorunu kontrol edin.
+      <p>Demo talebiniz alindi. Beklemeden demo kurulumunu asagidaki butondan indirebilirsiniz.</p>
+      <p style="margin-top:1rem;">
+        <a href="https://github.com/yavuzmtr/edefter-site/releases/download/v1.0.1-demo-public/E-Defter.Otomasyon.DEMO.Setup.1.0.1.exe" target="_blank" rel="noopener" style="display:inline-block; padding:12px 18px; border-radius:10px; background:#6d28d9; color:#fff; text-decoration:none; font-weight:700;">Demo Kurulumunu Indir</a>
       </p>
+      <p style="margin-top:1rem;font-size:0.9rem;color:#64748b;">
+        Kurulum videosu: <a href="https://www.youtube.com/watch?v=sGD8BrVTwI8" target="_blank" rel="noopener">izlemek icin tiklayin</a><br>
+        Cihaz kimligi videosu: <a href="https://www.youtube.com/watch?v=Bcc4_BaMpOc" target="_blank" rel="noopener">izlemek icin tiklayin</a><br><br>
+        E-posta size ulasmasa bile bu sayfadaki demo linki calisir. Sorulariniz icin <strong>satis@edefterotomasyon.com.tr</strong>.
+      </p>
+      <div id="statusNote" class="status-note">
+        Otomatik e-posta bu denemede gonderilememis olabilir. Demo kurulumunu bu sayfadaki butondan indirebilirsiniz.
+      </div>
     </div>
   </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('fallback') === '1') {
+        var note = document.getElementById('statusNote');
+        if (note) {
+          note.style.display = 'block';
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
