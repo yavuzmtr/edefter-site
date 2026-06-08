@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Yardım Rehberi | E-Defter Otomasyon</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #dbe4f0;
+      --brand: #1d4ed8;
+      --brand-dark: #0f172a;
+      --warn-bg: #fff8e8;
+      --warn-border: #f4d38a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eff5ff 0%, var(--bg) 100%);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+    .hero, .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.15;
+    }
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .warn {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 22px 0;
+    }
+    .nav a, .btn {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+    .nav a {
+      background: #fff;
+      color: var(--brand-dark);
+      border: 1px solid var(--border);
+    }
+    .nav a:hover, .btn:hover { transform: translateY(-1px); }
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+    .card {
+      padding: 24px;
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .mini {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .mini-box {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #f8fbff;
+    }
+    .mini-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--brand-dark);
+    }
+    ol {
+      padding-left: 20px;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn.primary {
+      background: var(--brand);
+      color: #fff;
+    }
+    .btn.secondary {
+      background: #eef4ff;
+      color: var(--brand);
+      border: 1px solid #cdddff;
+    }
+    .foot {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .card h2 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>SMTP Yardım Rehberi</h1>
+      <p>E-Defter Otomasyon içindeki SMTP ayarlarını yaparken normal e-posta şifreniz yerine çoğu zaman <strong>Uygulama Şifresi</strong> kullanmanız gerekir.</p>
+      <div class="warn">
+        <strong>Önemli not:</strong> Gmail ve Hotmail / Outlook hesaplarında normal giriş şifresi SMTP bağlantısında hata verebilir. Önce iki adımlı doğrulamayı açıp ardından uygulama şifresi oluşturmanız önerilir.
+      </div>
+      <div class="nav">
+        <a href="#gmail">Gmail Ayarları</a>
+        <a href="#outlook">Hotmail / Outlook Ayarları</a>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section id="gmail" class="card">
+        <h2>Gmail ile SMTP Kurulumu</h2>
+        <p>Gmail hesabınızı uygulamada kullanırken normal şifreniz yerine Google hesabınızdan oluşturduğunuz <strong>Uygulama Şifresi</strong> kullanılmalıdır.</p>
+
+        <div class="mini">
+          <div class="mini-box">
+            <strong>SMTP Sunucu</strong>
+            <span>`smtp.gmail.com`</span>
+          </div>
+          <div class="mini-box">
+            <strong>Port</strong>
+            <span>`587`</span>
+          </div>
+          <div class="mini-box">
+            <strong>Kullanıcı Adı</strong>
+            <span>Tam Gmail adresiniz</span>
+          </div>
+          <div class="mini-box">
+            <strong>Şifre</strong>
+            <span>Google Uygulama Şifresi</span>
+          </div>
+        </div>
+
+        <ol>
+          <li>Google hesabınızda <strong>2 Adımlı Doğrulama</strong> özelliğini açın.</li>
+          <li>Google güvenlik sayfasından <strong>Uygulama Şifresi</strong> oluşturun.</li>
+          <li>Oluşan 16 haneli şifreyi uygulamadaki <strong>Şifre</strong> alanına yapıştırın.</li>
+          <li>SMTP bilgilerini kaydedip <strong>Test Et</strong> ile bağlantıyı doğrulayın.</li>
+        </ol>
+
+        <div class="links">
+          <a class="btn primary" href="https://support.google.com/mail/answer/185833?hl=en" target="_blank" rel="noopener noreferrer">Google Uygulama Şifresi Rehberi</a>
+          <a class="btn secondary" href="https://support.google.com/accounts/answer/185833?hl=en" target="_blank" rel="noopener noreferrer">Google Güvenlik Sayfası</a>
+        </div>
+      </section>
+
+      <section id="outlook" class="card">
+        <h2>Hotmail / Outlook / Microsoft ile SMTP Kurulumu</h2>
+        <p>Hotmail veya Outlook hesabında SMTP bağlantısı için normal hesap şifreniz her zaman çalışmayabilir. Önce <strong>iki adımlı doğrulamayı</strong> açın, ardından <strong>uygulama parolası</strong> oluşturup uygulamada onu kullanın.</p>
+
+        <div class="mini">
+          <div class="mini-box">
+            <strong>SMTP Sunucu</strong>
+            <span>`smtp-mail.outlook.com`</span>
+          </div>
+          <div class="mini-box">
+            <strong>Port</strong>
+            <span>`587`</span>
+          </div>
+          <div class="mini-box">
+            <strong>Kullanıcı Adı</strong>
+            <span>Tam Hotmail / Outlook adresiniz</span>
+          </div>
+          <div class="mini-box">
+            <strong>Şifre</strong>
+            <span>Microsoft Uygulama Parolası</span>
+          </div>
+        </div>
+
+        <ol>
+          <li><strong>Microsoft Hesabım</strong> sayfasına giriş yapın.</li>
+          <li><strong>Güvenlik</strong> sekmesine geçin.</li>
+          <li><strong>Gelişmiş güvenlik seçenekleri</strong> bölümünü açın.</li>
+          <li><strong>İki aşamalı doğrulama</strong> bölümünü etkinleştirin ve doğrulamayı tamamlayın.</li>
+          <li><strong>Uygulama parolaları</strong> bölümünde <strong>Yeni uygulama parolası oluştur</strong> seçeneğini kullanın.</li>
+          <li>Oluşan uygulama parolasını uygulamadaki <strong>Şifre</strong> alanına yapıştırın.</li>
+        </ol>
+
+        <p><strong>Not:</strong> Microsoft Authenticator uygulamasını kurarsanız doğrulama işlemleri daha hızlı olur. Ayrıca kurtarma bilgilerinizi ve yedek kodlarınızı güvenli şekilde saklamanız önerilir.</p>
+
+        <div class="links">
+          <a class="btn primary" href="https://support.microsoft.com/tr-tr/accounts-billing/security/how-to-use-two-step-verification-with-your-microsoft-account" target="_blank" rel="noopener noreferrer">Microsoft 2 Adımlı Doğrulama</a>
+          <a class="btn secondary" href="https://support.microsoft.com/tr-tr/authenticator/about-microsoft-authenticator" target="_blank" rel="noopener noreferrer">Microsoft Authenticator</a>
+          <a class="btn secondary" href="https://support.microsoft.com/en-us/office/outlook-and-other-apps-are-unable-to-connect-to-outlook-com-when-using-basic-authentication-f4202ebf-89c6-4a8a-bec3-3d60cf7deaef" target="_blank" rel="noopener noreferrer">Microsoft SMTP Güvenlik Notu</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="foot">
+      Bu sayfa uygulamadaki SMTP kurulumuna yardımcı olmak için hazırlanmıştır. Ayarları kaydettikten sonra uygulama içindeki <strong>Test Et</strong> butonu ile bağlantıyı doğrulayın.
+    </div>
+  </div>
+</body>
+</html>
