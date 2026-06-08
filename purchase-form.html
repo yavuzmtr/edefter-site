@@ -50,6 +50,47 @@
             font-size: 0.9rem;
             color: #475569;
         }
+        .helper-card {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+            background: #f8fbff;
+            text-align: left;
+        }
+        .helper-card h2 {
+            margin: 0 0 0.75rem;
+            font-size: 1.05rem;
+            color: #0f172a;
+        }
+        .helper-steps {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: #334155;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .helper-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .secondary-btn {
+            display: inline-block;
+            padding: 0.9rem 1.1rem;
+            background: #0f172a;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .helper-mini {
+            margin-top: 0.9rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -57,12 +98,20 @@
         <div class="form-card">
             <h1>Satin Alma Talebi</h1>
             <p>Formu doldurun, odeme bilgileri ve sonraki adimlar mail olarak gonderilecektir.</p>
-            <div class="note" style="margin-bottom:1rem; text-align:left;">
-                <strong>Cihaz Kimligini nasil alirim?</strong><br>
-                1. Full kurulum dosyasini indirip kurun.<br>
-                2. Programi acin, lisans ekrani cihaz kimligini gosterir.<br>
-                3. Bu kodu asagidaki alana yazin (opsiyonel).<br>
-                Kisa video: <a href="https://www.youtube.com/watch?v=Bcc4_BaMpOc" target="_blank" rel="noopener">izlemek icin tiklayin</a>
+            <div class="helper-card">
+                <h2>Cihaz Kimligini en kolay nasil alirsiniz?</h2>
+                <ol class="helper-steps">
+                    <li>Asagidaki butondan <strong>full kurulum dosyasini</strong> indirin.</li>
+                    <li>Programi kurup acin; lisans ekrani <strong>cihaz kimligini</strong> gosterecektir.</li>
+                    <li>Cihaz kimligini bu forma yapistirin. Boylece lisansiniz daha hizli hazirlanir.</li>
+                </ol>
+                <div class="helper-actions">
+                    <a class="secondary-btn" href="https://github.com/yavuzmtr/edefter-otomasyon/releases/download/v1.0.1-full/E-Defter%20Otomasyon%20Setup%201.0.1.exe" target="_blank" rel="noopener">1. Full Kurulumu Indir</a>
+                    <a class="cta-btn" href="https://www.youtube.com/watch?v=Bcc4_BaMpOc" target="_blank" rel="noopener">Kisa Videoyu Izle</a>
+                </div>
+                <div class="helper-mini">
+                    Full kurulum dosyasini lisans olmadan da acabilirsiniz. Program lisans ekraninda cihaz kimligini gosterir; odeme onayindan sonra size lisans dosyasi gonderilir.
+                </div>
             </div>
             <form id="purchaseForm" action="https://purchase-mailer.edefterotomasyon.workers.dev/submit" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="source" value="purchase-form">
