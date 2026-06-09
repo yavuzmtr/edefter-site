@@ -143,11 +143,11 @@
       <h1>SMTP Yardım Rehberi</h1>
       <p>E-Defter Otomasyon içindeki SMTP ayarlarını yaparken normal e-posta şifreniz yerine çoğu zaman <strong>Uygulama Şifresi</strong> kullanmanız gerekir.</p>
       <div class="warn">
-        <strong>Önemli not:</strong> Gmail ve Hotmail / Outlook hesaplarında normal giriş şifresi SMTP bağlantısında hata verebilir. Önce iki adımlı doğrulamayı açıp ardından uygulama şifresi oluşturmanız önerilir.
+        <strong>Önemli not:</strong> Bu sürümde yalnızca Gmail SMTP desteklenmektedir. Hotmail / Outlook hesapları Microsoft tarafındaki SMTP AUTH kısıtları nedeniyle desteklenmez.
       </div>
       <div class="nav">
         <a href="#gmail">Gmail Ayarları</a>
-        <a href="#outlook">Hotmail / Outlook Ayarları</a>
+        <a href="#outlook">Hotmail / Outlook Durumu</a>
       </div>
     </section>
 
@@ -189,42 +189,23 @@
       </section>
 
       <section id="outlook" class="card">
-        <h2>Hotmail / Outlook / Microsoft ile SMTP Kurulumu</h2>
-        <p>Hotmail veya Outlook hesabında SMTP bağlantısı için normal hesap şifreniz her zaman çalışmayabilir. Önce <strong>iki adımlı doğrulamayı</strong> açın, ardından <strong>uygulama parolası</strong> oluşturup uygulamada onu kullanın.</p>
+        <h2>Hotmail / Outlook Durumu</h2>
+        <p>Hotmail / Outlook hesapları bu sürümde desteklenmemektedir. Uygulama, klasik SMTP AUTH ile çalışır; Microsoft ise bu akışı birçok posta kutusunda devre dışı bırakmaktadır.</p>
+        <p>Bu nedenle uygulama şifresi oluşturulsa bile bağlantı testi genellikle <strong>535 5.7.139</strong> hatası ile reddedilir.</p>
 
         <div class="mini">
           <div class="mini-box">
-            <strong>SMTP Sunucu</strong>
-            <span>`smtp-mail.outlook.com`</span>
+            <strong>Destek Durumu</strong>
+            <span>Şimdilik desteklenmiyor</span>
           </div>
           <div class="mini-box">
-            <strong>Port</strong>
-            <span>`587`</span>
-          </div>
-          <div class="mini-box">
-            <strong>Kullanıcı Adı</strong>
-            <span>Tam Hotmail / Outlook adresiniz</span>
-          </div>
-          <div class="mini-box">
-            <strong>Şifre</strong>
-            <span>Microsoft Uygulama Parolası</span>
+            <strong>Önerilen Çözüm</strong>
+            <span>Gmail SMTP kullanın</span>
           </div>
         </div>
 
-        <ol>
-          <li><strong>Microsoft Hesabım</strong> sayfasına giriş yapın.</li>
-          <li><strong>Güvenlik</strong> sekmesine geçin.</li>
-          <li><strong>Gelişmiş güvenlik seçenekleri</strong> bölümünü açın.</li>
-          <li><strong>İki aşamalı doğrulama</strong> bölümünü etkinleştirin ve doğrulamayı tamamlayın.</li>
-          <li><strong>Uygulama parolaları</strong> bölümünde <strong>Yeni uygulama parolası oluştur</strong> seçeneğini kullanın.</li>
-          <li>Oluşan uygulama parolasını uygulamadaki <strong>Şifre</strong> alanına yapıştırın.</li>
-        </ol>
-
-        <p><strong>Not:</strong> Microsoft Authenticator uygulamasını kurarsanız doğrulama işlemleri daha hızlı olur. Ayrıca kurtarma bilgilerinizi ve yedek kodlarınızı güvenli şekilde saklamanız önerilir.</p>
-
         <div class="links">
-          <a class="btn primary" href="https://support.microsoft.com/tr-tr/accounts-billing/security/how-to-use-two-step-verification-with-your-microsoft-account" target="_blank" rel="noopener noreferrer">Microsoft 2 Adımlı Doğrulama</a>
-          <a class="btn secondary" href="https://support.microsoft.com/tr-tr/authenticator/about-microsoft-authenticator" target="_blank" rel="noopener noreferrer">Microsoft Authenticator</a>
+          <a class="btn primary" href="#gmail">Gmail kurulumuna dön</a>
           <a class="btn secondary" href="https://support.microsoft.com/en-us/office/outlook-and-other-apps-are-unable-to-connect-to-outlook-com-when-using-basic-authentication-f4202ebf-89c6-4a8a-bec3-3d60cf7deaef" target="_blank" rel="noopener noreferrer">Microsoft SMTP Güvenlik Notu</a>
         </div>
       </section>
