@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Cyan to Blue gradient for the top and upper left -->
+    <linearGradient id="cyan-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C9FF" />
+      <stop offset="100%" stop-color="#008BE5" />
+    </linearGradient>
+    <!-- Vivid Blue gradient for the bottom and right -->
+    <linearGradient id="blue-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A56FF" />
+      <stop offset="100%" stop-color="#008BE5" />
+    </linearGradient>
+    <!-- Dark Blue gradient for the left inner fold -->
+    <linearGradient id="dark-blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0057B8" />
+      <stop offset="100%" stop-color="#002D80" />
+    </linearGradient>
+    <!-- Drop shadow for 3D overlay effect -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <g transform="translate(0, 0)">
+    <!-- Base Hexagonal Path: Bottom & Right fold -->
+    <path d="M 50,5 L 89,27.5 L 89,72.5 L 50,95 L 25,80.5 L 35,63.2 L 50,72 L 72,59.3 L 72,37.3 L 50,24.6 L 33,34.4 L 23,17.1 Z" 
+          fill="url(#blue-gradient)" />
+          
+    <!-- Inner fold that forms the 'e' center-bar (Right to Center-Left) -->
+    <path d="M 50,24.6 L 72,37.3 L 50,50 L 28,37.3 Z" 
+          fill="url(#dark-blue-gradient)" 
+          filter="url(#shadow)" />
+
+    <!-- Top & Left fold (overlapping for 3D ribbon look) -->
+    <path d="M 50,5 L 11,27.5 L 11,72.5 L 25,80.5 L 25,63.2 L 23,62 L 23,34.4 L 50,18.8 L 68,29.2 L 78,11.9 Z" 
+          fill="url(#cyan-gradient)" 
+          filter="url(#shadow)" />
+          
+    <!-- Connecting central bar to complete the 'e' -->
+    <path d="M 23,34.4 L 50,50 L 50,33 Z" 
+          fill="url(#cyan-gradient)" />
+  </g>
+</svg>
