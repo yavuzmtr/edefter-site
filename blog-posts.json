@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "e-defter-ikincil-kopya-saklama-zorunlulugu",
+    "title": "E-Defter İkincil Kopya Saklama Zorunluluğu Nedir?",
+    "category": "Mevzuat",
+    "date": "2026-07-07",
+    "author": "Yavuz Mercimek",
+    "readTime": "5 dk",
+    "summary": "Gelir İdaresi Başkanlığı'nın (GİB) e-defter ikincil kopya saklama zorunluluğu mevzuatı, cezai yaptırımları ve dikkat edilmesi gereken önemli detaylar.",
+    "content": "<p>Gelir İdaresi Başkanlığı (GİB) tarafından yayımlanan tebliğler doğrultusunda, e-defter tutan mükelleflerin defter ve berat dosyalarının ikincil kopyalarını GİB bilgi işlem sistemlerinde saklama zorunluluğu bulunmaktadır. Bu uygulama, mükelleflerin e-defter dosyalarının güvenliğini artırmayı ve olası veri kayıplarının önüne geçmeyi amaçlamaktadır.</p><h3>1. Saklama Zorunluluğu Kimleri Kapsıyor?</h3><p>E-defter uygulamasını kullanan tüm mükellefler (gelir vergisi mükellefleri dahil) bu zorunluluğun kapsamındadır. Mükellefler, defterlerin oluşturulduğu ayı takip eden ayın sonuna kadar ilgili berat ve defter dosyalarını GİB sistemine yüklemekle yükümlüdür.</p><h3>2. Hangi Dosyalar Saklanmak Zorunda?</h3><p>Sadece yevmiye veya kebir beratı değil, aşağıdaki tüm e-defter paketi dosyaları ikincil saklama kapsamındadır:</p><ul><li>Yevmiye Defteri (yevmiye.xml)</li><li>Yevmiye Defteri Beratı (yevmiye-berat.xml)</li><li>Defter-i Kebir (kebir.xml)</li><li>Defter-i Kebir Beratı (kebir-berat.xml)</li><li>GİB Onaylı Berat Dosyaları (GİB tarafından imzalanmış dosyalar)</li></ul><h3>3. Cezai Yaptırımlar Nelerdir?</h3><p>Defterlerin ikincil kopyalarının belirtilen sürelerde GİB sistemlerine yüklenmemesi durumunda, VUK hükümleri çerçevesinde usulsüzlük cezaları ve vergi indirimlerinin reddedilmesi gibi ciddi yaptırımlarla karşılaşılabilir. Ayrıca mücbir sebep hallerinde (yangın, su baskını vb.) yedeklenmeyen defterlerin zayi belgesi alması zorlaşmaktadır.</p><blockquote><strong>💡 Çözüm:</strong> E-Defter Klasör Otomasyonu ile defter gönderimi sonrasında ikincil kopyaları otomatik olarak arşivleyip saklama alanına gönderebilir, insan hatasını sıfıra indirebilirsiniz.</blockquote>"
+  },
+  {
+    "slug": "mali-musavirlerde-zaman-yonetimi-ve-otomasyon",
+    "title": "Mali Müşavir Ofislerinde Zaman Yönetimi ve Otomasyonun Önemi",
+    "category": "Teknoloji",
+    "date": "2026-07-05",
+    "author": "Yavuz Mercimek",
+    "readTime": "4 dk",
+    "summary": "Modern muhasebe ofislerinde manuel iş yükünü azaltarak iş verimliliğini artırmanın yolları, dijital dönüşüm ve otomasyon teknolojilerinin kullanımı.",
+    "content": "<p>Gelişen teknoloji ve dijitalleşen vergi mevzuatı, mali müşavirlerin iş yükünü her geçen gün artırmaktadır. Artık geleneksel muhasebe yöntemleriyle tüm mükelleflerin işlemlerini manuel takip etmek neredeyse imkansız hale gelmiştir. Bu durum, muhasebe ofislerinde zaman yönetimini ve otomasyonu kritik bir başarı faktörü haline getirmektedir.</p><h3>1. Zaman Kaybına Neden Olan Rutin İşler</h3><p>Bir mali müşavir ofisinde günün büyük bölümü tekrarlayan rutin işlerle harcanmaktadır:</p><ul><li>Mükelleflerin e-defter beratlarını GİB'e yüklemek ve indirmek.</li><li>E-defter gönderildikten sonra müşterilere manuel olarak e-posta veya WhatsApp ile bilgilendirme yapmak.</li><li>Mükellef bazlı defter klasörlerinin arşivlenmesi ve yedeklenmesi.</li></ul><h3>2. Otomasyonun Getirdiği Avantajlar</h3><p>Rutin süreçleri yazılımlara devrederek mali müşavir ofisinizde şu avantajları elde edebilirsiniz:</p><ul><li><strong>Sıfır Hata Oranı:</strong> Gözden kaçabilecek berat dosyaları veya bildirimler sistem tarafından 7/24 izlenir and hata yapma riski sıfıra iner.</li><li><strong>Zaman Tasarrufu:</strong> Her ay saatlerce süren bildirim gönderme ve yedekleme işlemlerini saniyeler içinde tamamlayabilirsiniz.</li><li><strong>Müşteri Memnuniyeti:</strong> Müşterileriniz beratları gönderildiği anda otomatik olarak profesyonel e-posta bildirimleri alır.</li></ul><p>Dijital dönüşüme ayak uyduran ve otomasyon araçlarını etkin kullanan mali müşavirler, mükelleflerine danışmanlık yapmak için daha fazla zaman ayırabilmektedir.</p>"
+  },
+  {
+    "slug": "gib-berat-yukleme-hata-cozumleri",
+    "title": "Adım Adım GİB E-Defter Berat Yükleme ve Sık Karşılaşılan Hatalar",
+    "category": "Rehber",
+    "date": "2026-07-02",
+    "author": "Yavuz Mercimek",
+    "readTime": "6 dk",
+    "summary": "E-defter gönderim süreçlerinde GİB sistemlerinde en sık karşılaşılan teknik hatalar, şema kontrolü hataları ve bu hataların pratik çözüm yolları.",
+    "content": "<p>E-defter uygulaması mükelleflerin işini kolaylaştırsa da, yükleme süreçlerinde bazı teknik hatalarla karşılaşmak oldukça yaygındır. Bu rehberde, GİB e-defter portalına berat yüklerken en sık karşılaşılan hataları ve çözümlerini derledik.</p><h3>1. 'Şema ve Değer Kontrolü Hatası'</h3><p>Bu hata, XML dosyasının yapısının veya içerisindeki verilerin GİB şemasına uygun olmamasından kaynaklanır.</p><ul><li><strong>Çözümü:</strong> Kullandığınız muhasebe programında e-defteri oluştururken mükellefin unvan, adres, vergi numarası bilgilerinin doğruluğunu kontrol edin. Özel karakterlerin (örn. & veya <) XML yapısını bozup bozmadığını denetleyin.</li></ul><h3>2. 'Zaman Damgası ve İmza Hatası'</h3><p>Mali mühür veya elektronik imza doğrulanamadığında veya zaman damgası alınamadığında ortaya çıkar.</p><ul><li><strong>Çözümü:</strong> Akıllı kart okuyucu sürücülerinizin (Java ve Akis) güncel olduğundan emin olun. GİB portalında imzalama aracı olarak Java yerine güncel imzalama uygulamasını kullanmayı deneyin.</li></ul><h3>3. Berat Dosyalarının Eksik veya Farklı İsimlendirilmesi</h3><p>Yevmiye ve kebir berat dosyalarının isimlerinin GİB standartlarına uymaması yükleme hatasına yol açar.</p><ul><li><strong>Çözümü:</strong> Dosya isimlerinin <code>VERGINO-YILAY-KB-000000.xml</code> biçiminde olduğunu doğrulayın. E-Defter Klasör Otomasyonu, bu klasör yapılarını otomatik olarak doğrular ve hata yapmanızı engeller.</li></ul>"
+  }
+]

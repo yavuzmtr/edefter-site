@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="meta-description" name="description" content="Mali müşavirler için e-defter mevzuatı, ikincil saklama yükümlülüğü ve otomasyon teknolojileri hakkında rehber, makale ve güncel haberler.">
+    <meta name="keywords" content="e-defter rehberi, mali müşavir blog, e-defter saklama, muhasebe otomasyon makaleleri">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://edefterotomasyon.com.tr/blog.html">
+    
+    <title id="page-title">E-Defter Otomasyon - Güncel Mevzuat ve Rehber Blogu</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512.png">
+
+    <!-- Dinamik JSON-LD Şeması Buraya Eklenecek -->
+    <script id="schema-json" type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "E-Defter Otomasyon Blogu",
+      "description": "Mali müşavirler ve muhasebe ofisleri için e-defter otomasyon ve mevzuat rehberi.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "E-Defter Otomasyon",
+        "url": "https://edefterotomasyon.com.tr/"
+      }
+    }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f7f4ef;
+            color: #0e1a12;
+        }
+
+        .blog-header-section {
+            background: radial-gradient(circle at top right, rgba(74,124,94,0.12), transparent), #f7f4ef;
+            padding: 140px 0 60px;
+            border-bottom: 1px solid rgba(14,26,18,0.08);
+            text-align: center;
+        }
+
+        .blog-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3rem;
+            color: #1c3322;
+            margin-bottom: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .blog-subtitle {
+            font-size: 1.15rem;
+            color: #4a7c5e;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .blog-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 20px 80px;
+        }
+
+        /* Grid Listesi */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: #ffffff;
+            border: 1px solid rgba(14,26,18,0.06);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(14,26,18,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(14,26,18,0.08);
+            border-color: rgba(74,124,94,0.3);
+        }
+
+        .blog-card-meta {
+            padding: 24px 24px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-card-category {
+            background: rgba(74,124,94,0.08);
+            color: #4a7c5e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .blog-card-time {
+            font-size: 0.85rem;
+            color: #7a9485;
+        }
+
+        .blog-card-content {
+            padding: 0 24px 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: #1c3322;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+
+        .blog-card-summary {
+            font-size: 0.95rem;
+            color: #556c5c;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .blog-card-footer {
+            border-top: 1px solid rgba(14,26,18,0.04);
+            padding: 15px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #7a9485;
+            background: #fafaf9;
+        }
+
+        .blog-card-author {
+            font-weight: 500;
+            color: #3d6b4f;
+        }
+
+        /* Detay Görünümü */
+        .blog-detail {
+            background: #ffffff;
+            border: 1px solid rgba(14,26,18,0.06);
+            border-radius: 24px;
+            padding: 40px 50px;
+            box-shadow: 0 10px 40px rgba(14,26,18,0.04);
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .blog-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #4a7c5e;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .blog-back-btn:hover {
+            color: #1c3322;
+            transform: translateX(-3px);
+        }
+
+        .blog-detail-category {
+            display: inline-block;
+            background: rgba(74,124,94,0.08);
+            color: #4a7c5e;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+        }
+
+        .blog-detail-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.8rem;
+            line-height: 1.25;
+            color: #1c3322;
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
+
+        .blog-detail-meta {
+            display: flex;
+            gap: 25px;
+            font-size: 0.9rem;
+            color: #7a9485;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(14,26,18,0.08);
+        }
+
+        .blog-detail-meta strong {
+            color: #3d6b4f;
+        }
+
+        .blog-detail-body {
+            font-size: 1.12rem;
+            line-height: 1.8;
+            color: #2b3d30;
+        }
+
+        .blog-detail-body h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.65rem;
+            color: #1c3322;
+            margin: 40px 0 15px;
+        }
+
+        .blog-detail-body p {
+            margin-bottom: 24px;
+        }
+
+        .blog-detail-body ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .blog-detail-body li {
+            margin-bottom: 8px;
+        }
+
+        .blog-detail-body blockquote {
+            background: #fafaf9;
+            border-left: 4px solid #c9a84c;
+            padding: 20px 30px;
+            border-radius: 4px 12px 12px 4px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .blog-header-section {
+                padding: 120px 20px 40px;
+            }
+            .blog-title {
+                font-size: 2.3rem;
+            }
+            .blog-detail {
+                padding: 30px 20px;
+            }
+            .blog-detail-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">📊</span>
+                <span class="brand-name">E-Defter Klasör Otomasyonu</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="docs.html">Dokümantasyon</a></li>
+                <li><a href="download-form.html" class="btn btn-primary" style="color: white; padding: 0.5rem 1rem; margin-left: 1rem;">💾 Demo İndir</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="blog-header-section">
+        <div class="container">
+            <h1 class="blog-title" id="main-header-title">E-Defter Blogu</h1>
+            <p class="blog-subtitle" id="main-header-subtitle">Mali müşavirler için e-defter mevzuatı, ikincil saklama tebliğleri ve pratik rehberler.</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="blog-container">
+        <!-- List View -->
+        <div id="blog-list-view" class="blog-grid">
+            <!-- Dinamik yüklenecek -->
+        </div>
+
+        <!-- Detail View -->
+        <article id="blog-detail-view" class="blog-detail">
+            <a href="blog.html" class="blog-back-btn" onclick="goBack(event)">← Blog Listesine Geri Dön</a>
+            <div class="blog-detail-category" id="post-category"></div>
+            <h1 class="blog-detail-title" id="post-title"></h1>
+            <div class="blog-detail-meta">
+                <span>Yazar: <strong id="post-author"></strong></span>
+                <span>Yayınlanma: <strong id="post-date"></strong></span>
+                <span>Okuma Süresi: <strong id="post-readtime"></strong></span>
+            </div>
+            <div class="blog-detail-body" id="post-content"></div>
+        </article>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Defter Otomasyon. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Blog Core Script -->
+    <script>
+        let allPosts = [];
+
+        async function loadBlog() {
+            try {
+                const res = await fetch('blog-posts.json');
+                allPosts = await res.json();
+                
+                // Url slug parametresini oku
+                const params = new URLSearchParams(window.location.search);
+                const postSlug = params.get('post');
+                
+                if (postSlug) {
+                    const post = allPosts.find(p => p.slug === postSlug);
+                    if (post) {
+                        showPostDetail(post);
+                        return;
+                    }
+                }
+                
+                showPostList(allPosts);
+            } catch (err) {
+                console.error("Blog yüklenirken hata oluştu:", err);
+                document.getElementById('blog-list-view').innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--danger);">Blog yazıları yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>`;
+            }
+        }
+
+        function showPostList(posts) {
+            const listContainer = document.getElementById('blog-list-view');
+            const detailContainer = document.getElementById('blog-detail-view');
+            
+            detailContainer.style.display = 'none';
+            listContainer.style.display = 'grid';
+            
+            // Header'ı varsayılana çek
+            document.getElementById('main-header-title').textContent = "E-Defter Blogu";
+            document.getElementById('main-header-subtitle').textContent = "Mali müşavirler için e-defter mevzuatı, ikincil saklama tebliğleri ve pratik rehberler.";
+            document.getElementById('page-title').textContent = "E-Defter Otomasyon - Güncel Mevzuat ve Rehber Blogu";
+            document.getElementById('meta-description').setAttribute("content", "Mali müşavirler için e-defter mevzuatı, ikincil saklama yükümlülüğü ve otomasyon teknolojileri hakkında rehber, makale ve güncel haberler.");
+
+            // SEO Schema varsayılana çek
+            document.getElementById('schema-json').textContent = JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Blog",
+              "name": "E-Defter Otomasyon Blogu",
+              "description": "Mali müşavirler ve muhasebe ofisleri için e-defter otomasyon ve mevzuat rehberi.",
+              "publisher": {
+                "@type": "Organization",
+                "name": "E-Defter Otomasyon",
+                "url": "https://edefterotomasyon.com.tr/"
+              }
+            });
+            
+            let html = '';
+            posts.forEach(post => {
+                html += `
+                <a class="blog-card" href="blog.html?post=${post.slug}" onclick="navigateToPost(event, '${post.slug}')">
+                    <div class="blog-card-meta">
+                        <span class="blog-card-category">${post.category}</span>
+                        <span class="blog-card-time">${post.readTime}</span>
+                    </div>
+                    <div class="blog-card-content">
+                        <h2 class="blog-card-title">${post.title}</h2>
+                        <p class="blog-card-summary">${post.summary}</p>
+                    </div>
+                    <div class="blog-card-footer">
+                        <span>Yazar: <span class="blog-card-author">${post.author}</span></span>
+                        <span>${formatDate(post.date)}</span>
+                    </div>
+                </a>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function showPostDetail(post) {
+            const listContainer = document.getElementById('blog-list-view');
+            const detailContainer = document.getElementById('blog-detail-view');
+            
+            listContainer.style.display = 'none';
+            detailContainer.style.display = 'block';
+            
+            // Verileri doldur
+            document.getElementById('post-category').textContent = post.category;
+            document.getElementById('post-title').textContent = post.title;
+            document.getElementById('post-author').textContent = post.author;
+            document.getElementById('post-date').textContent = formatDate(post.date);
+            document.getElementById('post-readtime').textContent = post.readTime;
+            document.getElementById('post-content').innerHTML = post.content;
+            
+            // Sayfa başlık ve meta açıklamalarını SEO için güncelle
+            document.getElementById('page-title').textContent = `${post.title} - E-Defter Otomasyon`;
+            document.getElementById('meta-description').setAttribute("content", post.summary);
+            document.getElementById('main-header-title').textContent = "Rehber & Makaleler";
+            document.getElementById('main-header-subtitle').textContent = "Mali müşavirlere özel hazırlanmış e-defter teknolojileri kütüphanesi.";
+
+            // SEO JSON-LD Şeması - BlogPosting olarak dinamik güncelle
+            const schema = {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              "headline": post.title,
+              "description": post.summary,
+              "datePublished": post.date,
+              "author": {
+                "@type": "Person",
+                "name": post.author
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "E-Defter Otomasyon",
+                "url": "https://edefterotomasyon.com.tr/"
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://edefterotomasyon.com.tr/blog.html?post=${post.slug}`
+              }
+            };
+            document.getElementById('schema-json').textContent = JSON.stringify(schema);
+            
+            // Sayfanın en üstüne odaklan
+            window.scrollTo(0, 0);
+        }
+
+        function navigateToPost(event, slug) {
+            event.preventDefault();
+            const post = allPosts.find(p => p.slug === slug);
+            if (post) {
+                // Tarayıcı geçmişini bozmadan URL'i güncelle
+                window.history.pushState({ slug: slug }, "", `blog.html?post=${slug}`);
+                showPostDetail(post);
+            }
+        }
+
+        function goBack(event) {
+            event.preventDefault();
+            window.history.pushState({}, "", "blog.html");
+            showPostList(allPosts);
+        }
+
+        function formatDate(dateStr) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('tr-TR', options);
+        }
+
+        // Geri/İleri butonlarına basıldığında sayfayı eşleştir
+        window.onpopstate = function(event) {
+            loadBlog();
+        };
+
+        // Başlangıçta yükle
+        document.addEventListener('DOMContentLoaded', loadBlog);
+    </script>
+</body>
+</html>

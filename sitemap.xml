@@ -12,6 +12,14 @@
         <priority>1.0</priority>
     </url>
 
+    <!-- Blog -->
+    <url>
+        <loc>https://edefterotomasyon.com.tr/blog.html</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
     <!-- DokÃ¼mantasyon -->
     <url>
         <loc>https://edefterotomasyon.com.tr/docs.html</loc>
