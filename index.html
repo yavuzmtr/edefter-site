@@ -705,9 +705,6 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
   #cookie{gap:1rem}
   #aiW{right:1rem;bottom:1rem}
   .ai-panel{width:min(340px,calc(100vw - 2rem))}
-  #dot,#ring{display:none!important}
-  .lb-body{grid-template-columns:1fr}
-  .vid-cta-btns{display:grid;grid-template-columns:1fr;gap:.75rem}
 }
 @media (pointer:coarse), (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -720,22 +717,96 @@ footer{background:var(--ink2);padding:4.5rem 0 2.2rem}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "E-Defter Klasör Otomasyonu",
-  "operatingSystem": "Windows 10, Windows 11",
-  "applicationCategory": "BusinessApplication",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "TRY",
-    "description": "15 Günlük Ücretsiz Deneme Sürümü"
-  },
-  "description": "GIB'e gönderilen e-defter klasörlerini 7/24 otomatik izleyen, yedekleyen ve müşterilerinize anında bildirim gönderen otomasyon yazılımı.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "E-Defter Otomasyon",
-    "url": "https://edefterotomasyon.com.tr/"
-  }
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://edefterotomasyon.com.tr/#software",
+      "name": "E-Defter Klasör Otomasyonu",
+      "operatingSystem": "Windows 10, Windows 11",
+      "applicationCategory": "BusinessApplication",
+      "softwareVersion": "1.0.2",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "TRY",
+        "description": "15 Günlük Ücretsiz Deneme Sürümü"
+      },
+      "description": "GİB'e gönderilen e-defter klasörlerini 7/24 otomatik izleyen, eksik ayları tespit eden, yedekleyen ve müşterilerinize anında e-posta bildirimi gönderen otomasyon yazılımı.",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://edefterotomasyon.com.tr/#organization"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://edefterotomasyon.com.tr/#organization",
+      "name": "E-Defter Otomasyon",
+      "url": "https://edefterotomasyon.com.tr/",
+      "logo": "https://edefterotomasyon.com.tr/assets/logo-horizontal.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "info@edefterotomasyon.com.tr",
+        "contactType": "customer service",
+        "availableLanguage": "Turkish"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://edefterotomasyon.com.tr/#website",
+      "url": "https://edefterotomasyon.com.tr/",
+      "name": "E-Defter Otomasyonu — Mali Müşavir Ofis Otomasyonu",
+      "publisher": {
+        "@id": "https://edefterotomasyon.com.tr/#organization"
+      },
+      "inLanguage": "tr-TR"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://edefterotomasyon.com.tr/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "E-Defter Klasör Otomasyonu nedir ve ne işe yarar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mali müşavir ofislerinde GİB'e gönderilen e-defter ve onaylı berat kopyalarını 7/24 otomatik izleyen, eksik ayları ve dönemsel kopuklukları tespit eden, yerel yedek alan ve mükelleflere otomatik e-posta bildirimi gönderen masaüstü otomasyon yazılımıdır."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "GİB İkincil Kopya saklama zorunluluğunu destekliyor mu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Evet, e-defter paketi ve GİB onaylı berat dosyalarınızın yerel klasörlerde eksiksiz arşivlenmesini ve ikincil saklama alanlarına güvenle aktarılmasını takip eder."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Müşterilere otomatik e-defter bilgilendirmesi nasıl gönderilir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yazılım, tanımladığınız SMTP e-posta sunucusu (Gmail, Yandex, Kurumsal E-posta vb.) üzerinden GİB onaylı beratlar oluştukça müşterilerinize otomatik profesyonel bilgilendirme e-postaları atar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ücretsiz deneme sürümü mevcut mu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Evet, 15 gün boyunca hiçbir kısıtlama olmadan tüm özellikleri ücretsiz deneyebilirsiniz. Sitemizdeki demo indirme formundan hemen yükleyebilirsiniz."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sistem gereksinimleri nelerdir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Windows 10 veya Windows 11 (64-bit) işletim sistemi ve .NET Framework 4.8 altyapısı gereklidir. Minimum 4GB RAM ve 100MB disk alanı yeterlidir."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>
