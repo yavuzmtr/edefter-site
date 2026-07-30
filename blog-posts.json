@@ -1,5 +1,15 @@
 [
   {
+    "slug": "2026-kdv-beyannamesi-vergilendirme-donemleri-ve-e-defter-entegrasyonu",
+    "title": "2026 KDV Beyannamesi Vergilendirme Dönemleri ve E-Defter Entegrasyonu",
+    "category": "Rehber",
+    "date": "2026-07-30",
+    "author": "Yavuz Mercimek",
+    "readTime": "1 dk",
+    "summary": "KDV Beyannamesi verilme süreleri ve vergilendirme dönemlerinde yapılan son değişiklikler mali müşavirler için büyük önem taşımaktadır. Gelir İdaresi Başkan...",
+    "content": "<p>KDV Beyannamesi verilme süreleri ve vergilendirme dönemlerinde yapılan son değişiklikler mali müşavirler için büyük önem taşımaktadır. Gelir İdaresi Başkanlığı (GİB) tarafından açıklanan yeni düzenlemeler, e-defter berattı yükleme ve onay süreçleriyle doğrudan bağlantılı hale getirilmiştir.</p>\n<h2 id=\"section-1-kdv-beyannamesinde-dikkat-edilmesi-gerekenler\">KDV Beyannamesinde Dikkat Edilmesi Gerekenler</h2>\n<p>Katma Değer Vergisi beyannamelerinde mükelleflerin en çok hata yaptığı alanlar matrah bildirimi ve indirilecek KDV hesaplarıdır.</p>\n<ul>\n  <li>Matrah ve oran kontrolü düzenli yapılmalıdır.</li>\n  <li>E-defter yevmiye kayıtları ile beyanname rakamları birebir tutarlı olmalıdır.</li>\n  <li>Zamanında verilmeyen beyannameler usulsüzlük cezalarına yol açar.</li>\n</ul>\n<h2 id=\"section-2-e-defter-ile-otomasyon-firsatlari\">E-Defter ile Otomasyon Fırsatları</h2>\n<p>KDV beyannamelerinin hazırlanma aşamasında <a href=\"../../index.html\" title=\"E-Defter Klasör Otomasyonu\">e-defter otomasyonu</a> yazılımı kullanmak operasyonel riskleri sıfıra indirir. Otomasyon sayesinde berat dosyaları kontrol edilir ve müşterilere anında bildirim gönderilir.</p>\n<blockquote>**Önemli Not:** KDV beyannamesi vermeden önce e-defter kayıtlarınızın eksiksiz kapatıldığından emin olun.</blockquote>\n"
+  },
+  {
     "slug": "7582-sayili-kanun-varlik-barisi-nedir-e-defter-kayit-ve-fon-hesabi-rehberi",
     "title": "7582 Sayılı Kanun Varlık Barışı Nedir? e-Defter Kayıt ve Fon Hesabı Rehberi",
     "category": "Mevzuat",
