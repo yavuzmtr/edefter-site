@@ -7,7 +7,7 @@
     <!-- Ana Sayfa -->
     <url>
         <loc>https://edefterotomasyon.com.tr/</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -15,56 +15,62 @@
     <!-- Dokümantasyon & Rehberler -->
     <url>
         <loc>https://edefterotomasyon.com.tr/docs.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/kullanim-kilavuzu.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/smtp-yardim.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
-    <!-- Blog & İçerikler -->
+    <!-- Blog Ana Sayfası -->
     <url>
         <loc>https://edefterotomasyon.com.tr/blog.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
+
+    <!-- Blog Makale: 7582 Sayılı Kanun Varlık Barışı Nedir? e-Defter Kayıt ve Fon Hesabı Rehberi -->
     <url>
-        <loc>https://edefterotomasyon.com.tr/blog.html?post=7582-sayili-kanun-varlik-barisi-e-defter-kayit-rehberi</loc>
+        <loc>https://edefterotomasyon.com.tr/blog/7582-sayili-kanun-varlik-barisi-e-defter-kayit-rehberi/</loc>
         <lastmod>2026-07-08</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+    <!-- Blog Makale: 2026 e-Defter Berat Yükleme Rehberi: Son Günü Beklemeden Kontrol Etmeniz Gereken 10 Kritik Nokta -->
     <url>
-        <loc>https://edefterotomasyon.com.tr/blog.html?post=2026-e-defter-berat-yukleme-rehberi-son-gunu-beklemeden-kontrol-etmeniz-gereken-10-kritik-nokta</loc>
+        <loc>https://edefterotomasyon.com.tr/blog/2026-e-defter-berat-yukleme-rehberi-son-gunu-beklemeden-kontrol-etmeniz-gereken-10-kritik-nokta/</loc>
         <lastmod>2026-07-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+    <!-- Blog Makale: E-Defter İkincil Kopya Saklama Zorunluluğu Nedir? -->
     <url>
-        <loc>https://edefterotomasyon.com.tr/blog.html?post=e-defter-ikincil-kopya-saklama-zorunlulugu</loc>
+        <loc>https://edefterotomasyon.com.tr/blog/e-defter-ikincil-kopya-saklama-zorunlulugu/</loc>
         <lastmod>2026-07-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+    <!-- Blog Makale: Mali Müşavir Ofislerinde Zaman Yönetimi ve Otomasyonun Önemi -->
     <url>
-        <loc>https://edefterotomasyon.com.tr/blog.html?post=mali-musavirlerde-zaman-yonetimi-ve-otomasyon</loc>
+        <loc>https://edefterotomasyon.com.tr/blog/mali-musavirlerde-zaman-yonetimi-ve-otomasyon/</loc>
         <lastmod>2026-07-05</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+    <!-- Blog Makale: Adım Adım GİB E-Defter Berat Yükleme ve Sık Karşılaşılan Hatalar -->
     <url>
-        <loc>https://edefterotomasyon.com.tr/blog.html?post=gib-berat-yukleme-hata-cozumleri</loc>
+        <loc>https://edefterotomasyon.com.tr/blog/gib-berat-yukleme-hata-cozumleri/</loc>
         <lastmod>2026-07-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -73,19 +79,19 @@
     <!-- Dönüşüm & Form Sayfaları -->
     <url>
         <loc>https://edefterotomasyon.com.tr/purchase-form.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/download-form.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/demo-indir.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -93,21 +99,20 @@
     <!-- Yasal Sayfalar -->
     <url>
         <loc>https://edefterotomasyon.com.tr/kvkk.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/privacy.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
         <loc>https://edefterotomasyon.com.tr/terms.html</loc>
-        <lastmod>2026-07-28</lastmod>
+        <lastmod>2026-07-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
-
 </urlset>

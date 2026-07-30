@@ -366,16 +366,13 @@
                 const res = await fetch('blog-posts.json');
                 allPosts = await res.json();
                 
-                // Url slug parametresini oku
+                // Url slug parametresini oku ve statik temiz URL'ye anında yönlendir
                 const params = new URLSearchParams(window.location.search);
                 const postSlug = params.get('post');
                 
                 if (postSlug) {
-                    const post = allPosts.find(p => p.slug === postSlug);
-                    if (post) {
-                        showPostDetail(post);
-                        return;
-                    }
+                    window.location.replace('blog/' + postSlug + '/');
+                    return;
                 }
                 
                 showPostList(allPosts);
@@ -414,7 +411,7 @@
             let html = '';
             posts.forEach(post => {
                 html += `
-                <a class="blog-card" href="blog.html?post=${post.slug}" onclick="navigateToPost(event, '${post.slug}')">
+                <a class="blog-card" href="blog/${post.slug}/">
                     <div class="blog-card-meta">
                         <span class="blog-card-category">${post.category}</span>
                         <span class="blog-card-time">${post.readTime}</span>
