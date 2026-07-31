@@ -26052,19 +26052,13 @@
         message: "Ge\xE7ersiz bor\xE7 tutar\u0131 girildi."
       });
     }
-    if (!input.vadeTarihi) {
-      errors.push({ field: "vadeTarihi", message: "Bor\xE7 vade tarihi bo\u015F olamaz." });
-    }
     if (!input.basvuruTarihi) {
       errors.push({ field: "basvuruTarihi", message: "Tecil ba\u015Fvuru tarihi bo\u015F olamaz." });
     }
-    let vadeDate = null;
-    let basvuruDate = null;
-    try {
-      if (input.vadeTarihi) vadeDate = parseTarihISO(input.vadeTarihi);
-    } catch {
-      errors.push({ field: "vadeTarihi", message: "Ge\xE7ersiz vade tarihi." });
+    if (!input.vadeTarihi && input.basvuruTarihi) {
+      input.vadeTarihi = input.basvuruTarihi;
     }
+    let basvuruDate = null;
     try {
       if (input.basvuruTarihi) basvuruDate = parseTarihISO(input.basvuruTarihi);
     } catch {
@@ -26083,49 +26077,16 @@
         errors.push({ field: "ilkTaksitTarihi", message: "Ge\xE7ersiz ilk taksit tarihi." });
       }
     }
-    if (!input.taksitSayisi || input.taksitSayisi < 1 || input.taksitSayisi > CONSTANTS.MAX_OZEL_TAKSIT_SAYISI) {
+    if (!input.taksitSayisi || input.taksitSayisi < 1 || input.taksitSayisi > CONSTANTS.MAX_TAKSIT_SAYISI) {
       errors.push({
         field: "taksitSayisi",
-        message: `Taksit say\u0131s\u0131 1 ile ${CONSTANTS.MAX_OZEL_TAKSIT_SAYISI} aras\u0131nda olmal\u0131d\u0131r.`
+        message: `Taksit say\u0131s\u0131 1 ile ${CONSTANTS.MAX_TAKSIT_SAYISI} aras\u0131nda olmal\u0131d\u0131r.`
       });
     }
     return errors;
   }
 
   // src/lib/tecil/interest.ts
-  function calculateGecikmeZammi(anapara, vadeStr, basvuruStr, aylikOranNum = CONSTANTS.DEFAULT_GECIKME_ZAMMI_ORANI) {
-    const vade = parseTarihISO(vadeStr);
-    const basvuru = parseTarihISO(basvuruStr);
-    if (basvuru <= vade) {
-      return new decimal_default(0);
-    }
-    const baslangic = new Date(vade);
-    baslangic.setDate(baslangic.getDate() + 1);
-    const bitis = new Date(basvuru);
-    if (bitis < baslangic) {
-      return new decimal_default(0);
-    }
-    let tempDate = new Date(baslangic);
-    let tamAy = 0;
-    while (true) {
-      const nextMonth = new Date(tempDate);
-      nextMonth.setMonth(nextMonth.getMonth() + 1);
-      const monthEnd = new Date(nextMonth);
-      monthEnd.setDate(monthEnd.getDate() - 1);
-      if (monthEnd <= bitis) {
-        tamAy++;
-        tempDate = nextMonth;
-      } else {
-        break;
-      }
-    }
-    const artikGun = tempDate <= bitis ? countCalendarDays(tempDate, bitis) + 1 : 0;
-    const aylikOran = new decimal_default(aylikOranNum).div(100);
-    const gunlukOran = aylikOran.div(30);
-    const toplamOran = aylikOran.mul(tamAy).add(gunlukOran.mul(artikGun > 0 ? artikGun : 0));
-    const zam = anapara.mul(toplamOran).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP);
-    return zam.gte(0) ? zam : new decimal_default(0);
-  }
   function calculateTecilFaizi(anapara, yillikOranNum, gunSayisi) {
     if (gunSayisi <= 0) return new decimal_default(0);
     const yillikOran = new decimal_default(yillikOranNum);
@@ -26230,8 +26191,7 @@
     if (errors.length > 0) {
       throw new Error(errors.map((e) => e.message).join(" "));
     }
-    const anapara = toDecimal(input.anapara);
-    const vadeDate = parseTarihISO(input.vadeTarihi);
+    const tecilEdilenToplamBorc = toDecimal(input.anapara);
     const basvuruDate = parseTarihISO(input.basvuruTarihi);
     let faizOrani = 39;
     let faizOraniAcliklama = "Cari Standart Tecil Faizi Oran\u0131 (%39)";
@@ -26251,21 +26211,7 @@
         faizOraniAcliklama = `${defaultConfig.description} (${defaultConfig.legalSource})`;
       }
     }
-    const gecikmeZammiOrani = input.gecikmeZammiOrani ?? CONSTANTS.DEFAULT_GECIKME_ZAMMI_ORANI;
-    const gecikmeZammi = calculateGecikmeZammi(
-      anapara,
-      input.vadeTarihi,
-      input.basvuruTarihi,
-      gecikmeZammiOrani
-    );
-    const tecilEdilenToplamBorc = anapara.add(gecikmeZammi);
-    let tecilBaslangic;
-    if (basvuruDate <= vadeDate) {
-      tecilBaslangic = new Date(vadeDate);
-      tecilBaslangic.setDate(tecilBaslangic.getDate() + 1);
-    } else {
-      tecilBaslangic = new Date(basvuruDate);
-    }
+    const tecilBaslangic = new Date(basvuruDate);
     const taksitVadeleri = generateScheduleDates(
       input.basvuruTarihi,
       input.ilkTaksitTarihi,
@@ -26283,16 +26229,16 @@
     const teminatGerekli = tecilEdilenToplamBorc.gt(teminatLimitiDec);
     const teminatTutari = teminatGerekli ? tecilEdilenToplamBorc.sub(teminatLimitiDec).mul(CONSTANTS.TEMINAT_ORANI).toDecimalPlaces(2, decimal_default.ROUND_HALF_UP) : new decimal_default(0);
     return {
-      anapara: formatCurrencyTR(anapara),
-      gecikmeZammi: formatCurrencyTR(gecikmeZammi),
+      anapara: formatCurrencyTR(tecilEdilenToplamBorc),
+      gecikmeZammi: formatCurrencyTR(new decimal_default(0)),
       tecilEdilenToplamBorc: formatCurrencyTR(tecilEdilenToplamBorc),
       toplamTecilFaizi: formatCurrencyTR(toplamTecilFaizi),
       toplamOdenecekTutar: formatCurrencyTR(toplamOdenecekTutar),
       aylikOrtalamaTaksit: formatCurrencyTR(aylikOrtalamaTaksit),
       teminatGerekli,
       teminatTutari: formatCurrencyTR(teminatTutari),
-      anaparaNum: anapara.toNumber(),
-      gecikmeZammiNum: gecikmeZammi.toNumber(),
+      anaparaNum: tecilEdilenToplamBorc.toNumber(),
+      gecikmeZammiNum: 0,
       tecilEdilenToplamBorcNum: tecilEdilenToplamBorc.toNumber(),
       toplamTecilFaiziNum: toplamTecilFaizi.toNumber(),
       toplamOdenecekTutarNum: toplamOdenecekTutar.toNumber(),
@@ -46893,16 +46839,16 @@
     const handlePrint = () => {
       window.print();
     };
-    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "w-full max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 font-sans text-slate-800 dark:text-slate-100" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "text-center space-y-3 max-w-3xl mx-auto" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider" }, /* @__PURE__ */ import_react2.default.createElement(Sparkles, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ import_react2.default.createElement("span", null, "G\u0130B Mevzuat\u0131 Uyumlu Canl\u0131 Ara\xE7")), /* @__PURE__ */ import_react2.default.createElement("h1", { className: "text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight" }, "6183 Say\u0131l\u0131 Kanun Vergi Tecil ve Taksit Hesaplama"), /* @__PURE__ */ import_react2.default.createElement("p", { className: "text-sm text-slate-600 dark:text-slate-300 leading-relaxed" }, "Amme alacaklar\u0131n\u0131n tecil ve taksitlendirilmesine ili\u015Fkin **Madde 48** ve **Madde 51** h\xFCk\xFCmlerine uygun olarak tecil faizi ve \xF6deme plan\u0131n\u0131 an\u0131nda hesaplay\u0131n.")), /* @__PURE__ */ import_react2.default.createElement("form", { onSubmit: handleHesapla, className: "bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 sm:p-8 space-y-6" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "p-2.5 bg-blue-600 text-white rounded-xl shadow-md" }, /* @__PURE__ */ import_react2.default.createElement(Calculator, { className: "w-5 h-5" })), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "text-base font-bold text-slate-900 dark:text-white" }, "Bor\xE7 ve Tecil Parametreleri"), /* @__PURE__ */ import_react2.default.createElement("p", { className: "text-xs text-slate-500" }, 'Formu doldurup "HESAPLA" butonuna bas\u0131n\u0131z.')))), errors.length > 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-300 text-xs space-y-1" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "font-bold flex items-center gap-1.5" }, /* @__PURE__ */ import_react2.default.createElement(AlertTriangle, { className: "w-4 h-4 text-red-500" }), /* @__PURE__ */ import_react2.default.createElement("span", null, "L\xFCtfen a\u015Fa\u011F\u0131daki hatalar\u0131 d\xFCzeltiniz:")), /* @__PURE__ */ import_react2.default.createElement("ul", { className: "list-disc list-inside pl-2 space-y-0.5" }, errors.map((e, idx) => /* @__PURE__ */ import_react2.default.createElement("li", { key: idx }, e.message)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "space-y-1.5" }, /* @__PURE__ */ import_react2.default.createElement("label", { className: "block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" }, "Vergi Borcu Asl\u0131 (TL) ", /* @__PURE__ */ import_react2.default.createElement("span", { className: "text-red-500" }, "*")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "relative rounded-xl shadow-sm" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400" }, /* @__PURE__ */ import_react2.default.createElement(Coins, { className: "w-4 h-4" })), /* @__PURE__ */ import_react2.default.createElement(
+    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "w-full max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 font-sans text-slate-800 dark:text-slate-100" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "text-center space-y-3 max-w-3xl mx-auto" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider" }, /* @__PURE__ */ import_react2.default.createElement(Sparkles, { className: "w-3.5 h-3.5" }), /* @__PURE__ */ import_react2.default.createElement("span", null, "G\u0130B Mevzuat\u0131 Uyumlu Canl\u0131 Ara\xE7")), /* @__PURE__ */ import_react2.default.createElement("h1", { className: "text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight" }, "6183 Say\u0131l\u0131 Kanun Vergi Tecil ve Taksit Hesaplama"), /* @__PURE__ */ import_react2.default.createElement("p", { className: "text-sm text-slate-600 dark:text-slate-300 leading-relaxed" }, "Amme alacaklar\u0131n\u0131n tecil ve taksitlendirilmesine ili\u015Fkin **Madde 48** ve **Madde 51** h\xFCk\xFCmlerine uygun olarak tecil faizi ve \xF6deme plan\u0131n\u0131 an\u0131nda hesaplay\u0131n.")), /* @__PURE__ */ import_react2.default.createElement("form", { onSubmit: handleHesapla, className: "bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 sm:p-8 space-y-6" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "p-2.5 bg-blue-600 text-white rounded-xl shadow-md" }, /* @__PURE__ */ import_react2.default.createElement(Calculator, { className: "w-5 h-5" })), /* @__PURE__ */ import_react2.default.createElement("div", null, /* @__PURE__ */ import_react2.default.createElement("h2", { className: "text-base font-bold text-slate-900 dark:text-white" }, "Bor\xE7 ve Tecil Parametreleri"), /* @__PURE__ */ import_react2.default.createElement("p", { className: "text-xs text-slate-500" }, 'Formu doldurup "HESAPLA" butonuna bas\u0131n\u0131z.')))), errors.length > 0 && /* @__PURE__ */ import_react2.default.createElement("div", { className: "p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-300 text-xs space-y-1" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "font-bold flex items-center gap-1.5" }, /* @__PURE__ */ import_react2.default.createElement(AlertTriangle, { className: "w-4 h-4 text-red-500" }), /* @__PURE__ */ import_react2.default.createElement("span", null, "L\xFCtfen a\u015Fa\u011F\u0131daki hatalar\u0131 d\xFCzeltiniz:")), /* @__PURE__ */ import_react2.default.createElement("ul", { className: "list-disc list-inside pl-2 space-y-0.5" }, errors.map((e, idx) => /* @__PURE__ */ import_react2.default.createElement("li", { key: idx }, e.message)))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "space-y-1.5" }, /* @__PURE__ */ import_react2.default.createElement("label", { className: "block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" }, "Tecil Edilecek Bor\xE7 Tutar\u0131 (Anapara + G. Zamm\u0131) (TL) ", /* @__PURE__ */ import_react2.default.createElement("span", { className: "text-red-500" }, "*")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "relative rounded-xl shadow-sm" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400" }, /* @__PURE__ */ import_react2.default.createElement(Coins, { className: "w-4 h-4" })), /* @__PURE__ */ import_react2.default.createElement(
       "input",
       {
         type: "text",
         value: anaparaInput,
         onChange: (e) => setAnaparaInput(e.target.value),
-        placeholder: "\xD6rn: 100.000",
+        placeholder: "\xD6rn: 781.814,73",
         className: "w-full pl-9 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
       }
-    ))), /* @__PURE__ */ import_react2.default.createElement("div", { className: "space-y-1.5" }, /* @__PURE__ */ import_react2.default.createElement("label", { className: "block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" }, "Borcun As\u0131l Vade Tarihi ", /* @__PURE__ */ import_react2.default.createElement("span", { className: "text-red-500" }, "*")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "relative rounded-xl shadow-sm" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400" }, /* @__PURE__ */ import_react2.default.createElement(Calendar, { className: "w-4 h-4" })), /* @__PURE__ */ import_react2.default.createElement(
+    )), /* @__PURE__ */ import_react2.default.createElement("p", { className: "text-[10px] text-slate-500 dark:text-slate-400" }, "6183 Madde 48 uyar\u0131nca ba\u015Fvuru tarihindeki toplam bor\xE7 tutar\u0131 girilmelidir.")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "space-y-1.5" }, /* @__PURE__ */ import_react2.default.createElement("label", { className: "block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" }, "Borcun As\u0131l Vade Tarihi ", /* @__PURE__ */ import_react2.default.createElement("span", { className: "text-red-500" }, "*")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "relative rounded-xl shadow-sm" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400" }, /* @__PURE__ */ import_react2.default.createElement(Calendar, { className: "w-4 h-4" })), /* @__PURE__ */ import_react2.default.createElement(
       "input",
       {
         type: "date",
