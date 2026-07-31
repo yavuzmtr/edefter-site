@@ -7352,25 +7352,25 @@
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
           }
-          function dispatchDiscreteEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
+          function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, nativeEvent) {
             var previousPriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig.transition;
             ReactCurrentBatchConfig.transition = null;
             try {
               setCurrentUpdatePriority(DiscreteEventPriority);
-              dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
+              dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
             } finally {
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig.transition = prevTransition;
             }
           }
-          function dispatchContinuousEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
+          function dispatchContinuousEvent(domEventName, eventSystemFlags, container, nativeEvent) {
             var previousPriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig.transition;
             ReactCurrentBatchConfig.transition = null;
             try {
               setCurrentUpdatePriority(ContinuousEventPriority);
-              dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
+              dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
             } finally {
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig.transition = prevTransition;
@@ -9074,8 +9074,8 @@
                   }
                   var nodeTag = node.tag;
                   if (nodeTag === HostRoot || nodeTag === HostPortal) {
-                    var container2 = node.stateNode.containerInfo;
-                    if (isMatchingRootContainer(container2, targetContainerNode)) {
+                    var container = node.stateNode.containerInfo;
+                    if (isMatchingRootContainer(container, targetContainerNode)) {
                       break;
                     }
                     if (nodeTag === HostPortal) {
@@ -9091,8 +9091,8 @@
                         grandNode = grandNode.return;
                       }
                     }
-                    while (container2 !== null) {
-                      var parentNode = getClosestInstanceFromNode(container2);
+                    while (container !== null) {
+                      var parentNode = getClosestInstanceFromNode(container);
                       if (parentNode === null) {
                         return;
                       }
@@ -9101,7 +9101,7 @@
                         node = ancestorInst = parentNode;
                         continue mainLoop;
                       }
-                      container2 = container2.parentNode;
+                      container = container.parentNode;
                     }
                   }
                   node = node.return;
@@ -10231,9 +10231,9 @@
                 break;
               }
               default: {
-                var container2 = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
-                var ownNamespace = container2.namespaceURI || null;
-                type = container2.tagName;
+                var container = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
+                var ownNamespace = container.namespaceURI || null;
+                type = container.tagName;
                 namespace = getChildNamespace(ownNamespace, type);
                 break;
               }
@@ -10381,16 +10381,16 @@
           function appendChild(parentInstance, child) {
             parentInstance.appendChild(child);
           }
-          function appendChildToContainer(container2, child) {
+          function appendChildToContainer(container, child) {
             var parentNode;
-            if (container2.nodeType === COMMENT_NODE) {
-              parentNode = container2.parentNode;
-              parentNode.insertBefore(child, container2);
+            if (container.nodeType === COMMENT_NODE) {
+              parentNode = container.parentNode;
+              parentNode.insertBefore(child, container);
             } else {
-              parentNode = container2;
+              parentNode = container;
               parentNode.appendChild(child);
             }
-            var reactRootContainer = container2._reactRootContainer;
+            var reactRootContainer = container._reactRootContainer;
             if ((reactRootContainer === null || reactRootContainer === void 0) && parentNode.onclick === null) {
               trapClickOnNonInteractiveElement(parentNode);
             }
@@ -10398,21 +10398,21 @@
           function insertBefore(parentInstance, child, beforeChild) {
             parentInstance.insertBefore(child, beforeChild);
           }
-          function insertInContainerBefore(container2, child, beforeChild) {
-            if (container2.nodeType === COMMENT_NODE) {
-              container2.parentNode.insertBefore(child, beforeChild);
+          function insertInContainerBefore(container, child, beforeChild) {
+            if (container.nodeType === COMMENT_NODE) {
+              container.parentNode.insertBefore(child, beforeChild);
             } else {
-              container2.insertBefore(child, beforeChild);
+              container.insertBefore(child, beforeChild);
             }
           }
           function removeChild(parentInstance, child) {
             parentInstance.removeChild(child);
           }
-          function removeChildFromContainer(container2, child) {
-            if (container2.nodeType === COMMENT_NODE) {
-              container2.parentNode.removeChild(child);
+          function removeChildFromContainer(container, child) {
+            if (container.nodeType === COMMENT_NODE) {
+              container.parentNode.removeChild(child);
             } else {
-              container2.removeChild(child);
+              container.removeChild(child);
             }
           }
           function clearSuspenseBoundary(parentInstance, suspenseInstance) {
@@ -10439,13 +10439,13 @@
             } while (node);
             retryIfBlockedOn(suspenseInstance);
           }
-          function clearSuspenseBoundaryFromContainer(container2, suspenseInstance) {
-            if (container2.nodeType === COMMENT_NODE) {
-              clearSuspenseBoundary(container2.parentNode, suspenseInstance);
-            } else if (container2.nodeType === ELEMENT_NODE) {
-              clearSuspenseBoundary(container2, suspenseInstance);
+          function clearSuspenseBoundaryFromContainer(container, suspenseInstance) {
+            if (container.nodeType === COMMENT_NODE) {
+              clearSuspenseBoundary(container.parentNode, suspenseInstance);
+            } else if (container.nodeType === ELEMENT_NODE) {
+              clearSuspenseBoundary(container, suspenseInstance);
             }
-            retryIfBlockedOn(container2);
+            retryIfBlockedOn(container);
           }
           function hideInstance(instance) {
             instance = instance;
@@ -10468,12 +10468,12 @@
           function unhideTextInstance(textInstance, text) {
             textInstance.nodeValue = text;
           }
-          function clearContainer(container2) {
-            if (container2.nodeType === ELEMENT_NODE) {
-              container2.textContent = "";
-            } else if (container2.nodeType === DOCUMENT_NODE) {
-              if (container2.documentElement) {
-                container2.removeChild(container2.documentElement);
+          function clearContainer(container) {
+            if (container.nodeType === ELEMENT_NODE) {
+              container.textContent = "";
+            } else if (container.nodeType === DOCUMENT_NODE) {
+              if (container.documentElement) {
+                container.removeChild(container.documentElement);
               }
             }
           }
@@ -10611,8 +10611,8 @@
             }
             return null;
           }
-          function commitHydratedContainer(container2) {
-            retryIfBlockedOn(container2);
+          function commitHydratedContainer(container) {
+            retryIfBlockedOn(container);
           }
           function commitHydratedSuspenseInstance(suspenseInstance) {
             retryIfBlockedOn(suspenseInstance);
@@ -22700,21 +22700,21 @@
             scheduleInitialHydrationOnRoot(root2, lane, eventTime);
             return root2;
           }
-          function updateContainer(element, container2, parentComponent, callback) {
+          function updateContainer(element, container, parentComponent, callback) {
             {
-              onScheduleRoot(container2, element);
+              onScheduleRoot(container, element);
             }
-            var current$1 = container2.current;
+            var current$1 = container.current;
             var eventTime = requestEventTime();
             var lane = requestUpdateLane(current$1);
             {
               markRenderScheduled(lane);
             }
             var context = getContextForSubtree(parentComponent);
-            if (container2.context === null) {
-              container2.context = context;
+            if (container.context === null) {
+              container.context = context;
             } else {
-              container2.pendingContext = context;
+              container.pendingContext = context;
             }
             {
               if (isRendering && current !== null && !didWarnAboutNestedUpdates) {
@@ -22742,8 +22742,8 @@
             }
             return lane;
           }
-          function getPublicRootInstance(container2) {
-            var containerFiber = container2.current;
+          function getPublicRootInstance(container) {
+            var containerFiber = container.current;
             if (!containerFiber.child) {
               return null;
             }
@@ -23067,11 +23067,11 @@
               } else if (typeof arguments[1] !== "undefined") {
                 error("You passed a second argument to root.render(...) but it only accepts one argument.");
               }
-              var container2 = root2.containerInfo;
-              if (container2.nodeType !== COMMENT_NODE) {
+              var container = root2.containerInfo;
+              if (container.nodeType !== COMMENT_NODE) {
                 var hostInstance = findHostInstanceWithNoPortals(root2.current);
                 if (hostInstance) {
-                  if (hostInstance.parentNode !== container2) {
+                  if (hostInstance.parentNode !== container) {
                     error("render(...): It looks like the React-rendered content of the root container was removed without using React. This is not supported and will cause errors. Instead, call root.unmount() to empty a root's container.");
                   }
                 }
@@ -23088,7 +23088,7 @@
             var root2 = this._internalRoot;
             if (root2 !== null) {
               this._internalRoot = null;
-              var container2 = root2.containerInfo;
+              var container = root2.containerInfo;
               {
                 if (isAlreadyRendering()) {
                   error("Attempted to synchronously unmount a root while React was already rendering. React cannot finish unmounting the root until the current render has completed, which may lead to a race condition.");
@@ -23097,14 +23097,14 @@
               flushSync(function() {
                 updateContainer(null, root2, null, null);
               });
-              unmarkContainerAsRoot(container2);
+              unmarkContainerAsRoot(container);
             }
           };
-          function createRoot2(container2, options2) {
-            if (!isValidContainer(container2)) {
+          function createRoot2(container, options2) {
+            if (!isValidContainer(container)) {
               throw new Error("createRoot(...): Target container is not a DOM element.");
             }
-            warnIfReactDOMContainerInDEV(container2);
+            warnIfReactDOMContainerInDEV(container);
             var isStrictMode = false;
             var concurrentUpdatesByDefaultOverride = false;
             var identifierPrefix = "";
@@ -23133,9 +23133,9 @@
                 transitionCallbacks = options2.transitionCallbacks;
               }
             }
-            var root2 = createContainer(container2, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root2.current, container2);
-            var rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
+            var root2 = createContainer(container, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root2.current, container);
+            var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
             listenToAllSupportedEvents(rootContainerElement);
             return new ReactDOMRoot(root2);
           }
@@ -23148,11 +23148,11 @@
             }
           }
           ReactDOMHydrationRoot.prototype.unstable_scheduleHydration = scheduleHydration;
-          function hydrateRoot(container2, initialChildren, options2) {
-            if (!isValidContainer(container2)) {
+          function hydrateRoot(container, initialChildren, options2) {
+            if (!isValidContainer(container)) {
               throw new Error("hydrateRoot(...): Target container is not a DOM element.");
             }
-            warnIfReactDOMContainerInDEV(container2);
+            warnIfReactDOMContainerInDEV(container);
             {
               if (initialChildren === void 0) {
                 error("Must provide initial children as second argument to hydrateRoot. Example usage: hydrateRoot(domContainer, <App />)");
@@ -23175,9 +23175,9 @@
                 onRecoverableError = options2.onRecoverableError;
               }
             }
-            var root2 = createHydrationContainer(initialChildren, null, container2, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root2.current, container2);
-            listenToAllSupportedEvents(container2);
+            var root2 = createHydrationContainer(initialChildren, null, container, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root2.current, container);
+            listenToAllSupportedEvents(container);
             if (mutableSources) {
               for (var i = 0; i < mutableSources.length; i++) {
                 var mutableSource = mutableSources[i];
@@ -23192,13 +23192,13 @@
           function isValidContainerLegacy(node) {
             return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === " react-mount-point-unstable "));
           }
-          function warnIfReactDOMContainerInDEV(container2) {
+          function warnIfReactDOMContainerInDEV(container) {
             {
-              if (container2.nodeType === ELEMENT_NODE && container2.tagName && container2.tagName.toUpperCase() === "BODY") {
+              if (container.nodeType === ELEMENT_NODE && container.tagName && container.tagName.toUpperCase() === "BODY") {
                 error("createRoot(): Creating roots directly with document.body is discouraged, since its children are often manipulated by third-party scripts and browser extensions. This may lead to subtle reconciliation issues. Try using a container element created for your app.");
               }
-              if (isContainerMarkedAsRoot(container2)) {
-                if (container2._reactRootContainer) {
+              if (isContainerMarkedAsRoot(container)) {
+                if (container._reactRootContainer) {
                   error("You are calling ReactDOMClient.createRoot() on a container that was previously passed to ReactDOM.render(). This is not supported.");
                 } else {
                   error("You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it.");
@@ -23209,39 +23209,39 @@
           var ReactCurrentOwner$3 = ReactSharedInternals.ReactCurrentOwner;
           var topLevelUpdateWarnings;
           {
-            topLevelUpdateWarnings = function(container2) {
-              if (container2._reactRootContainer && container2.nodeType !== COMMENT_NODE) {
-                var hostInstance = findHostInstanceWithNoPortals(container2._reactRootContainer.current);
+            topLevelUpdateWarnings = function(container) {
+              if (container._reactRootContainer && container.nodeType !== COMMENT_NODE) {
+                var hostInstance = findHostInstanceWithNoPortals(container._reactRootContainer.current);
                 if (hostInstance) {
-                  if (hostInstance.parentNode !== container2) {
+                  if (hostInstance.parentNode !== container) {
                     error("render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container.");
                   }
                 }
               }
-              var isRootRenderedBySomeReact = !!container2._reactRootContainer;
-              var rootEl = getReactRootElementInContainer(container2);
+              var isRootRenderedBySomeReact = !!container._reactRootContainer;
+              var rootEl = getReactRootElementInContainer(container);
               var hasNonRootReactChild = !!(rootEl && getInstanceFromNode(rootEl));
               if (hasNonRootReactChild && !isRootRenderedBySomeReact) {
                 error("render(...): Replacing React-rendered children with a new root component. If you intended to update the children of this node, you should instead have the existing children update their state and render the new components instead of calling ReactDOM.render.");
               }
-              if (container2.nodeType === ELEMENT_NODE && container2.tagName && container2.tagName.toUpperCase() === "BODY") {
+              if (container.nodeType === ELEMENT_NODE && container.tagName && container.tagName.toUpperCase() === "BODY") {
                 error("render(): Rendering components directly into document.body is discouraged, since its children are often manipulated by third-party scripts and browser extensions. This may lead to subtle reconciliation issues. Try rendering into a container element created for your app.");
               }
             };
           }
-          function getReactRootElementInContainer(container2) {
-            if (!container2) {
+          function getReactRootElementInContainer(container) {
+            if (!container) {
               return null;
             }
-            if (container2.nodeType === DOCUMENT_NODE) {
-              return container2.documentElement;
+            if (container.nodeType === DOCUMENT_NODE) {
+              return container.documentElement;
             } else {
-              return container2.firstChild;
+              return container.firstChild;
             }
           }
           function noopOnRecoverableError() {
           }
-          function legacyCreateRootFromDOMContainer(container2, initialChildren, parentComponent, callback, isHydrationContainer) {
+          function legacyCreateRootFromDOMContainer(container, initialChildren, parentComponent, callback, isHydrationContainer) {
             if (isHydrationContainer) {
               if (typeof callback === "function") {
                 var originalCallback = callback;
@@ -23253,7 +23253,7 @@
               var root2 = createHydrationContainer(
                 initialChildren,
                 callback,
-                container2,
+                container,
                 LegacyRoot,
                 null,
                 // hydrationCallbacks
@@ -23265,16 +23265,16 @@
                 // identifierPrefix
                 noopOnRecoverableError
               );
-              container2._reactRootContainer = root2;
-              markContainerAsRoot(root2.current, container2);
-              var rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
+              container._reactRootContainer = root2;
+              markContainerAsRoot(root2.current, container);
+              var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
               listenToAllSupportedEvents(rootContainerElement);
               flushSync();
               return root2;
             } else {
               var rootSibling;
-              while (rootSibling = container2.lastChild) {
-                container2.removeChild(rootSibling);
+              while (rootSibling = container.lastChild) {
+                container.removeChild(rootSibling);
               }
               if (typeof callback === "function") {
                 var _originalCallback = callback;
@@ -23284,7 +23284,7 @@
                 };
               }
               var _root = createContainer(
-                container2,
+                container,
                 LegacyRoot,
                 null,
                 // hydrationCallbacks
@@ -23296,9 +23296,9 @@
                 // identifierPrefix
                 noopOnRecoverableError
               );
-              container2._reactRootContainer = _root;
-              markContainerAsRoot(_root.current, container2);
-              var _rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
+              container._reactRootContainer = _root;
+              markContainerAsRoot(_root.current, container);
+              var _rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
               listenToAllSupportedEvents(_rootContainerElement);
               flushSync(function() {
                 updateContainer(initialChildren, _root, parentComponent, callback);
@@ -23313,15 +23313,15 @@
               }
             }
           }
-          function legacyRenderSubtreeIntoContainer(parentComponent, children, container2, forceHydrate, callback) {
+          function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
             {
-              topLevelUpdateWarnings(container2);
+              topLevelUpdateWarnings(container);
               warnOnInvalidCallback$1(callback === void 0 ? null : callback, "render");
             }
-            var maybeRoot = container2._reactRootContainer;
+            var maybeRoot = container._reactRootContainer;
             var root2;
             if (!maybeRoot) {
-              root2 = legacyCreateRootFromDOMContainer(container2, children, parentComponent, callback, forceHydrate);
+              root2 = legacyCreateRootFromDOMContainer(container, children, parentComponent, callback, forceHydrate);
             } else {
               root2 = maybeRoot;
               if (typeof callback === "function") {
@@ -23361,35 +23361,35 @@
               return findHostInstanceWithWarning(componentOrElement, "findDOMNode");
             }
           }
-          function hydrate(element, container2, callback) {
+          function hydrate(element, container, callback) {
             {
               error("ReactDOM.hydrate is no longer supported in React 18. Use hydrateRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot");
             }
-            if (!isValidContainerLegacy(container2)) {
+            if (!isValidContainerLegacy(container)) {
               throw new Error("Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.hydrate() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call hydrateRoot(container, element)?");
               }
             }
-            return legacyRenderSubtreeIntoContainer(null, element, container2, true, callback);
+            return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
           }
-          function render(element, container2, callback) {
+          function render(element, container, callback) {
             {
               error("ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot");
             }
-            if (!isValidContainerLegacy(container2)) {
+            if (!isValidContainerLegacy(container)) {
               throw new Error("Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.render() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call root.render(element)?");
               }
             }
-            return legacyRenderSubtreeIntoContainer(null, element, container2, false, callback);
+            return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
           }
           function unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
             {
@@ -23404,42 +23404,42 @@
             return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
           }
           var didWarnAboutUnmountComponentAtNode = false;
-          function unmountComponentAtNode(container2) {
+          function unmountComponentAtNode(container) {
             {
               if (!didWarnAboutUnmountComponentAtNode) {
                 didWarnAboutUnmountComponentAtNode = true;
                 error("unmountComponentAtNode is deprecated and will be removed in the next major release. Switch to the createRoot API. Learn more: https://reactjs.org/link/switch-to-createroot");
               }
             }
-            if (!isValidContainerLegacy(container2)) {
+            if (!isValidContainerLegacy(container)) {
               throw new Error("unmountComponentAtNode(...): Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.unmountComponentAtNode() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call root.unmount()?");
               }
             }
-            if (container2._reactRootContainer) {
+            if (container._reactRootContainer) {
               {
-                var rootEl = getReactRootElementInContainer(container2);
+                var rootEl = getReactRootElementInContainer(container);
                 var renderedByDifferentReact = rootEl && !getInstanceFromNode(rootEl);
                 if (renderedByDifferentReact) {
                   error("unmountComponentAtNode(): The node you're attempting to unmount was rendered by another copy of React.");
                 }
               }
               flushSync(function() {
-                legacyRenderSubtreeIntoContainer(null, null, container2, false, function() {
-                  container2._reactRootContainer = null;
-                  unmarkContainerAsRoot(container2);
+                legacyRenderSubtreeIntoContainer(null, null, container, false, function() {
+                  container._reactRootContainer = null;
+                  unmarkContainerAsRoot(container);
                 });
               });
               return true;
             } else {
               {
-                var _rootEl = getReactRootElementInContainer(container2);
+                var _rootEl = getReactRootElementInContainer(container);
                 var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode(_rootEl));
-                var isContainerReactRoot = container2.nodeType === ELEMENT_NODE && isValidContainerLegacy(container2.parentNode) && !!container2.parentNode._reactRootContainer;
+                var isContainerReactRoot = container.nodeType === ELEMENT_NODE && isValidContainerLegacy(container.parentNode) && !!container.parentNode._reactRootContainer;
                 if (hasNonRootReactChild) {
                   error("unmountComponentAtNode(): The node you're attempting to unmount was rendered by React and is not a top-level container. %s", isContainerReactRoot ? "You may have accidentally passed in a React root node instead of its container." : "Instead, have the parent component update its state and rerender in order to remove this component.");
                 }
@@ -23461,12 +23461,12 @@
           }
           setRestoreImplementation(restoreControlledState$3);
           setBatchingImplementation(batchedUpdates$1, discreteUpdates, flushSync);
-          function createPortal$1(children, container2) {
+          function createPortal$1(children, container) {
             var key = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : null;
-            if (!isValidContainer(container2)) {
+            if (!isValidContainer(container)) {
               throw new Error("Target container is not a DOM element.");
             }
-            return createPortal(children, container2, null, key);
+            return createPortal(children, container, null, key);
           }
           function renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
             return unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback);
@@ -23477,21 +23477,21 @@
             // This is an array for better minification.
             Events: [getInstanceFromNode, getNodeFromInstance, getFiberCurrentPropsFromNode, enqueueStateRestore, restoreStateIfNeeded, batchedUpdates$1]
           };
-          function createRoot$1(container2, options2) {
+          function createRoot$1(container, options2) {
             {
               if (!Internals.usingClientEntryPoint && true) {
                 error('You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".');
               }
             }
-            return createRoot2(container2, options2);
+            return createRoot2(container, options2);
           }
-          function hydrateRoot$1(container2, initialChildren, options2) {
+          function hydrateRoot$1(container, initialChildren, options2) {
             {
               if (!Internals.usingClientEntryPoint && true) {
                 error('You are importing hydrateRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".');
               }
             }
-            return hydrateRoot(container2, initialChildren, options2);
+            return hydrateRoot(container, initialChildren, options2);
           }
           function flushSync$1(fn) {
             {
@@ -46982,10 +46982,20 @@
   };
 
   // src/components/tecil/mount.tsx
-  var container = document.getElementById("tecil-calculator-root");
-  if (container) {
-    const root = (0, import_client.createRoot)(container);
-    root.render(/* @__PURE__ */ import_react3.default.createElement(TecilCalculatorContainer, null));
+  if (typeof window !== "undefined" && !window.process) {
+    window.process = { env: { NODE_ENV: "production" } };
+  }
+  function mountApp() {
+    const container = document.getElementById("tecil-calculator-root");
+    if (container) {
+      const root = (0, import_client.createRoot)(container);
+      root.render(/* @__PURE__ */ import_react3.default.createElement(TecilCalculatorContainer, null));
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountApp);
+  } else {
+    mountApp();
   }
 })();
 /*! Bundled license information:
